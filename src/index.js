@@ -4,7 +4,6 @@ import Tank from "./js/Tank";
 import Camera from "./js/Camera";
 import Rectangle from "./js/Rectangle";
 import Sat from "./js/Sat";
-import Sat2 from "./js/Sat2";
 
 const canvasElem = document.createElement("canvas");
 canvasElem.width = window.innerWidth;
@@ -117,74 +116,6 @@ function loop() {
 
   ctx.fillStyle = "#516952";
   ctx.fillRect(0, 0, canvasElem.width, canvasElem.height);
-
-  const lines = rects[1].getAxes();
-  const corners = rects[0].getCorners();
-
-  for (const line of lines) {
-    const or = line.origin.add(line.direction.multiply(-1000));
-    const dir = line.direction.multiply(10000);
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.translate(or.x, or.y);
-    ctx.moveTo(0, 0);
-    ctx.lineTo(dir.x, dir.y);
-    ctx.closePath();
-    ctx.stroke();
-    ctx.restore();
-
-    for (const corner of corners) {
-      const projected = corner.project(line);
-      const CP = projected.minus(rects[1].center);
-
-      ctx.beginPath();
-      ctx.fillStyle = "pink";
-      ctx.arc(CP.x, CP.y, 2, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.closePath();
-
-      ctx.beginPath();
-      ctx.fillStyle = "red";
-      ctx.arc(projected.x, projected.y, 2, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.closePath();
-    }
-  }
-
-  const lines2 = rects[0].getAxes();
-  const corners2 = rects[1].getCorners();
-
-  for (const line of lines2) {
-    const or = line.origin.add(line.direction.multiply(-1000));
-    const dir = line.direction.multiply(10000);
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.translate(or.x, or.y);
-    ctx.moveTo(0, 0);
-    ctx.lineTo(dir.x, dir.y);
-    ctx.closePath();
-    ctx.stroke();
-    ctx.restore();
-
-    for (const corner of corners2) {
-      const projected = corner.project(line);
-      const CP = projected.minus(rects[0].center);
-
-      ctx.beginPath();
-      ctx.fillStyle = "pink";
-      ctx.arc(CP.x, CP.y, 2, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.closePath();
-
-      ctx.beginPath();
-      ctx.fillStyle = "pink";
-      ctx.arc(projected.x, projected.y, 2, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.closePath();
-    }
-  }
 
   for (const tank of tanks) {
     tank.update(dt);

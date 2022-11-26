@@ -69,17 +69,6 @@ const loadedImages = {};
 const tanks = [];
 const shells = [];
 const camera = new Camera(canvasElem.width, canvasElem.height);
-const rects = [
-  new Rectangle(200, 200, 100, 100, 0),
-  new Rectangle(350, 350, 100, 100, 0),
-];
-
-window.addEventListener("mousemove", (e) => {
-  const { offsetX, offsetY } = e;
-
-  rects[0].center.x = offsetX;
-  rects[0].center.y = offsetY;
-});
 
 function loadResources() {
   let alreadyLoaded = 0;
@@ -120,20 +109,6 @@ function loop() {
   for (const tank of tanks) {
     tank.update(dt);
     tank.render(ctx, loadedImages);
-  }
-
-  for (const rect of rects) {
-    ctx.fillStyle = "green";
-    ctx.save();
-    ctx.translate(rect.center.x, rect.center.y);
-    ctx.rotate(rect.rad);
-    ctx.fillRect(
-      0 - rect.size.x / 2,
-      0 - rect.size.y / 2,
-      rect.size.x,
-      rect.size.y
-    );
-    ctx.restore();
   }
 
   camera.update(dt);

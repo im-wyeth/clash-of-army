@@ -4,6 +4,7 @@ export default class Turret {
   tank;
 
   size;
+  spritePosition;
 
   rad;
   radTo;
@@ -14,6 +15,7 @@ export default class Turret {
     this.tank = tank;
 
     this.size = new Vector2(0, 0);
+    this.spritePosition = new Vector2(0, 0);
 
     this.rad = 0;
     this.radTo = this.rad;
@@ -26,16 +28,25 @@ export default class Turret {
     this.size.y = h;
   }
 
-  update(dt) {
-    //this.rad += this.rotationSpeed * dt;
+  setSpritePosition(x, y) {
+    this.spritePosition.x = x;
+    this.spritePosition.y = y;
   }
 
-  render(ctx, res) {
+  update(dt) {
+    // this.rad += this.rotationSpeed * dt;
+  }
+
+  render(ctx, sprites) {
     ctx.translate(0 + this.tank.size.x / 2, 0 + this.tank.size.y / 2);
     ctx.rotate(this.rad);
 
     ctx.drawImage(
-      res["turret"],
+      sprites["tanks"],
+      this.spritePosition.x,
+      this.spritePosition.y,
+      this.size.x,
+      this.size.y,
       0 - this.size.x / 2 / 2,
       0 - this.size.y / 2,
       this.size.x,

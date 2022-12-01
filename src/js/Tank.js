@@ -4,6 +4,7 @@ import WorldEntity from "./WorldEntity";
 
 export default class Tank extends WorldEntity {
   direction;
+  spritePosition;
 
   details;
   turret;
@@ -14,6 +15,8 @@ export default class Tank extends WorldEntity {
     super();
 
     this.direction = new Vector2(0, 0);
+    this.spritePosition = new Vector2(0, 0);
+
     this.details = null;
 
     this.turret = new Turret(this);
@@ -24,6 +27,11 @@ export default class Tank extends WorldEntity {
   setDirection(dx, dy) {
     this.direction.x = dx;
     this.direction.y = dy;
+  }
+
+  setSpritePosition(x, y) {
+    this.spritePosition.x = x;
+    this.spritePosition.y = y;
   }
 
   setDetails(details) {
@@ -38,7 +46,7 @@ export default class Tank extends WorldEntity {
     this.turret.update(dt);
   }
 
-  render(ctx, res) {
+  render(ctx, sprites) {
     ctx.save();
 
     ctx.translate(
@@ -46,18 +54,22 @@ export default class Tank extends WorldEntity {
       this.center.y - this.size.y / 2
     );
 
-    for (const detail of this.details) {
-      ctx.drawImage(
-        res[detail.imgName],
-        detail.x,
-        detail.y,
-        detail.w,
-        detail.h
-      );
-    }
+    ctx.drawImage(
+      sprites["tanks"],
+      this.spritePosition.x,
+      this.spritePosition.y,
+      this.size.x,
+      this.size.y,
+      0,
+      0,
+      this.size.x,
+      this.size.y
+    );
 
-    this.turret.render(ctx, res);
+    this.turret.render(ctx, sprites);
 
     ctx.restore();
   }
+
+  fire() {}
 }

@@ -1,6 +1,8 @@
 import Vector2 from "./Vector2";
 
 export default class Effect {
+  renderer;
+
   name;
 
   rad;
@@ -15,7 +17,9 @@ export default class Effect {
 
   frames;
 
-  constructor(name, frames) {
+  constructor(renderer, name, frames) {
+    this.renderer = renderer;
+
     this.name = name;
 
     this.rad = 0;
@@ -44,9 +48,15 @@ export default class Effect {
     this.center.y = y;
   }
 
+  deactivate() {
+    this.active = false;
+
+    this.currFrame = 0;
+  }
+
   update(dt) {
     if (this.currFrame + 1 >= this.frameLength) {
-      this.active = false;
+      this.deactivate();
 
       return;
     }
@@ -60,15 +70,20 @@ export default class Effect {
     }
   }
 
-  render(ctx, sprites) {
-    const frameSize = this.frames[this.currFrame].getSize();
+  render(sprites) {
+    const frame = this.frames[this.currFrame];
 
-    ctx.save();
-    ctx.translate(this.center.x, this.center.y);
-    ctx.rotate(this.rad);
-
-    this.frames[this.currFrame].render(ctx, sprites);
-
-    ctx.restore();
+    this.renderer.drawImage(
+      sprites[frame.spriteSheetName],
+      this.center.x,
+      this.center.y,
+      frame.size.x,
+      frame.size.y,
+      this.rad,
+      frame.sourcePosition.x,
+      frame.sourcePosition.y,
+      frame.size.x,
+      frame.size.y
+    );
   }
 }

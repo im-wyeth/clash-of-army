@@ -13,10 +13,6 @@ export default class Camera {
 
     this.followTo = false;
     this.zoom = 1;
-
-    window.addEventListener("click", (e) => {
-      this.zoom += 1;
-    });
   }
 
   getPosition() {

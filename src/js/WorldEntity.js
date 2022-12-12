@@ -22,4 +22,8 @@ export default class WorldEntity {
   getPosition() {
     return this.center;
   }
+
+  getSize() {
+    return this.size;
+  }
 }

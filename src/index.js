@@ -2,18 +2,12 @@ import "./styles/styles.css";
 
 import Tank from "./js/Tank";
 import Camera from "./js/Camera";
-import Rectangle from "./js/Rectangle";
-import Sat from "./js/Sat";
-import Effect from "./js/Effect";
-import SpriteFrame from "./js/SpriteFrame";
 import EffectsEmitter from "./js/EffectsEmitter";
+import Renderer from "./js/Renderer";
 
 const canvasElem = document.createElement("canvas");
 canvasElem.width = 1200;
 canvasElem.height = 720;
-
-const ctx = canvasElem.getContext("2d");
-ctx.imageSmoothingEnabled = false;
 
 const sprites = [
   {
@@ -75,11 +69,12 @@ const effects_data = {
   },
 };
 
-const effectsEmitter = new EffectsEmitter(effects_data);
+const renderer = new Renderer(canvasElem);
+const effectsEmitter = new EffectsEmitter(renderer, effects_data);
+const camera = new Camera(canvasElem.width, canvasElem.height);
 
 const loadedSprites = {};
 const tanks = [];
-const camera = new Camera(canvasElem.width, canvasElem.height);
 
 function loadSprites() {
   let alreadyLoaded = 0;
@@ -107,23 +102,34 @@ function loop() {
   const dt = Date.now() - lastDt;
   lastDt = Date.now();
 
-  ctx.clearRect(0, 0, canvasElem.width, canvasElem.height);
+  renderer.getCtx().clearRect(0, 0, canvasElem.width, canvasElem.height);
 
-  ctx.save();
-  ctx.scale(camera.zoom, camera.zoom);
+  renderer.getCtx().save();
+  renderer.getCtx().scale(camera.zoom, camera.zoom);
   const cameraPosition = camera.getPosition();
-  ctx.translate(-cameraPosition.x, -cameraPosition.y);
+  renderer.getCtx().translate(-cameraPosition.x, -cameraPosition.y);
 
-  ctx.fillStyle = "#516952";
-  ctx.fillRect(0, 0, canvasElem.width, canvasElem.height);
+  renderer.getCtx().fillStyle = "#516952";
+  renderer.getCtx().fillRect(0, 0, canvasElem.width, canvasElem.height);
 
   for (const tank of tanks) {
     tank.update(dt);
-    tank.render(ctx, loadedSprites);
+    tank.render(loadedSprites);
+
+    // test
+    // renderer.getCtx().beginPath();
+    // renderer.getCtx().arc(tank.center.x, tank.center.y, 10, 0, 2 * Math.PI);
+    // renderer.getCtx().fillStyle = "red";
+    // renderer.getCtx().fill();
+    // renderer.getCtx().closePath();
+    //
   }
 
+  effectsEmitter.update(dt);
+  effectsEmitter.render(loadedSprites);
+
   camera.update(dt);
-  ctx.restore();
+  renderer.getCtx().restore();
 
   requestAnimationFrame(loop);
 }
@@ -131,10 +137,16 @@ function loop() {
 async function start() {
   await loadSprites();
 
-  const tank = new Tank(true);
+  renderer.antialiasing(false);
+
+  const tank = new Tank(renderer, true, effectsEmitter);
   tank.setSize(tank_1_data.w, tank_1_data.h);
   tank.setPosition(250, 250);
   tank.setSpritePosition(tank_1_data.img_data.x, tank_1_data.img_data.y);
+
+  window.addEventListener("click", () => {
+    tank.fire();
+  });
 
   tank.getTurret().setSize(tank_1_data.turret.w, tank_1_data.turret.h);
   tank

@@ -115,14 +115,6 @@ function loop() {
   for (const tank of tanks) {
     tank.update(dt);
     tank.render(loadedSprites);
-
-    // test
-    // renderer.getCtx().beginPath();
-    // renderer.getCtx().arc(tank.center.x, tank.center.y, 10, 0, 2 * Math.PI);
-    // renderer.getCtx().fillStyle = "red";
-    // renderer.getCtx().fill();
-    // renderer.getCtx().closePath();
-    //
   }
 
   effectsEmitter.update(dt);
@@ -142,6 +134,7 @@ async function start() {
   const tank = new Tank(renderer, true, effectsEmitter);
   tank.setSize(tank_1_data.w, tank_1_data.h);
   tank.setPosition(250, 250);
+  tank.getTurret().updatePositionOnTank();
   tank.setSpritePosition(tank_1_data.img_data.x, tank_1_data.img_data.y);
 
   window.addEventListener("click", () => {
@@ -156,7 +149,7 @@ async function start() {
       tank_1_data.turret.img_data.y
     );
 
-  //camera.lookAt(tank);
+  camera.lookAt(tank);
   tanks.push(tank);
 
   document.body.appendChild(canvasElem);

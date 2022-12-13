@@ -20,7 +20,7 @@ export default class EffectsEmitter {
     for (let i = 0; i < QUANTITY_OF_EFFECTS; ++i) {
       const frames = this.createEffectFrames(effect.frames);
 
-      this.effects.push(new Effect(this.renderer, name, frames));
+      this.effects.push(new Effect(name, this.renderer, frames));
     }
   }
 

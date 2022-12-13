@@ -1,12 +1,20 @@
 import Vector2 from "./Vector2";
 
 export default class WorldEntity {
+  renderer;
+
   center;
   size;
 
-  constructor() {
+  rad;
+
+  constructor(renderer) {
+    this.renderer = renderer;
+
     this.center = new Vector2(0, 0);
     this.size = new Vector2(0, 0);
+
+    this.rad = 0;
   }
 
   setPosition(x, y) {

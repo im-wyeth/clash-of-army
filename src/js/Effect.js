@@ -1,89 +1,35 @@
-import Vector2 from "./Vector2";
+import FrameAnimation from "./FrameAnimation";
 
 export default class Effect {
-  renderer;
-
   name;
 
-  rad;
-  center;
-  active;
-
-  currFrame;
-  frameLength;
-
-  currAnimationTime;
-  animationTime;
-
-  frames;
-
-  constructor(renderer, name, frames) {
-    this.renderer = renderer;
-
+  constructor(name, renderer, frames) {
     this.name = name;
 
-    this.rad = 0;
-    this.center = new Vector2(0, 0);
     this.active = false;
 
-    this.currFrame = 0;
-    this.frameLength = frames.length;
-
-    this.currAnimationTime = 0;
-    this.animationTime = 200;
-
-    this.frames = frames;
+    this.frameAnimation = new FrameAnimation(renderer, frames);
   }
 
-  setAnimationTime(time) {
-    this.animationTime = time;
+  getFrameAnimation() {
+    return this.frameAnimation;
   }
 
   activate(x, y, rad) {
     this.active = true;
 
-    this.rad = rad;
-
-    this.center.x = x;
-    this.center.y = y;
-  }
-
-  deactivate() {
-    this.active = false;
-
-    this.currFrame = 0;
+    this.frameAnimation.play(x, y, rad);
   }
 
   update(dt) {
-    if (this.currFrame + 1 >= this.frameLength) {
-      this.deactivate();
+    this.frameAnimation.update(dt);
 
-      return;
-    }
-
-    if (this.currAnimationTime >= this.animationTime) {
-      this.currFrame += 1;
-
-      this.currAnimationTime = 0;
-    } else {
-      this.currAnimationTime += dt;
+    if (!this.frameAnimation.isPlaying() && this.active === true) {
+      this.active = false;
     }
   }
 
   render(sprites) {
-    const frame = this.frames[this.currFrame];
-
-    this.renderer.drawImage(
-      sprites[frame.spriteSheetName],
-      this.center.x,
-      this.center.y,
-      frame.size.x,
-      frame.size.y,
-      this.rad,
-      frame.sourcePosition.x,
-      frame.sourcePosition.y,
-      frame.size.x,
-      frame.size.y
-    );
+    this.frameAnimation.render(sprites);
   }
 }

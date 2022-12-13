@@ -49,14 +49,15 @@ export default class Vector2 {
     return vec.x * this.x + vec.y * this.y;
   }
 
-  project(line) {
-    let dotvalue =
-      line.direction.x * (this.x - line.origin.x) +
-      line.direction.y * (this.y - line.origin.y);
+  //// test
+  // project(line) {
+  //   let dotvalue =
+  //     line.direction.x * (this.x - line.origin.x) +
+  //     line.direction.y * (this.y - line.origin.y);
 
-    return new Vector2(
-      line.origin.x + line.direction.x * dotvalue,
-      line.origin.y + line.direction.y * dotvalue
-    );
-  }
+  //   return new Vector2(
+  //     line.origin.x + line.direction.x * dotvalue,
+  //     line.origin.y + line.direction.y * dotvalue
+  //   );
+  // }
 }

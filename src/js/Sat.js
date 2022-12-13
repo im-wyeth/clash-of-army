@@ -1,4 +1,17 @@
+import Vector2 from "./Vector2";
+
 export default class Sat {
+  static project(corner, line) {
+    let dotvalue =
+      line.direction.x * (corner.x - line.origin.x) +
+      line.direction.y * (corner.y - line.origin.y);
+
+    return new Vector2(
+      line.origin.x + line.direction.x * dotvalue,
+      line.origin.y + line.direction.y * dotvalue
+    );
+  }
+
   static isRectCollide(rect, onRect) {
     const lines = onRect.getAxes();
     const corners = rect.getCorners();
@@ -9,7 +22,7 @@ export default class Sat {
       let min, max;
 
       for (const corner of corners) {
-        const projected = corner.project(line);
+        const projected = this.project(corner, line);
         const CP = projected.minus(onRect.center);
 
         if (!min || min > CP.magnitude) {

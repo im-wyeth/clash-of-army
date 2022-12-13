@@ -3,26 +3,20 @@ import Vector2 from "./Vector2";
 import WorldEntity from "./WorldEntity";
 
 export default class Tank extends WorldEntity {
-  renderer;
-
   direction;
   spritePosition;
-
-  rad;
 
   turret;
 
   isPlayer;
 
   constructor(renderer, isPlayer, effectsEmitter) {
-    super();
+    super(renderer);
 
     this.renderer = renderer;
 
     this.direction = new Vector2(0, 0);
     this.spritePosition = new Vector2(0, 0);
-
-    this.rad = 0;
 
     this.turret = new Turret(renderer, this, effectsEmitter);
 
@@ -48,24 +42,6 @@ export default class Tank extends WorldEntity {
   }
 
   render(sprites) {
-    // ctx.save();
-
-    // ctx.rotate(this.rad);
-
-    // ctx.drawImage(
-    //   sprites["tanks"],
-    //   this.spritePosition.x,
-    //   this.spritePosition.y,
-    //   this.size.x,
-    //   this.size.y,
-    //   this.center.x - this.size.x / 2,
-    //   this.center.y - this.size.y / 2,
-    //   this.size.x,
-    //   this.size.y
-    // );
-
-    // ctx.restore();
-
     this.renderer.drawImage(
       sprites["tanks"],
       this.center.x,
@@ -83,6 +59,8 @@ export default class Tank extends WorldEntity {
   }
 
   fire() {
+    // test
     this.turret.fire();
+    //
   }
 }

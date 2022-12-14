@@ -1,3 +1,5 @@
+import { SPRITE_SHEETS } from "./Configs";
+
 import Turret from "./Turret";
 import Vector2 from "./Vector2";
 import WorldEntity from "./WorldEntity";
@@ -10,15 +12,13 @@ export default class Tank extends WorldEntity {
 
   isPlayer;
 
-  constructor(renderer, isPlayer, effectsEmitter) {
-    super(renderer);
-
-    this.renderer = renderer;
+  constructor(isPlayer, effectsEmitter) {
+    super();
 
     this.direction = new Vector2(0, 0);
     this.spritePosition = new Vector2(0, 0);
 
-    this.turret = new Turret(renderer, this, effectsEmitter);
+    this.turret = new Turret(this, effectsEmitter);
 
     this.isPlayer = isPlayer;
   }
@@ -41,9 +41,9 @@ export default class Tank extends WorldEntity {
     this.turret.update(dt);
   }
 
-  render(sprites) {
-    this.renderer.drawImage(
-      sprites["tanks"],
+  render(renderer, sprites) {
+    renderer.drawImage(
+      sprites[SPRITE_SHEETS.TANKS],
       this.center.x,
       this.center.y,
       this.size.x,
@@ -55,7 +55,7 @@ export default class Tank extends WorldEntity {
       this.size.y
     );
 
-    this.turret.render(sprites);
+    this.turret.render(renderer, sprites);
   }
 
   fire() {

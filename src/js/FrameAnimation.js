@@ -1,8 +1,6 @@
 import Vector2 from "./Vector2";
 
 export default class FrameAnimation {
-  renderer;
-
   rad;
   center;
   playing;
@@ -15,8 +13,8 @@ export default class FrameAnimation {
 
   frames;
 
-  constructor(renderer, frames) {
-    this.renderer = renderer;
+  constructor(name, frames) {
+    this.name = name;
 
     this.rad = 0;
     this.center = new Vector2(0, 0);
@@ -66,10 +64,10 @@ export default class FrameAnimation {
     }
   }
 
-  render(sprites) {
+  render(renderer, sprites) {
     const frame = this.frames[this.currFrame];
 
-    this.renderer.drawImage(
+    renderer.drawImage(
       sprites[frame.spriteSheetName],
       this.center.x,
       this.center.y,

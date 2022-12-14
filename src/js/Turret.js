@@ -1,3 +1,6 @@
+import { ANIMATIONS, SPRITE_SHEETS } from "./Configs";
+import FrameAnimation from "./FrameAnimation";
+import SpriteFrame from "./SpriteFrame";
 import Vector2 from "./Vector2";
 import WorldEntity from "./WorldEntity";
 
@@ -11,8 +14,8 @@ export default class Turret extends WorldEntity {
 
   rotationSpeed;
 
-  constructor(renderer, tank, effectsEmitter) {
-    super(renderer);
+  constructor(tank, effectsEmitter) {
+    super();
 
     this.tank = tank;
     this.effectsEmitter = effectsEmitter;
@@ -22,6 +25,26 @@ export default class Turret extends WorldEntity {
     this.radTo = this.rad;
 
     this.rotationSpeed = 0.001;
+
+    this.animations = [];
+  }
+
+  addAnimation(name, framesData) {
+    const frames = [];
+
+    for (const frame of framesData) {
+      frames.push(
+        new SpriteFrame(frame.x, frame.y, frame.w, frame.h, SPRITE_SHEETS.TANKS)
+      );
+    }
+
+    this.animations.push(new FrameAnimation(name, frames));
+  }
+
+  playAnimation(name, x, y, rad) {
+    const frameAnimation = this.animations.find((a) => a.name === name);
+    console.log(frameAnimation);
+    frameAnimation.play(x, y, rad);
   }
 
   setSpritePosition(x, y) {
@@ -42,10 +65,16 @@ export default class Turret extends WorldEntity {
 
   update(dt) {
     this.rad += this.rotationSpeed * dt;
+
+    for (const animation of this.animations) {
+      if (animation.playing) {
+        animation.update(dt);
+      }
+    }
   }
 
-  render(sprites) {
-    this.renderer.drawImage(
+  render(renderer, sprites) {
+    renderer.drawImage(
       sprites["tanks"],
       this.center.x,
       this.center.y,
@@ -57,9 +86,17 @@ export default class Turret extends WorldEntity {
       this.size.x,
       this.size.y
     );
+
+    for (const animation of this.animations) {
+      if (animation.playing) {
+        animation.render(renderer, sprites);
+      }
+    }
   }
 
   fire() {
+    this.playAnimation(ANIMATIONS.TURRET_FIRE, 100, 100, 0);
+
     // test
     let effectCenter = this.tank.center.rotate(0);
 

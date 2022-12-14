@@ -8,9 +8,7 @@ export default class WorldEntity {
 
   rad;
 
-  constructor(renderer) {
-    this.renderer = renderer;
-
+  constructor() {
     this.center = new Vector2(0, 0);
     this.size = new Vector2(0, 0);
 

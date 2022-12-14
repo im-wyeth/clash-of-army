@@ -1,13 +1,15 @@
 import "./styles/styles.css";
 
-import Tank from "./js/Tank";
+import { ANIMATIONS, CANVAS_SIZE } from "./js/Configs";
+
+import Renderer from "./js/Renderer";
 import Camera from "./js/Camera";
 import EffectsEmitter from "./js/EffectsEmitter";
-import Renderer from "./js/Renderer";
+import Tank from "./js/Tank";
 
 const canvasElem = document.createElement("canvas");
-canvasElem.width = 1200;
-canvasElem.height = 720;
+canvasElem.width = CANVAS_SIZE.WIDTH;
+canvasElem.height = CANVAS_SIZE.HEIGHT;
 
 const sprites = [
   {
@@ -70,7 +72,7 @@ const effects_data = {
 };
 
 const renderer = new Renderer(canvasElem);
-const effectsEmitter = new EffectsEmitter(renderer, effects_data);
+const effectsEmitter = new EffectsEmitter(effects_data);
 const camera = new Camera(canvasElem.width, canvasElem.height);
 
 const loadedSprites = {};
@@ -102,23 +104,20 @@ function loop() {
   const dt = Date.now() - lastDt;
   lastDt = Date.now();
 
-  renderer.getCtx().clearRect(0, 0, canvasElem.width, canvasElem.height);
-
   renderer.getCtx().save();
+  renderer.getCtx().clearRect(0, 0, CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT);
   renderer.getCtx().scale(camera.zoom, camera.zoom);
+
   const cameraPosition = camera.getPosition();
   renderer.getCtx().translate(-cameraPosition.x, -cameraPosition.y);
 
-  renderer.getCtx().fillStyle = "#516952";
-  renderer.getCtx().fillRect(0, 0, canvasElem.width, canvasElem.height);
-
   for (const tank of tanks) {
     tank.update(dt);
-    tank.render(loadedSprites);
+    tank.render(renderer, loadedSprites);
   }
 
   effectsEmitter.update(dt);
-  effectsEmitter.render(loadedSprites);
+  effectsEmitter.render(renderer, loadedSprites);
 
   camera.update(dt);
   renderer.getCtx().restore();
@@ -131,15 +130,11 @@ async function start() {
 
   renderer.antialiasing(false);
 
-  const tank = new Tank(renderer, true, effectsEmitter);
+  const tank = new Tank(true, effectsEmitter);
   tank.setSize(tank_1_data.w, tank_1_data.h);
   tank.setPosition(250, 250);
   tank.getTurret().updatePositionOnTank();
   tank.setSpritePosition(tank_1_data.img_data.x, tank_1_data.img_data.y);
-
-  window.addEventListener("click", () => {
-    tank.fire();
-  });
 
   tank.getTurret().setSize(tank_1_data.turret.w, tank_1_data.turret.h);
   tank
@@ -148,9 +143,17 @@ async function start() {
       tank_1_data.turret.img_data.x,
       tank_1_data.turret.img_data.y
     );
+  tank
+    .getTurret()
+    .addAnimation(ANIMATIONS.TURRET_FIRE, tank_1_data.turret.animations.fire);
+
+  tanks.push(tank);
+
+  window.addEventListener("click", () => {
+    tank.fire();
+  });
 
   camera.lookAt(tank);
-  tanks.push(tank);
 
   document.body.appendChild(canvasElem);
 

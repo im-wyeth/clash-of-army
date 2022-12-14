@@ -1,14 +1,13 @@
+import { SPRITE_SHEETS } from "./Configs";
 import Effect from "./Effect";
 import SpriteFrame from "./SpriteFrame";
 
 const QUANTITY_OF_EFFECTS = 10;
 
 export default class EffectsEmitter {
-  renderer;
   effects;
 
-  constructor(renderer, effects) {
-    this.renderer = renderer;
+  constructor(effects) {
     this.effects = [];
 
     for (const effectName in effects) {
@@ -20,13 +19,20 @@ export default class EffectsEmitter {
     for (let i = 0; i < QUANTITY_OF_EFFECTS; ++i) {
       const frames = this.createEffectFrames(effect.frames);
 
-      this.effects.push(new Effect(name, this.renderer, frames));
+      this.effects.push(new Effect(name, frames));
     }
   }
 
   createEffectFrames(frames) {
     return frames.map(
-      (frame) => new SpriteFrame(frame.x, frame.y, frame.w, frame.h, "effects")
+      (frame) =>
+        new SpriteFrame(
+          frame.x,
+          frame.y,
+          frame.w,
+          frame.h,
+          SPRITE_SHEETS.EFFECTS
+        )
     );
   }
 
@@ -44,9 +50,9 @@ export default class EffectsEmitter {
     }
   }
 
-  render(sprites) {
+  render(renderer, sprites) {
     for (const effect of this.effects) {
-      if (effect.active) effect.render(sprites);
+      if (effect.active) effect.render(renderer, sprites);
     }
   }
 }

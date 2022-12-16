@@ -7,6 +7,10 @@ export default class Renderer {
     this.ctx = canvas.getContext("2d");
   }
 
+  getCanvas() {
+    return this.canvas;
+  }
+
   getCtx() {
     return this.ctx;
   }

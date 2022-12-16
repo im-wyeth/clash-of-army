@@ -1,4 +1,5 @@
-import { SPRITE_SHEETS } from "./Configs";
+import { SPRITE_SHEETS, EFFECTS_DATA } from "./Configs";
+
 import Effect from "./Effect";
 import SpriteFrame from "./SpriteFrame";
 
@@ -7,11 +8,11 @@ const QUANTITY_OF_EFFECTS = 10;
 export default class EffectsEmitter {
   effects;
 
-  constructor(effects) {
+  constructor() {
     this.effects = [];
 
-    for (const effectName in effects) {
-      this.addEffect(effectName, effects[effectName]);
+    for (const effectName in EFFECTS_DATA) {
+      this.addEffect(effectName, EFFECTS_DATA[effectName]);
     }
   }
 
@@ -44,15 +45,12 @@ export default class EffectsEmitter {
     effect.activate(x, y, rad);
   }
 
-  update(dt) {
+  loop(dt, renderer, sprites) {
     for (const effect of this.effects) {
-      if (effect.active) effect.update(dt);
-    }
-  }
+      if (!effect.active) break;
 
-  render(renderer, sprites) {
-    for (const effect of this.effects) {
-      if (effect.active) effect.render(renderer, sprites);
+      effect.update(dt);
+      effect.render(renderer, sprites);
     }
   }
 }

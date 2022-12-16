@@ -49,12 +49,6 @@ export default class FrameAnimation {
   }
 
   update(dt) {
-    if (this.currFrame + 1 >= this.frameLength) {
-      this.stop();
-
-      return;
-    }
-
     if (this.currAnimationTime >= this.animationTime) {
       this.currFrame += 1;
 
@@ -62,9 +56,15 @@ export default class FrameAnimation {
     } else {
       this.currAnimationTime += dt;
     }
+
+    if (this.currFrame + 1 >= this.frameLength) {
+      this.stop();
+
+      return;
+    }
   }
 
-  render(renderer, sprites) {
+  render(renderer) {
     const frame = this.frames[this.currFrame];
 
     renderer.drawImage(

@@ -12,7 +12,7 @@ export default class Camera {
     this.size = new Vector2(w, h);
 
     this.followTo = false;
-    this.zoom = 1;
+    this.zoom = 2;
   }
 
   getPosition() {

@@ -12,13 +12,13 @@ export default class Tank extends WorldEntity {
 
   isPlayer;
 
-  constructor(isPlayer, effectsEmitter) {
-    super();
+  constructor(game, isPlayer) {
+    super(game);
 
     this.direction = new Vector2(0, 0);
     this.spritePosition = new Vector2(0, 0);
 
-    this.turret = new Turret(this, effectsEmitter);
+    this.turret = new Turret(game, this);
 
     this.isPlayer = isPlayer;
   }
@@ -41,7 +41,9 @@ export default class Tank extends WorldEntity {
     this.turret.update(dt);
   }
 
-  render(renderer, sprites) {
+  render(renderer) {
+    const sprites = this.game.getResourceManager().getSprites();
+
     renderer.drawImage(
       sprites[SPRITE_SHEETS.TANKS],
       this.center.x,
@@ -58,9 +60,9 @@ export default class Tank extends WorldEntity {
     this.turret.render(renderer, sprites);
   }
 
-  fire() {
+  shoot() {
     // test
-    this.turret.fire();
+    this.turret.shoot();
     //
   }
 }

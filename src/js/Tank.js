@@ -5,6 +5,8 @@ import Vector2 from "./Vector2";
 import WorldEntity from "./WorldEntity";
 
 export default class Tank extends WorldEntity {
+  tankId;
+
   direction;
   spritePosition;
 
@@ -12,15 +14,22 @@ export default class Tank extends WorldEntity {
 
   isPlayer;
 
-  constructor(game, isPlayer) {
+  constructor(game, tankId, isPlayer) {
     super(game);
+
+    this.tankId = tankId;
 
     this.direction = new Vector2(0, 0);
     this.spritePosition = new Vector2(0, 0);
 
+    this.isPlayer = isPlayer;
+
     this.turret = new Turret(game, this);
 
-    this.isPlayer = isPlayer;
+    // test
+    window.addEventListener("click", () => {
+      this.shoot();
+    });
   }
 
   setDirection(dx, dy) {
@@ -31,6 +40,10 @@ export default class Tank extends WorldEntity {
   setSpritePosition(x, y) {
     this.spritePosition.x = x;
     this.spritePosition.y = y;
+  }
+
+  getTankId() {
+    return this.tankId;
   }
 
   getTurret() {
@@ -57,7 +70,7 @@ export default class Tank extends WorldEntity {
       this.size.y
     );
 
-    this.turret.render(renderer, sprites);
+    this.turret.render(renderer);
   }
 
   shoot() {

@@ -1,4 +1,4 @@
-import { ANIMATIONS, EFFECTS, SPRITE_SHEETS } from "./Configs";
+import { ANIMATIONS, EFFECTS, SPRITE_SHEETS, TANKS_DATA } from "./Configs";
 import FrameAnimation from "./FrameAnimation";
 import SpriteFrame from "./SpriteFrame";
 import Vector2 from "./Vector2";
@@ -27,17 +27,15 @@ export default class Turret extends WorldEntity {
     this.shooting = false;
 
     // test
-    this.shootAnimation = null;
+    this.shootAnimation = new FrameAnimation(
+      game,
+      TANKS_DATA[this.tank.getTankId()].turret.animations.shoot
+    );
   }
 
   setSpritePosition(x, y) {
     this.spritePosition.x = x;
     this.spritePosition.y = y;
-  }
-
-  // test
-  setShootAnimation(frameAnimation) {
-    this.shootAnimation = frameAnimation;
   }
 
   getRad() {
@@ -57,9 +55,15 @@ export default class Turret extends WorldEntity {
     // }
     // Анимация выстрела лагает
     // Нужно добиться синхронности в update и render
+
+    if (this.shootAnimation.isPlaying()) {
+      this.shootAnimation.update(dt);
+    }
   }
 
-  render(renderer, sprites) {
+  render(renderer) {
+    const sprites = this.game.getResourceManager().getSprites();
+
     if (!this.shooting) {
       renderer.drawImage(
         sprites["tanks"],
@@ -75,29 +79,15 @@ export default class Turret extends WorldEntity {
       );
     }
 
+    if (this.shootAnimation.isPlaying()) {
+      this.shootAnimation.render(renderer);
+    }
+
     // for (const animation of this.animations) {
     //   if (animation.playing) {
     //     animation.render(renderer, sprites);
     //   }
     // }
-  }
-
-  addAnimation(name, framesData) {
-    const frames = [];
-
-    for (const frame of framesData) {
-      frames.push(
-        new SpriteFrame(frame.x, frame.y, frame.w, frame.h, SPRITE_SHEETS.TANKS)
-      );
-    }
-
-    this.animations.push(new FrameAnimation(name, frames));
-  }
-
-  playAnimation(name, x, y, rad) {
-    const frameAnimation = this.animations.find((a) => a.name === name);
-
-    frameAnimation.play(x, y, rad);
   }
 
   updatePositionOnTank() {
@@ -112,12 +102,7 @@ export default class Turret extends WorldEntity {
 
     let effectCenter = this.tank.center.rotate(0);
 
-    this.playAnimation(
-      ANIMATIONS.TURRET_SHOOT,
-      effectCenter.x,
-      effectCenter.y,
-      0
-    );
+    this.shootAnimation.play(effectCenter.x, effectCenter.y, 0);
 
     // test
     let dir = new Vector2(Math.cos(this.rad), Math.sin(this.rad));

@@ -30,5 +30,7 @@ export default class MainLoop {
 
     this.game.getEffectManager().loop(dt, this.renderer);
     this.game.getWorldEntityManager().loop(dt, this.renderer);
+
+    window.requestAnimationFrame(this.loop.bind(this));
   }
 }

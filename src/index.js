@@ -1,7 +1,6 @@
 import "./styles/styles.css";
 
 import { CANVAS_SIZE, TANKS_DATA, SPRITES } from "./js/Configs";
-
 import Game from "./js/Game";
 import Tank from "./js/Tank";
 
@@ -14,23 +13,32 @@ const game = new Game(canvasElem);
 async function main() {
   await game.getResourceManager().loadSprites(SPRITES);
 
-  const tank = new Tank(game, true);
-  tank.setSize(TANKS_DATA[1].w, TANKS_DATA[1].h);
+  const tank_id = 1;
+
+  const tank = new Tank(game, tank_id, true);
+  tank.setSize(TANKS_DATA[tank_id].w, TANKS_DATA[tank_id].h);
   tank.setPosition(250, 250);
   tank.getTurret().updatePositionOnTank();
-  tank.setSpritePosition(TANKS_DATA[1].img_data.x, TANKS_DATA[1].img_data.y);
+  tank.setSpritePosition(
+    TANKS_DATA[tank_id].img_data.x,
+    TANKS_DATA[tank_id].img_data.y
+  );
 
-  tank.getTurret().setSize(TANKS_DATA[1].turret.w, TANKS_DATA[1].turret.h);
+  tank
+    .getTurret()
+    .setSize(TANKS_DATA[tank_id].turret.w, TANKS_DATA[tank_id].turret.h);
   tank
     .getTurret()
     .setSpritePosition(
-      TANKS_DATA[1].turret.img_data.x,
-      TANKS_DATA[1].turret.img_data.y
+      TANKS_DATA[tank_id].turret.img_data.x,
+      TANKS_DATA[tank_id].turret.img_data.y
     );
 
   game.getCamera().lookAt(tank);
 
   game.getWorldEntityManager().addEntity(tank);
+
+  document.body.appendChild(canvasElem);
 
   game.play();
 }

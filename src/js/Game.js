@@ -12,7 +12,7 @@ export default class Game {
     this.camera = new Camera(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT);
 
     this.resourceManager = new ResourceManager();
-    this.effectManager = new EffectManager();
+    this.effectManager = new EffectManager(this);
     this.worldEntityManager = new WorldEntityManager(this);
 
     this.mainLoop = new MainLoop(this, this.renderer);
@@ -37,8 +37,6 @@ export default class Game {
   }
 
   play() {
-    document.body.appendChild(this.renderer.getCanvas());
-
     this.mainLoop.start();
   }
 }

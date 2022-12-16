@@ -3,12 +3,18 @@ import FrameAnimation from "./FrameAnimation";
 export default class Effect {
   name;
 
-  constructor(name, frames) {
+  active;
+
+  frameAnimation;
+
+  constructor(game, name, frames) {
+    this.game = game;
+
     this.name = name;
 
     this.active = false;
 
-    this.frameAnimation = new FrameAnimation(name, frames);
+    this.frameAnimation = new FrameAnimation(game, frames);
   }
 
   getFrameAnimation() {
@@ -29,7 +35,7 @@ export default class Effect {
     }
   }
 
-  render(renderer, sprites) {
-    this.frameAnimation.render(renderer, sprites);
+  render(renderer) {
+    this.frameAnimation.render(renderer);
   }
 }

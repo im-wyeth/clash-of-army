@@ -3,12 +3,17 @@ import { SPRITE_SHEETS, EFFECTS_DATA } from "./Configs";
 import Effect from "./Effect";
 import SpriteFrame from "./SpriteFrame";
 
+// test
 const QUANTITY_OF_EFFECTS = 10;
 
-export default class EffectsEmitter {
+export default class EffectManager {
+  game;
+
   effects;
 
-  constructor() {
+  constructor(game) {
+    this.game = game;
+
     this.effects = [];
 
     for (const effectName in EFFECTS_DATA) {
@@ -20,7 +25,7 @@ export default class EffectsEmitter {
     for (let i = 0; i < QUANTITY_OF_EFFECTS; ++i) {
       const frames = this.createEffectFrames(effect.frames);
 
-      this.effects.push(new Effect(name, frames));
+      this.effects.push(new Effect(this.game, name, frames));
     }
   }
 
@@ -45,12 +50,12 @@ export default class EffectsEmitter {
     effect.activate(x, y, rad);
   }
 
-  loop(dt, renderer, sprites) {
+  loop(dt, renderer) {
     for (const effect of this.effects) {
       if (!effect.active) break;
 
       effect.update(dt);
-      effect.render(renderer, sprites);
+      effect.render(renderer);
     }
   }
 }

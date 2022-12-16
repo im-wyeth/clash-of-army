@@ -1,6 +1,9 @@
+import SpriteFrame from "./SpriteFrame";
 import Vector2 from "./Vector2";
 
 export default class FrameAnimation {
+  game;
+
   rad;
   center;
   playing;
@@ -13,8 +16,8 @@ export default class FrameAnimation {
 
   frames;
 
-  constructor(name, frames) {
-    this.name = name;
+  constructor(game, frames) {
+    this.game = game;
 
     this.rad = 0;
     this.center = new Vector2(0, 0);
@@ -26,7 +29,11 @@ export default class FrameAnimation {
     this.currAnimationTime = 0;
     this.animationTime = 200;
 
-    this.frames = frames;
+    this.frames = [];
+
+    for (const frame of frames) {
+      this.frames.push(new SpriteFrame(frame.x, frame.y, frame.w, frame.y));
+    }
   }
 
   isPlaying() {
@@ -36,10 +43,10 @@ export default class FrameAnimation {
   play(x, y, rad) {
     this.playing = true;
 
-    this.rad = rad;
-
     this.center.x = x;
     this.center.y = y;
+
+    this.rad = rad;
   }
 
   stop() {
@@ -65,6 +72,8 @@ export default class FrameAnimation {
   }
 
   render(renderer) {
+    const sprites = this.game.getResourceManager().getSprites();
+
     const frame = this.frames[this.currFrame];
 
     renderer.drawImage(

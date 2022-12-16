@@ -13,9 +13,10 @@ export const SPRITE_SHEETS = {
   BUILDINGS: "buildings",
 };
 
-export const ANIMATIONS = {
-  TURRET_SHOOT: "turret_shoot",
-};
+// test
+// export const ANIMATIONS = {
+//   TURRET_SHOOT: "turret_shoot",
+// };
 
 export const EFFECTS = {
   TURRET_SHOOT_SMOKE: "turret_shoot_smoke",

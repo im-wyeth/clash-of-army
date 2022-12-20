@@ -39,10 +39,10 @@ export default class MainLoop {
       );
 
     this.renderer.getCtx().save();
-    this.renderer.getCtx().scale(3, 3);
+    this.renderer.getCtx().scale(2, 2);
 
-    this.game.getEffectManager().loop(dt, this.renderer);
     this.game.getWorldEntityManager().loop(dt, this.renderer);
+    this.game.getEffectManager().loop(dt, this.renderer);
 
     this.renderer.getCtx().restore();
 

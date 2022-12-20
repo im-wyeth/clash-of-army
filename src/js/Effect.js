@@ -33,11 +33,11 @@ export default class Effect {
   }
 
   update(dt) {
-    this.frameAnimation.update(dt);
-
     if (!this.frameAnimation.isPlaying() && this.active === true) {
       this.active = false;
     }
+
+    this.frameAnimation.update(dt);
   }
 
   render(renderer) {

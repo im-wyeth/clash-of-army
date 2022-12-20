@@ -9,7 +9,6 @@ export default class SpriteFrame {
   constructor(sX, sY, w, h, spriteSheetName) {
     this.sourcePosition = new Vector2(sX, sY);
     this.size = new Vector2(w, h);
-    console.log(spriteSheetName);
 
     this.spriteSheetName = spriteSheetName;
   }

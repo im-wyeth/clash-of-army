@@ -33,7 +33,7 @@ export default class FrameAnimation {
 
     for (const frame of frames) {
       this.frames.push(
-        new SpriteFrame(frame.x, frame.y, frame.w, frame.y, spriteSheetName)
+        new SpriteFrame(frame.x, frame.y, frame.w, frame.h, spriteSheetName)
       );
     }
   }
@@ -74,6 +74,10 @@ export default class FrameAnimation {
   }
 
   render(renderer) {
+    if (!this.playing) {
+      return;
+    }
+
     const sprites = this.game.getResourceManager().getSprites();
 
     const frame = this.frames[this.currFrame];

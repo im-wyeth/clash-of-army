@@ -16,7 +16,7 @@ export default class FrameAnimation {
 
   frames;
 
-  constructor(game, frames) {
+  constructor(game, frames, spriteSheetName) {
     this.game = game;
 
     this.rad = 0;
@@ -27,12 +27,14 @@ export default class FrameAnimation {
     this.frameLength = frames.length;
 
     this.currAnimationTime = 0;
-    this.animationTime = 200;
+    this.animationTime = 150;
 
     this.frames = [];
 
     for (const frame of frames) {
-      this.frames.push(new SpriteFrame(frame.x, frame.y, frame.w, frame.y));
+      this.frames.push(
+        new SpriteFrame(frame.x, frame.y, frame.w, frame.y, spriteSheetName)
+      );
     }
   }
 
@@ -64,7 +66,7 @@ export default class FrameAnimation {
       this.currAnimationTime += dt;
     }
 
-    if (this.currFrame + 1 >= this.frameLength) {
+    if (this.currFrame + 1 > this.frameLength) {
       this.stop();
 
       return;

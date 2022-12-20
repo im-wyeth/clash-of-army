@@ -1,7 +1,6 @@
-import { SPRITE_SHEETS, EFFECTS_DATA } from "./Configs";
+import { SPRITE_SHEETS, EFFECTS, EFFECTS_DATA } from "./Configs";
 
 import Effect from "./Effect";
-import SpriteFrame from "./SpriteFrame";
 
 // test
 const QUANTITY_OF_EFFECTS = 10;
@@ -16,30 +15,17 @@ export default class EffectManager {
 
     this.effects = [];
 
-    for (const effectName in EFFECTS_DATA) {
-      this.addEffect(effectName, EFFECTS_DATA[effectName]);
+    for (const effectKey in EFFECTS) {
+      const effectName = EFFECTS[effectKey];
+
+      this.addEffect(effectName, EFFECTS_DATA[effectName].frames);
     }
   }
 
-  addEffect(name, effect) {
+  addEffect(name, frames) {
     for (let i = 0; i < QUANTITY_OF_EFFECTS; ++i) {
-      const frames = this.createEffectFrames(effect.frames);
-
       this.effects.push(new Effect(this.game, name, frames));
     }
-  }
-
-  createEffectFrames(frames) {
-    return frames.map(
-      (frame) =>
-        new SpriteFrame(
-          frame.x,
-          frame.y,
-          frame.w,
-          frame.h,
-          SPRITE_SHEETS.EFFECTS
-        )
-    );
   }
 
   activateEffect(name, x, y, rad) {

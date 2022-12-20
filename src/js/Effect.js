@@ -1,3 +1,4 @@
+import { SPRITE_SHEETS } from "./Configs";
 import FrameAnimation from "./FrameAnimation";
 
 export default class Effect {
@@ -14,7 +15,11 @@ export default class Effect {
 
     this.active = false;
 
-    this.frameAnimation = new FrameAnimation(game, frames);
+    this.frameAnimation = new FrameAnimation(
+      game,
+      frames,
+      SPRITE_SHEETS.EFFECTS
+    );
   }
 
   getFrameAnimation() {

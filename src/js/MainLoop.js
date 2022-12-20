@@ -28,8 +28,23 @@ export default class MainLoop {
     const dt = Date.now() - this.lastDT;
     this.lastDT = Date.now();
 
+    // test
+    this.renderer
+      .getCtx()
+      .clearRect(
+        0,
+        0,
+        this.renderer.getCanvas().width,
+        this.renderer.getCanvas().height
+      );
+
+    this.renderer.getCtx().save();
+    this.renderer.getCtx().scale(3, 3);
+
     this.game.getEffectManager().loop(dt, this.renderer);
     this.game.getWorldEntityManager().loop(dt, this.renderer);
+
+    this.renderer.getCtx().restore();
 
     window.requestAnimationFrame(this.loop.bind(this));
   }

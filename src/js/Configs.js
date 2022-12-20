@@ -14,14 +14,11 @@ export const SPRITE_SHEETS = {
 };
 
 // test
-// export const ANIMATIONS = {
-//   TURRET_SHOOT: "turret_shoot",
-// };
-
 export const EFFECTS = {
   TURRET_SHOOT_SMOKE: "turret_shoot_smoke",
 };
 
+// merge or not?
 export const EFFECTS_DATA = {
   turret_shoot_smoke: {
     frames: [
@@ -60,17 +57,17 @@ export const TANKS_DATA = {
       w: 101,
       h: 52,
       img_data: {
-        x: 86,
+        x: 87,
         y: 0,
       },
       animations: {
         shoot: [
           { x: 0, y: 52, w: 101, h: 52 },
-          { x: 101, y: 52, w: 101, h: 52 },
-          { x: 202, y: 52, w: 101, h: 52 },
-          { x: 303, y: 52, w: 101, h: 52 },
-          { x: 404, y: 52, w: 101, h: 52 },
-          { x: 505, y: 52, w: 101, h: 52 },
+          { x: 102, y: 52, w: 101, h: 52 },
+          { x: 203, y: 52, w: 101, h: 52 },
+          { x: 304, y: 52, w: 101, h: 52 },
+          { x: 405, y: 52, w: 101, h: 52 },
+          { x: 506, y: 52, w: 101, h: 52 },
         ],
       },
     },

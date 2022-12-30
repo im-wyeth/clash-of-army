@@ -1,4 +1,4 @@
-export default class MainLoop {
+export default class GameLoop {
   constructor(game, renderer) {
     this.game = game;
     this.renderer = renderer;
@@ -29,9 +29,10 @@ export default class MainLoop {
     this.lastDT = Date.now();
 
     // test
+    this.renderer.getCtx().fillStyle = "gray";
     this.renderer
       .getCtx()
-      .clearRect(
+      .fillRect(
         0,
         0,
         this.renderer.getCanvas().width,
@@ -39,7 +40,9 @@ export default class MainLoop {
       );
 
     this.renderer.getCtx().save();
-    this.renderer.getCtx().scale(2, 2);
+    this.renderer.getCtx().scale(1, 1);
+
+    this.game.getWorldMap().render(this.renderer);
 
     this.game.getWorldEntityManager().loop(dt, this.renderer);
     this.game.getEffectManager().loop(dt, this.renderer);

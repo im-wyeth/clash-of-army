@@ -41,7 +41,7 @@ export default class Turret extends WorldEntity {
   }
 
   update(dt) {
-    // test
+    // // test
     // if (!this.shootAnimation.isPlaying()) {
     //   this.rad += this.rotationSpeed * dt;
     // }

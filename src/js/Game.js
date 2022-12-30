@@ -4,20 +4,22 @@ import Camera from "./Camera";
 import ResourceManager from "./ResourceManager";
 import EffectManager from "./EffectManager";
 import WorldEntityManager from "./WorldEntityManager";
-import MainLoop from "./MainLoop";
+import WorldMap from "./WorldMap";
+import GameLoop from "./GameLoop";
 
 export default class Game {
-  constructor(canvas) {
-    this.renderer = new Renderer(canvas);
+  constructor(gameWorldCanvas, gameCanvas) {
+    this.gameWorldRenderer = new Renderer(gameWorldCanvas);
+    this.gameRenderer = new Renderer(gameCanvas);
     this.camera = new Camera(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT);
 
     this.resourceManager = new ResourceManager();
     this.effectManager = new EffectManager(this);
     this.worldEntityManager = new WorldEntityManager(this);
 
-    this.mainLoop = new MainLoop(this, this.renderer);
+    this.worldMap = new WorldMap(this);
 
-    this.renderer.antialiasing(false);
+    this.gameLoop = new GameLoop(this, this.gameRenderer);
   }
 
   getCamera() {
@@ -36,7 +38,13 @@ export default class Game {
     return this.worldEntityManager;
   }
 
+  getWorldMap() {
+    return this.worldMap;
+  }
+
   play() {
-    this.mainLoop.start();
+    this.worldMap.render(this.gameWorldRenderer);
+
+    this.gameLoop.start();
   }
 }

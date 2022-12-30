@@ -1,6 +1,6 @@
 export const CANVAS_SIZE = {
   WIDTH: 1200,
-  HEIGHT: 780,
+  HEIGHT: 800,
 };
 
 export const SPRITE_SHEETS = {
@@ -22,10 +22,10 @@ export const EFFECTS = {
 export const EFFECTS_DATA = {
   turret_shoot_smoke: {
     frames: [
-      { x: 0, y: 0, w: 67, h: 25 },
-      { x: 67, y: 0, w: 36, h: 25 },
-      { x: 103, y: 0, w: 30, h: 25 },
-      { x: 133, y: 0, w: 15, h: 25 },
+      { sX: 0, sY: 0, w: 67, h: 25 },
+      { sX: 67, sY: 0, w: 36, h: 25 },
+      { sX: 103, sY: 0, w: 30, h: 25 },
+      { sX: 133, sY: 0, w: 15, h: 25 },
     ],
   },
 };
@@ -43,41 +43,79 @@ export const SPRITES = [
     name: "effects",
     src: "../assets/effect-sprites.png",
   },
+  {
+    name: "tiles",
+    src: "../assets/tiles.png",
+  },
 ];
 
+// replace from, and move to other file
 export const TANKS_DATA = {
   1: {
     w: 86,
     h: 52,
     img_data: {
-      x: 0,
-      y: 0,
+      sX: 0,
+      sY: 0,
     },
     turret: {
       w: 101,
       h: 52,
       img_data: {
-        x: 87,
-        y: 0,
+        sX: 87,
+        sY: 0,
       },
       animations: {
         shoot: [
-          { x: 0, y: 52, w: 101, h: 52 },
-          { x: 102, y: 52, w: 101, h: 52 },
-          { x: 203, y: 52, w: 101, h: 52 },
-          { x: 304, y: 52, w: 101, h: 52 },
-          { x: 405, y: 52, w: 101, h: 52 },
-          { x: 506, y: 52, w: 101, h: 52 },
+          { sX: 0, sY: 52, w: 101, h: 52 },
+          { sX: 102, sY: 52, w: 101, h: 52 },
+          { sX: 203, sY: 52, w: 101, h: 52 },
+          { sX: 304, sY: 52, w: 101, h: 52 },
+          { sX: 405, sY: 52, w: 101, h: 52 },
+          { sX: 506, sY: 52, w: 101, h: 52 },
         ],
       },
     },
     details: [
-      { type: "гусеница", x: 0, y: 0, w: 84, h: 9 },
-      { type: "гусеница", x: 0, y: 260, w: 84, h: 9 },
-      { type: "двигатель", x: 3, y: 12, w: 20, h: 28 },
-      { type: "боеукладка", x: 23, y: 12, w: 20, h: 28 },
-      { type: "механизм_башни", x: 43, y: 12, w: 20, h: 28 },
-      { type: "трансмиссия", x: 63, y: 12, w: 20, h: 28 },
+      { type: "гусеница", tX: 0, tY: 0, w: 84, h: 9 },
+      { type: "гусеница", tX: 0, tY: 260, w: 84, h: 9 },
+      { type: "двигатель", tX: 3, tY: 12, w: 20, h: 28 },
+      { type: "боеукладка", tX: 23, tY: 12, w: 20, h: 28 },
+      { type: "механизм_башни", tX: 43, tY: 12, w: 20, h: 28 },
+      { type: "трансмиссия", tX: 63, tY: 12, w: 20, h: 28 },
     ],
   },
 };
+
+export const TILES_DATA = [
+  {
+    sX: 0,
+    sY: 0,
+    w: 32,
+    h: 32,
+  },
+  {
+    sX: 32,
+    sY: 0,
+    w: 32,
+    h: 32,
+  },
+  {
+    sX: 64,
+    sY: 0,
+    w: 32,
+    h: 32,
+  },
+  {
+    sX: 0,
+    sY: 32,
+    w: 16,
+    h: 13,
+  },
+  {
+    sX: 16,
+    sY: 33,
+    w: 53,
+    h: 48,
+  },
+];

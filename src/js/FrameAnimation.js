@@ -33,7 +33,7 @@ export default class FrameAnimation {
 
     for (const frame of frames) {
       this.frames.push(
-        new SpriteFrame(frame.x, frame.y, frame.w, frame.h, spriteSheetName)
+        new SpriteFrame(frame.sX, frame.sY, frame.w, frame.h, spriteSheetName)
       );
     }
   }

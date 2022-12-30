@@ -4,11 +4,19 @@ import { CANVAS_SIZE, TANKS_DATA, SPRITES } from "./js/Configs";
 import Game from "./js/Game";
 import Tank from "./js/Tank";
 
-const canvasElem = document.createElement("canvas");
-canvasElem.width = CANVAS_SIZE.WIDTH;
-canvasElem.height = CANVAS_SIZE.HEIGHT;
+const canvasBase = document.getElementsByClassName("canvas-base")[0];
 
-const game = new Game(canvasElem);
+const gameWorldCanvas = document.createElement("canvas");
+gameWorldCanvas.width = CANVAS_SIZE.WIDTH;
+gameWorldCanvas.height = CANVAS_SIZE.HEIGHT;
+gameWorldCanvas.classList.add("game-world-canvas");
+
+const gameCanvas = document.createElement("canvas");
+gameCanvas.width = CANVAS_SIZE.WIDTH;
+gameCanvas.height = CANVAS_SIZE.HEIGHT;
+gameCanvas.classList.add("game-canvas");
+
+const game = new Game(gameWorldCanvas, gameCanvas);
 
 async function main() {
   await game.getResourceManager().loadSprites(SPRITES);
@@ -21,8 +29,8 @@ async function main() {
   tank.setPosition(150, 150);
   tank.getTurret().updatePositionOnTank();
   tank.setSpritePosition(
-    TANKS_DATA[tank_id].img_data.x,
-    TANKS_DATA[tank_id].img_data.y
+    TANKS_DATA[tank_id].img_data.sX,
+    TANKS_DATA[tank_id].img_data.sY
   );
 
   tank
@@ -31,8 +39,8 @@ async function main() {
   tank
     .getTurret()
     .setSpritePosition(
-      TANKS_DATA[tank_id].turret.img_data.x,
-      TANKS_DATA[tank_id].turret.img_data.y
+      TANKS_DATA[tank_id].turret.img_data.sX,
+      TANKS_DATA[tank_id].turret.img_data.sY
     );
 
   game.getCamera().lookAt(tank);
@@ -40,7 +48,8 @@ async function main() {
   game.getWorldEntityManager().addEntity(tank);
   //
 
-  document.body.appendChild(canvasElem);
+  canvasBase.appendChild(gameWorldCanvas);
+  canvasBase.appendChild(gameCanvas);
 
   game.play();
 }

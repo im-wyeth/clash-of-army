@@ -19,6 +19,7 @@ export default class Renderer {
     this.ctx.imageSmoothingEnabled = val;
   }
 
+  // add changing origin of rotation
   drawImage(img, x, y, w, h, r, sX, sY, sW, sH) {
     this.ctx.save();
 

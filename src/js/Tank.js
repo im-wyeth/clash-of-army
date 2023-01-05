@@ -51,6 +51,11 @@ export default class Tank extends WorldEntity {
   }
 
   update(dt) {
+    // test
+    //
+    // this.center.x += 0.1 * dt;
+    // this.turret.updatePositionOnTank();
+
     this.turret.update(dt);
   }
 

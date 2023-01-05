@@ -22,6 +22,10 @@ export default class Game {
     this.gameLoop = new GameLoop(this, this.gameRenderer);
   }
 
+  getGameRenderer() {
+    return this.gameRenderer;
+  }
+
   getCamera() {
     return this.camera;
   }

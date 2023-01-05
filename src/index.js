@@ -26,7 +26,7 @@ async function main() {
 
   const tank = new Tank(game, tank_id, true);
   tank.setSize(TANKS_DATA[tank_id].w, TANKS_DATA[tank_id].h);
-  tank.setPosition(150, 150);
+  tank.setPosition(1250, 750);
   tank.getTurret().updatePositionOnTank();
   tank.setSpritePosition(
     TANKS_DATA[tank_id].img_data.sX,

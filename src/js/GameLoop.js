@@ -28,6 +28,8 @@ export default class GameLoop {
     const dt = Date.now() - this.lastDT;
     this.lastDT = Date.now();
 
+    this.game.getCamera().update(dt);
+
     // test
     this.renderer.getCtx().fillStyle = "gray";
     this.renderer
@@ -40,8 +42,14 @@ export default class GameLoop {
       );
 
     this.renderer.getCtx().save();
-    this.renderer.getCtx().scale(1, 1);
 
+    this.renderer
+      .getCtx()
+      .translate(
+        -this.game.getCamera().center.x,
+        -this.game.getCamera().center.y
+      );
+    this.renderer.getCtx().scale(1, 1);
     this.game.getWorldMap().render(this.renderer);
 
     this.game.getWorldEntityManager().loop(dt, this.renderer);

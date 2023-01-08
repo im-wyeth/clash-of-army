@@ -21,7 +21,6 @@ export default class Turret extends WorldEntity {
     this.spritePosition = new Vector2(0, 0);
 
     this.radTo = this.rad;
-
     this.rotating = false;
     this.rotationSpeed = 0.001;
 

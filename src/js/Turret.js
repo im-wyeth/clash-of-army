@@ -109,10 +109,6 @@ export default class Turret extends WorldEntity {
         effectCenter.y + dir.y * 75,
         this.rad
       );
-
-    // const alternateAngle = (this.rad * (180 / Math.PI) + 180) % 360;
-    // const newDirRad = alternateAngle * (Math.PI / 180);
-    // let dir2 = new Vector2(Math.cos(newDirRad), Math.sin(newDirRad));
   }
 
   mouseMoveHandle(e) {

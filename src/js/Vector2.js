@@ -11,6 +11,17 @@ export default class Vector2 {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
+  nor() {
+    const len = this.magnitude;
+
+    if (this.magnitude != 0) {
+      this.x /= len;
+      this.y /= len;
+    }
+
+    return this;
+  }
+
   add(factor) {
     const f =
       typeof factor === "object"

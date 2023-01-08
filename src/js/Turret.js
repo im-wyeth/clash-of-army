@@ -2,6 +2,7 @@ import { EFFECTS, SPRITE_SHEETS, TANKS_DATA } from "./Configs";
 import FrameAnimation from "./FrameAnimation";
 import Vector2 from "./Vector2";
 import WorldEntity from "./WorldEntity";
+import { radToVec, rotateTo, vecToRad, radToDeg } from "./Utils";
 
 export default class Turret extends WorldEntity {
   tank;
@@ -51,32 +52,9 @@ export default class Turret extends WorldEntity {
 
     // test
     if (this.rotating && !this.shootAnimation.isPlaying()) {
-      let curr = this.rad * (180 / Math.PI);
-      let to = this.radTo * (180 / Math.PI);
+      this.rad = rotateTo(this.rad, this.radTo, this.rotationSpeed * dt);
 
-      if (curr < 0 || curr > 360) {
-        curr = (curr + 360) % 360;
-      }
-      if (to < 0 || to > 360) {
-        to = (to + 360) % 360;
-      }
-
-      if (curr < to) {
-        if (Math.abs(curr - to) < 180) {
-          this.rad += this.rotationSpeed * dt;
-        } else {
-          this.rad -= this.rotationSpeed * dt;
-        }
-      } else {
-        if (Math.abs(curr - to) < 180) {
-          this.rad -= this.rotationSpeed * dt;
-        } else {
-          this.rad += this.rotationSpeed * dt;
-        }
-      }
-
-      if (Math.abs(this.rad - this.radTo) <= this.rotationSpeed * dt) {
-        this.rad = this.radTo;
+      if (this.rad === this.radTo) {
         this.rotating = false;
       }
     }
@@ -117,11 +95,11 @@ export default class Turret extends WorldEntity {
 
   shoot() {
     //test
-    let effectCenter = this.tank.center.rotate(0);
+    let effectCenter = this.tank.getPosition();
 
     this.shootAnimation.play(effectCenter.x, effectCenter.y, this.rad);
 
-    let dir = new Vector2(Math.cos(this.rad), Math.sin(this.rad));
+    let dir = radToVec(this.rad);
 
     this.game
       .getEffectManager()
@@ -139,7 +117,6 @@ export default class Turret extends WorldEntity {
 
   mouseMoveHandle(e) {
     // test
-
     const canvasScaleCoefficient =
       this.game.getGameRenderer().getCanvas().clientWidth / 1200;
 
@@ -150,15 +127,12 @@ export default class Turret extends WorldEntity {
     const worldX = mouseX + camera.center.x;
     const worldY = mouseY + camera.center.y;
 
-    let x = worldX - this.tank.center.x;
-    let y = worldY - this.tank.center.y;
+    let vec = new Vector2(
+      worldX - this.tank.center.x,
+      worldY - this.tank.center.y
+    );
 
-    // why?
-    const len = Math.sqrt(x * x + y * y);
-    x = x / len;
-    y = y / len;
-
-    this.radTo = Math.atan2(y, x);
+    this.radTo = vecToRad(vec.nor());
 
     this.rotating = true;
   }

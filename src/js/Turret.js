@@ -21,7 +21,8 @@ export default class Turret extends WorldEntity {
 
     this.radTo = this.rad;
 
-    this.rotationSpeed = 0.011;
+    this.rotating = false;
+    this.rotationSpeed = 0.001;
 
     // test
     this.shootAnimation = new FrameAnimation(
@@ -49,20 +50,35 @@ export default class Turret extends WorldEntity {
     this.updatePositionOnTank();
 
     // test
-    let thisAngle = this.rad * (180 / Math.PI);
-    let angleTo = this.radTo * (180 / Math.PI);
+    if (this.rotating && !this.shootAnimation.isPlaying()) {
+      let curr = this.rad * (180 / Math.PI);
+      let to = this.radTo * (180 / Math.PI);
 
-    if (thisAngle < 0 || thisAngle > 360) {
-      thisAngle = (thisAngle + 360) % 360;
-    }
-    if (angleTo < 0 || angleTo > 360) {
-      angleTo = (angleTo + 360) % 360;
-    }
+      if (curr < 0 || curr > 360) {
+        curr = (curr + 360) % 360;
+      }
+      if (to < 0 || to > 360) {
+        to = (to + 360) % 360;
+      }
 
-    if (angleTo > thisAngle) {
-      this.rad += this.rotationSpeed * dt;
-    } else if (angleTo < thisAngle) {
-      this.rad -= this.rotationSpeed * dt;
+      if (curr < to) {
+        if (Math.abs(curr - to) < 180) {
+          this.rad += this.rotationSpeed * dt;
+        } else {
+          this.rad -= this.rotationSpeed * dt;
+        }
+      } else {
+        if (Math.abs(curr - to) < 180) {
+          this.rad -= this.rotationSpeed * dt;
+        } else {
+          this.rad += this.rotationSpeed * dt;
+        }
+      }
+
+      if (Math.abs(this.rad - this.radTo) <= this.rotationSpeed * dt) {
+        this.rad = this.radTo;
+        this.rotating = false;
+      }
     }
     //
 
@@ -100,7 +116,7 @@ export default class Turret extends WorldEntity {
   }
 
   shoot() {
-    // test
+    //test
     let effectCenter = this.tank.center.rotate(0);
 
     this.shootAnimation.play(effectCenter.x, effectCenter.y, this.rad);
@@ -116,16 +132,9 @@ export default class Turret extends WorldEntity {
         this.rad
       );
 
-    const alternateAngle = (this.rad * (180 / Math.PI) + 180) % 360;
-
-    const newDirRad = alternateAngle * (Math.PI / 180);
-
-    let dir2 = new Vector2(Math.cos(newDirRad), Math.sin(newDirRad));
-
-    // this.center.x += dir2.x * 5;
-    // this.center.y += dir2.y * 5;
-
-    //
+    // const alternateAngle = (this.rad * (180 / Math.PI) + 180) % 360;
+    // const newDirRad = alternateAngle * (Math.PI / 180);
+    // let dir2 = new Vector2(Math.cos(newDirRad), Math.sin(newDirRad));
   }
 
   mouseMoveHandle(e) {
@@ -151,7 +160,6 @@ export default class Turret extends WorldEntity {
 
     this.radTo = Math.atan2(y, x);
 
-    const thisAngle = this.rad * (180 / Math.PI);
-    const angleTo = this.radTo * (180 / Math.PI);
+    this.rotating = true;
   }
 }

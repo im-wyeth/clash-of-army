@@ -19,6 +19,10 @@ export default class Camera {
     return this.center;
   }
 
+  getZoom() {
+    return this.zoom;
+  }
+
   lookAt(entity) {
     if (entity instanceof WorldEntity) {
       this.followTo = entity;

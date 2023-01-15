@@ -6,20 +6,10 @@ export default class GameLoop {
     this.lastDT = Date.now();
 
     this.rAF = null;
-
-    this.paused = false;
   }
 
   start() {
     this.rAF = window.requestAnimationFrame(this.loop.bind(this));
-  }
-
-  pause() {
-    this.paused = true;
-  }
-
-  continue() {
-    this.paused = false;
   }
 
   loop() {

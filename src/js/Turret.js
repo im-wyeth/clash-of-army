@@ -2,7 +2,7 @@ import { EFFECTS, SPRITE_SHEETS, TANKS_DATA } from "./Configs";
 import FrameAnimation from "./FrameAnimation";
 import Vector2 from "./Vector2";
 import WorldEntity from "./WorldEntity";
-import { radToVec, rotateTo, vecToRad, radToDeg } from "./Utils";
+import { radToVec, rotateTo, vecToRad } from "./Utils";
 
 export default class Turret extends WorldEntity {
   tank;
@@ -21,8 +21,10 @@ export default class Turret extends WorldEntity {
     this.spritePosition = new Vector2(0, 0);
 
     this.radTo = this.rad;
-    this.rotating = false;
     this.rotationSpeed = 0.001;
+
+    this.rotating = false;
+    this.shooting = false;
 
     // test
     this.shootAnimation = new FrameAnimation(
@@ -31,10 +33,13 @@ export default class Turret extends WorldEntity {
       SPRITE_SHEETS.TANKS
     );
 
-    this.mouseMoveHandle = this.game
-      .getGameRenderer()
-      .getCanvas()
-      .addEventListener("mousemove", this.mouseMoveHandle.bind(this));
+    this.game
+      .getEventManager()
+      .addCallerToElem(
+        this.game.getGameRenderer().getCanvas(),
+        "mousemove",
+        this.mouseMoveHandler.bind(this)
+      );
   }
 
   setSpritePosition(x, y) {
@@ -46,11 +51,15 @@ export default class Turret extends WorldEntity {
     return this.rad;
   }
 
+  isShooting() {
+    return this.shooting;
+  }
+
   update(dt) {
     this.updatePositionOnTank();
 
     // test
-    if (this.rotating && !this.shootAnimation.isPlaying()) {
+    if (this.rotating && !this.shooting) {
       this.rad = rotateTo(this.rad, this.radTo, this.rotationSpeed * dt);
 
       if (this.rad === this.radTo) {
@@ -61,6 +70,10 @@ export default class Turret extends WorldEntity {
 
     if (this.shootAnimation.isPlaying()) {
       this.shootAnimation.update(dt);
+    } else {
+      if (this.shooting) {
+        this.shooting = false;
+      }
     }
   }
 
@@ -94,6 +107,8 @@ export default class Turret extends WorldEntity {
 
   shoot() {
     //test
+    this.shooting = true;
+
     let effectCenter = this.tank.getPosition();
 
     this.shootAnimation.play(effectCenter.x, effectCenter.y, this.rad);
@@ -110,7 +125,7 @@ export default class Turret extends WorldEntity {
       );
   }
 
-  mouseMoveHandle(e) {
+  mouseMoveHandler(e) {
     // test
     const canvasScaleCoefficient =
       this.game.getGameRenderer().getCanvas().clientWidth / 1200;

@@ -1,6 +1,12 @@
 export default class WorldEntityManager {
+  entities;
+
   constructor() {
     this.entities = [];
+  }
+
+  getEntities() {
+    return this.entities;
   }
 
   addEntity(entity) {

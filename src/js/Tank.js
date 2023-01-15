@@ -1,7 +1,7 @@
 import { SPRITE_SHEETS } from "./Configs";
 import { DIRECTION, ROTATING } from "./Enums";
 import Turret from "./Turret";
-import { radToVec, degToRad, radToDeg } from "./Utils";
+import { degToRad, radToVec, radToDeg } from "./Utils";
 import Vector2 from "./Vector2";
 import WorldEntity from "./WorldEntity";
 
@@ -15,7 +15,7 @@ export default class Tank extends WorldEntity {
 
   isPlayer;
 
-  constructor(game, tankId, isPlayer) {
+  constructor(game, tankId) {
     super(game);
 
     this.tankId = tankId;
@@ -26,18 +26,11 @@ export default class Tank extends WorldEntity {
     // test
     this.directionState = DIRECTION.NONE;
     this.rad = degToRad(20);
-    this.rotatingState = ROTATING.NONE;
+    this.rotationState = ROTATING.NONE;
     this.rotationSpeed = 0.0007;
     //
 
-    this.isPlayer = isPlayer;
-
     this.turret = new Turret(game, this);
-
-    // test
-    window.addEventListener("click", this.shoot.bind(this));
-    window.addEventListener("keydown", this.keyHandler.bind(this));
-    window.addEventListener("keyup", this.keyHandler.bind(this));
   }
 
   setDirection(dx, dy) {
@@ -59,21 +52,8 @@ export default class Tank extends WorldEntity {
   }
 
   update(dt) {
-    // test
-
-    if (
-      this.directionState != DIRECTION.NONE &&
-      this.rotatingState == ROTATING.NONE
-    ) {
-      this.center.x += this.direction.x * 0.1 * dt;
-      this.center.y += this.direction.y * 0.1 * dt;
-    }
-
-    if (this.rotatingState === ROTATING.LEFT) {
-      this.rad -= this.rotationSpeed * dt;
-    } else if (this.rotatingState === ROTATING.RIGHT) {
-      this.rad += this.rotationSpeed * dt;
-    }
+    this.handleMoving(dt);
+    this.handleRotation(dt);
 
     this.turret.update(dt);
   }
@@ -97,84 +77,71 @@ export default class Tank extends WorldEntity {
     this.turret.render(renderer);
   }
 
-  shoot() {
+  handleMoving(dt) {
     // test
-    this.turret.shoot();
-    //
+    if (
+      this.directionState != DIRECTION.NONE &&
+      this.rotationState === ROTATING.NONE
+    ) {
+      this.center.x += this.direction.x * 0.1 * dt;
+      this.center.y += this.direction.y * 0.1 * dt;
+    }
   }
 
-  // test
-  keyHandler(e) {
-    switch (e.key) {
-      case "w":
-        if (e.type === "keydown") {
-          const newDir = radToVec(this.rad).nor();
+  handleRotation(dt) {
+    if (this.rotationState === ROTATING.LEFT) {
+      this.rad -= this.rotationSpeed * dt;
+    } else if (this.rotationState === ROTATING.RIGHT) {
+      this.rad += this.rotationSpeed * dt;
+    }
+  }
 
-          this.direction.x = newDir.x;
-          this.direction.y = newDir.y;
+  shoot() {
+    this.turret.shoot();
+  }
 
-          this.directionState = DIRECTION.FORWARD;
-        } else {
-          this.directionState = DIRECTION.NONE;
-        }
+  updateDirection() {
+    switch (this.directionState) {
+      case DIRECTION.FORWARD:
+        this.direction = radToVec(this.rad);
         break;
-      case "a":
-        if (this.rotatingState != ROTATING.NONE && e.type === "keyup") {
-          this.rotatingState = ROTATING.NONE;
-
-          if (this.directionState == DIRECTION.FORWARD) {
-            const newDir = radToVec(this.rad).nor();
-
-            this.direction.x = newDir.x;
-            this.direction.y = newDir.y;
-          } else {
-            const inversedDir = radToVec(
-              degToRad((radToDeg(this.rad) - 180 + 360) % 360)
-            ).nor();
-
-            this.direction.x = inversedDir.x;
-            this.direction.y = inversedDir.y;
-          }
-        } else {
-          this.rotatingState = ROTATING.LEFT;
-        }
-
+      case DIRECTION.BACKWARD:
+        this.direction = radToVec(
+          degToRad((radToDeg(this.rad) - 180 + 360) % 360)
+        ).nor();
         break;
-      case "s":
-        if (e.type === "keydown") {
-          const inversedDir = radToVec(
-            degToRad((radToDeg(this.rad) - 180 + 360) % 360)
-          ).nor();
+    }
+  }
 
-          this.direction.x = inversedDir.x;
-          this.direction.y = inversedDir.y;
+  moveForward() {
+    this.directionState = DIRECTION.FORWARD;
 
-          this.directionState = DIRECTION.BACKWARD;
-        } else {
-          this.directionState = DIRECTION.NONE;
-        }
-        break;
-      case "d":
-        if (this.rotatingState != ROTATING.NONE && e.type === "keyup") {
-          this.rotatingState = ROTATING.NONE;
+    this.updateDirection();
+  }
 
-          if (this.directionState == DIRECTION.FORWARD) {
-            const newDir = radToVec(this.rad).nor();
+  moveBackward() {
+    this.directionState = DIRECTION.BACKWARD;
 
-            this.direction.x = newDir.x;
-            this.direction.y = newDir.y;
-          } else {
-            const inversedDir = radToVec(
-              degToRad((radToDeg(this.rad) - 180 + 360) % 360)
-            ).nor();
+    this.updateDirection();
+  }
 
-            this.direction.x = inversedDir.x;
-            this.direction.y = inversedDir.y;
-          }
-        } else {
-          this.rotatingState = ROTATING.RIGHT;
-        }
-        break;
+  stopMoving() {
+    this.directionState = DIRECTION.NONE;
+  }
+
+  rotateRight() {
+    this.rotationState = ROTATING.RIGHT;
+  }
+
+  rotateLeft() {
+    this.rotationState = ROTATING.LEFT;
+  }
+
+  stopRotation() {
+    this.rotationState = ROTATING.NONE;
+
+    if (this.directionState != DIRECTION.NONE) {
+      this.updateDirection();
     }
   }
 }

@@ -24,7 +24,7 @@ async function main() {
   // test
   const tank_id = 1;
 
-  const tank = new Tank(game, tank_id, true);
+  const tank = new Tank(game, tank_id);
   tank.setSize(TANKS_DATA[tank_id].w, TANKS_DATA[tank_id].h);
   tank.setPosition(1250, 750);
   tank.getTurret().updatePositionOnTank();
@@ -46,6 +46,7 @@ async function main() {
   game.getCamera().lookAt(tank);
 
   game.getWorldEntityManager().addEntity(tank);
+  game.ComputerControlling.entity = tank;
   //
 
   canvasBase.appendChild(gameWorldCanvas);

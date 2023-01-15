@@ -6,6 +6,8 @@ import EffectManager from "./EffectManager";
 import WorldEntityManager from "./WorldEntityManager";
 import WorldMap from "./WorldMap";
 import GameLoop from "./GameLoop";
+import EventManager from "./EventManager";
+import ComputerControlling from "./ComputerControlling";
 
 export default class Game {
   constructor(gameWorldCanvas, gameCanvas) {
@@ -16,10 +18,14 @@ export default class Game {
     this.resourceManager = new ResourceManager();
     this.effectManager = new EffectManager(this);
     this.worldEntityManager = new WorldEntityManager(this);
+    this.eventManager = new EventManager();
 
     this.worldMap = new WorldMap(this);
 
     this.gameLoop = new GameLoop(this, this.gameRenderer);
+
+    // test
+    this.ComputerControlling = new ComputerControlling(this);
   }
 
   getGameRenderer() {
@@ -44,6 +50,10 @@ export default class Game {
 
   getWorldMap() {
     return this.worldMap;
+  }
+
+  getEventManager() {
+    return this.eventManager;
   }
 
   play() {

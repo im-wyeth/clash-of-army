@@ -1,50 +1,28 @@
 import { SPRITE_SHEETS } from "./Configs";
-import { DIRECTION, ROTATING } from "./Enums";
+import { DIRECTION, ROTATION } from "./Enums";
+import MilitaryEquipment from "./MilitaryEquipment";
 import Turret from "./Turret";
 import { degToRad, radToVec, radToDeg } from "./Utils";
-import Vector2 from "./Vector2";
-import WorldEntity from "./WorldEntity";
 
-export default class Tank extends WorldEntity {
-  tankId;
+export default class Tank extends MilitaryEquipment {
+  game;
 
-  direction;
-  spritePosition;
+  id;
 
   turret;
 
-  isPlayer;
+  constructor(game, id) {
+    super();
 
-  constructor(game, tankId) {
-    super(game);
+    this.game = game;
 
-    this.tankId = tankId;
-
-    this.direction = new Vector2(0, 0);
-    this.spritePosition = new Vector2(0, 0);
-
-    // test
-    this.directionState = DIRECTION.NONE;
-    this.rad = degToRad(20);
-    this.rotationState = ROTATING.NONE;
-    this.rotationSpeed = 0.0007;
-    //
+    this.id = id;
 
     this.turret = new Turret(game, this);
   }
 
-  setDirection(dx, dy) {
-    this.direction.x = dx;
-    this.direction.y = dy;
-  }
-
-  setSpritePosition(x, y) {
-    this.spritePosition.x = x;
-    this.spritePosition.y = y;
-  }
-
-  getTankId() {
-    return this.tankId;
+  getId() {
+    return this.id;
   }
 
   getTurret() {
@@ -55,6 +33,8 @@ export default class Tank extends WorldEntity {
     this.handleMoving(dt);
     this.handleRotation(dt);
 
+    this.turret.setPosition(this.center.x, this.center.y);
+
     this.turret.update(dt);
   }
 
@@ -62,14 +42,14 @@ export default class Tank extends WorldEntity {
     const sprites = this.game.getResourceManager().getSprites();
 
     renderer.drawImage(
-      sprites[SPRITE_SHEETS.TANKS],
+      sprites[this.sprite.sheetName],
       this.center.x,
       this.center.y,
       this.size.x,
       this.size.y,
       this.rad,
-      this.spritePosition.x,
-      this.spritePosition.y,
+      this.sprite.sourcePosition.x,
+      this.sprite.sourcePosition.y,
       this.size.x,
       this.size.y
     );
@@ -78,10 +58,14 @@ export default class Tank extends WorldEntity {
   }
 
   handleMoving(dt) {
+    if (this.turret.isShooting()) {
+      return;
+    }
+
     // test
     if (
       this.directionState != DIRECTION.NONE &&
-      this.rotationState === ROTATING.NONE
+      this.rotationState === ROTATION.NONE
     ) {
       this.center.x += this.direction.x * 0.1 * dt;
       this.center.y += this.direction.y * 0.1 * dt;
@@ -89,9 +73,9 @@ export default class Tank extends WorldEntity {
   }
 
   handleRotation(dt) {
-    if (this.rotationState === ROTATING.LEFT) {
+    if (this.rotationState === ROTATION.LEFT) {
       this.rad -= this.rotationSpeed * dt;
-    } else if (this.rotationState === ROTATING.RIGHT) {
+    } else if (this.rotationState === ROTATION.RIGHT) {
       this.rad += this.rotationSpeed * dt;
     }
   }
@@ -130,15 +114,15 @@ export default class Tank extends WorldEntity {
   }
 
   rotateRight() {
-    this.rotationState = ROTATING.RIGHT;
+    this.rotationState = ROTATION.RIGHT;
   }
 
   rotateLeft() {
-    this.rotationState = ROTATING.LEFT;
+    this.rotationState = ROTATION.LEFT;
   }
 
   stopRotation() {
-    this.rotationState = ROTATING.NONE;
+    this.rotationState = ROTATION.NONE;
 
     if (this.directionState != DIRECTION.NONE) {
       this.updateDirection();

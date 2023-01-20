@@ -1,6 +1,8 @@
 export default class ComputerControlling {
   constructor(game) {
     this.game = game;
+
+    // test
     this.entity = null;
 
     const eventManager = this.game.getEventManager();

@@ -1,7 +1,9 @@
 export default class WorldEntityManager {
   entities;
 
-  constructor() {
+  constructor(game) {
+    this.game = game;
+
     this.entities = [];
   }
 
@@ -17,6 +19,13 @@ export default class WorldEntityManager {
     for (const entity of this.entities) {
       entity.update(dt);
       entity.render(renderer);
+    }
+
+    const effects = this.game.getWorldEffectManager().getEffects();
+
+    for (const effect of effects) {
+      effect.update(dt);
+      effect.render(renderer);
     }
   }
 }

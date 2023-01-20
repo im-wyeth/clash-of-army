@@ -2,7 +2,7 @@ import { CANVAS_SIZE } from "./Configs";
 import Renderer from "./Renderer";
 import Camera from "./Camera";
 import ResourceManager from "./ResourceManager";
-import EffectManager from "./EffectManager";
+import WorldEffectManager from "./WorldEffectManager";
 import WorldEntityManager from "./WorldEntityManager";
 import WorldMap from "./WorldMap";
 import GameLoop from "./GameLoop";
@@ -16,15 +16,15 @@ export default class Game {
     this.camera = new Camera(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT);
 
     this.resourceManager = new ResourceManager();
-    this.effectManager = new EffectManager(this);
+    this.worldEffectManager = new WorldEffectManager(this);
     this.worldEntityManager = new WorldEntityManager(this);
+
     this.eventManager = new EventManager();
 
     this.worldMap = new WorldMap(this);
 
     this.gameLoop = new GameLoop(this, this.gameRenderer);
 
-    // test
     this.ComputerControlling = new ComputerControlling(this);
   }
 
@@ -40,8 +40,8 @@ export default class Game {
     return this.resourceManager;
   }
 
-  getEffectManager() {
-    return this.effectManager;
+  getWorldEffectManager() {
+    return this.worldEffectManager;
   }
 
   getWorldEntityManager() {

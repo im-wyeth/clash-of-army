@@ -1,4 +1,4 @@
-export const ROTATING = {
+export const ROTATION = {
   NONE: 0,
   LEFT: 1,
   RIGHT: 2,

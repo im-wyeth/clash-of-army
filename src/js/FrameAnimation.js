@@ -1,54 +1,30 @@
-import SpriteFrame from "./SpriteFrame";
-import Vector2 from "./Vector2";
-
 export default class FrameAnimation {
-  game;
-
-  rad;
-  center;
   playing;
 
   currFrame;
-  frameLength;
 
   currAnimationTime;
   animationTime;
 
   frames;
 
-  constructor(game, frames, spriteSheetName) {
-    this.game = game;
-
-    this.rad = 0;
-    this.center = new Vector2(0, 0);
+  constructor(frames) {
     this.playing = false;
 
     this.currFrame = 0;
-    this.frameLength = frames.length;
 
     this.currAnimationTime = 0;
     this.animationTime = 150;
 
-    this.frames = [];
-
-    for (const frame of frames) {
-      this.frames.push(
-        new SpriteFrame(frame.sX, frame.sY, frame.w, frame.h, spriteSheetName)
-      );
-    }
+    this.frames = frames;
   }
 
   isPlaying() {
     return this.playing;
   }
 
-  play(x, y, rad) {
+  play() {
     this.playing = true;
-
-    this.center.x = x;
-    this.center.y = y;
-
-    this.rad = rad;
   }
 
   stop() {
@@ -66,33 +42,8 @@ export default class FrameAnimation {
       this.currAnimationTime += dt;
     }
 
-    if (this.currFrame + 1 > this.frameLength) {
+    if (this.currFrame + 1 > this.frames.length) {
       this.stop();
-
-      return;
     }
-  }
-
-  render(renderer) {
-    if (!this.playing) {
-      return;
-    }
-
-    const sprites = this.game.getResourceManager().getSprites();
-
-    const frame = this.frames[this.currFrame];
-
-    renderer.drawImage(
-      sprites[frame.spriteSheetName],
-      this.center.x,
-      this.center.y,
-      frame.size.x,
-      frame.size.y,
-      this.rad,
-      frame.sourcePosition.x,
-      frame.sourcePosition.y,
-      frame.size.x,
-      frame.size.y
-    );
   }
 }

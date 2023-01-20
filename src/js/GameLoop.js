@@ -39,11 +39,12 @@ export default class GameLoop {
         -this.game.getCamera().center.x,
         -this.game.getCamera().center.y
       );
-    this.renderer.getCtx().scale(1, 1);
+    this.renderer
+      .getCtx()
+      .scale(this.game.getCamera().scale, this.game.getCamera().scale);
     this.game.getWorldMap().render(this.renderer);
 
     this.game.getWorldEntityManager().loop(dt, this.renderer);
-    this.game.getEffectManager().loop(dt, this.renderer);
 
     this.renderer.getCtx().restore();
 

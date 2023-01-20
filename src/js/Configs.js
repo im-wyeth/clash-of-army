@@ -13,14 +13,8 @@ export const SPRITE_SHEETS = {
   BUILDINGS: "buildings",
 };
 
-// test
-export const EFFECTS = {
-  TURRET_SHOOT_SMOKE: "turret_shoot_smoke",
-};
-
-// merge or not?
 export const EFFECTS_DATA = {
-  turret_shoot_smoke: {
+  turret_shoot_smoke_1: {
     frames: [
       { sX: 0, sY: 0, w: 67, h: 25 },
       { sX: 67, sY: 0, w: 36, h: 25 },
@@ -61,6 +55,8 @@ export const TANKS_DATA = {
     turret: {
       w: 101,
       h: 52,
+      centerShiftX: 21,
+      centerShiftY: 0,
       img_data: {
         sX: 87,
         sY: 0,

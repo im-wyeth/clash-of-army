@@ -33,7 +33,10 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
-      patterns: [{ from: "assets", to: "assets" }],
+      patterns: [
+        { from: "assets", to: "assets" },
+        { from: "json", to: "json" },
+      ],
     }),
   ],
   module: {

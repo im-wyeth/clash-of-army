@@ -1,37 +1,39 @@
-import { EFFECTS, SPRITE_SHEETS, TANKS_DATA } from "./Configs";
+import { SPRITE_SHEETS, TANKS_DATA } from "./Configs";
 import FrameAnimation from "./FrameAnimation";
 import Vector2 from "./Vector2";
-import WorldEntity from "./WorldEntity";
 import { radToVec, rotateTo, vecToRad } from "./Utils";
+import MilitaryEquipment from "./MilitaryEquipment";
+import Sprite from "./Sprite";
 
-export default class Turret extends WorldEntity {
-  tank;
+export default class Turret extends MilitaryEquipment {
+  game;
 
-  spritePosition;
+  parent;
 
-  radTo;
+  rotating;
+  shooting;
 
-  rotationSpeed;
+  constructor(game, parent) {
+    super();
 
-  constructor(game, tank) {
-    super(game);
+    this.game = game;
 
-    this.tank = tank;
-
-    this.spritePosition = new Vector2(0, 0);
-
-    this.radTo = this.rad;
-    this.rotationSpeed = 0.001;
+    this.parent = parent;
 
     this.rotating = false;
     this.shooting = false;
 
     // test
-    this.shootAnimation = new FrameAnimation(
-      game,
-      TANKS_DATA[this.tank.getTankId()].turret.animations.shoot,
-      SPRITE_SHEETS.TANKS
-    );
+    const frames = [];
+
+    for (const frame of TANKS_DATA[this.parent.getId()].turret.animations
+      .shoot) {
+      frames.push(
+        new Sprite(SPRITE_SHEETS.TANKS, frame.sX, frame.sY, frame.w, frame.h)
+      );
+    }
+
+    this.shootAnimation = new FrameAnimation(frames);
 
     this.game
       .getEventManager()
@@ -42,27 +44,21 @@ export default class Turret extends WorldEntity {
       );
   }
 
-  setSpritePosition(x, y) {
-    this.spritePosition.x = x;
-    this.spritePosition.y = y;
-  }
-
-  getRad() {
-    return this.rad;
-  }
-
   isShooting() {
     return this.shooting;
   }
 
   update(dt) {
-    this.updatePositionOnTank();
-
     // test
     if (this.rotating && !this.shooting) {
       this.rad = rotateTo(this.rad, this.radTo, this.rotationSpeed * dt);
 
+      // solve this problem
+      // console.log(1);
+
       if (this.rad === this.radTo) {
+        // console.log(2)
+
         this.rotating = false;
       }
     }
@@ -81,8 +77,24 @@ export default class Turret extends WorldEntity {
     const sprites = this.game.getResourceManager().getSprites();
 
     if (this.shootAnimation.isPlaying()) {
-      this.shootAnimation.render(renderer);
+      const sprite = this.shootAnimation.frames[this.shootAnimation.currFrame];
+
+      renderer.drawImage(
+        sprites[sprite.sheetName],
+        this.center.x,
+        this.center.y,
+        sprite.size.x,
+        sprite.size.y,
+        this.rad,
+        sprite.sourcePosition.x,
+        sprite.sourcePosition.y,
+        sprite.size.x,
+        sprite.size.y,
+        21,
+        0
+      );
     } else {
+      // test
       renderer.drawImage(
         sprites["tanks"],
         this.center.x,
@@ -90,43 +102,39 @@ export default class Turret extends WorldEntity {
         this.size.x,
         this.size.y,
         this.rad,
-        this.spritePosition.x,
-        this.spritePosition.y,
+        this.sprite.sourcePosition.x,
+        this.sprite.sourcePosition.y,
         this.size.x,
-        this.size.y
+        this.size.y,
+        21,
+        0
       );
     }
-  }
-
-  updatePositionOnTank() {
-    const pos = this.tank.getPosition();
-
-    this.center.x = pos.x;
-    this.center.y = pos.y;
   }
 
   shoot() {
     //test
     this.shooting = true;
 
-    let effectCenter = this.tank.getPosition();
+    let effectCenter = this.parent.getPosition();
 
     this.shootAnimation.play(effectCenter.x, effectCenter.y, this.rad);
 
     let dir = radToVec(this.rad);
 
+    // test
     this.game
-      .getEffectManager()
+      .getWorldEffectManager()
       .activateEffect(
-        EFFECTS.TURRET_SHOOT_SMOKE,
+        "turret_shoot_smoke_1",
         effectCenter.x + dir.x * 75,
         effectCenter.y + dir.y * 75,
         this.rad
       );
   }
 
+  // test
   mouseMoveHandler(e) {
-    // test
     const canvasScaleCoefficient =
       this.game.getGameRenderer().getCanvas().clientWidth / 1200;
 
@@ -138,8 +146,8 @@ export default class Turret extends WorldEntity {
     const worldY = mouseY + camera.center.y;
 
     let vec = new Vector2(
-      worldX - this.tank.center.x,
-      worldY - this.tank.center.y
+      worldX - this.parent.center.x,
+      worldY - this.parent.center.y
     );
 
     this.radTo = vecToRad(vec.nor());

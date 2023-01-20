@@ -1,16 +1,12 @@
 import Vector2 from "./Vector2";
 
 export default class WorldEntity {
-  game;
-
   center;
   size;
 
   rad;
 
-  constructor(game) {
-    this.game = game;
-
+  constructor() {
     this.center = new Vector2(0, 0);
     this.size = new Vector2(0, 0);
 
@@ -27,6 +23,10 @@ export default class WorldEntity {
     this.size.y = h;
   }
 
+  setRotation(rad) {
+    this.rad = rad;
+  }
+
   getPosition() {
     return this.center;
   }
@@ -35,7 +35,7 @@ export default class WorldEntity {
     return this.size;
   }
 
-  setRotation(rad) {
-    this.rad = rad;
+  getRad() {
+    return this.rad;
   }
 }

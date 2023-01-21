@@ -21,10 +21,9 @@ export default class GameLoop {
     this.game.getCamera().update(dt);
 
     // test
-    this.renderer.getCtx().fillStyle = "gray";
     this.renderer
       .getCtx()
-      .fillRect(
+      .clearRect(
         0,
         0,
         this.renderer.getCanvas().width,
@@ -42,9 +41,10 @@ export default class GameLoop {
     this.renderer
       .getCtx()
       .scale(this.game.getCamera().scale, this.game.getCamera().scale);
-    this.game.getWorldMap().render(this.renderer);
 
+    this.game.getWorld().loop(dt, this.renderer);
     this.game.getWorldEntityManager().loop(dt, this.renderer);
+    this.game.getWorldEffectManager().loop(dt, this.renderer);
 
     this.renderer.getCtx().restore();
 

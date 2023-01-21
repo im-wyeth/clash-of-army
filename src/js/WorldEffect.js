@@ -42,8 +42,6 @@ export default class WorldEffect extends WorldEntity {
     this.rad = rad;
 
     this.frameAnimation.play();
-
-    console.log(this.frameAnimation.currFrame);
   }
 
   update(dt) {

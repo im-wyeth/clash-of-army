@@ -5,19 +5,12 @@ import Game from "./js/Game";
 import Tank from "./js/Tank";
 import Sprite from "./js/Sprite";
 
-const canvasBase = document.getElementsByClassName("canvas-base")[0];
-
-const gameWorldCanvas = document.createElement("canvas");
-gameWorldCanvas.width = CANVAS_SIZE.WIDTH;
-gameWorldCanvas.height = CANVAS_SIZE.HEIGHT;
-gameWorldCanvas.classList.add("game-world-canvas");
-
 const gameCanvas = document.createElement("canvas");
 gameCanvas.width = CANVAS_SIZE.WIDTH;
 gameCanvas.height = CANVAS_SIZE.HEIGHT;
 gameCanvas.classList.add("game-canvas");
 
-const game = new Game(gameWorldCanvas, gameCanvas);
+const game = new Game(gameCanvas);
 
 async function main() {
   await game.getResourceManager().loadSprites(SPRITES);
@@ -57,11 +50,10 @@ async function main() {
   game.getCamera().lookAt(tank);
 
   game.getWorldEntityManager().addEntity(tank);
-  game.ComputerControlling.entity = tank;
+  game.computerControlling.entity = tank;
   //
 
-  canvasBase.appendChild(gameWorldCanvas);
-  canvasBase.appendChild(gameCanvas);
+  document.body.appendChild(gameCanvas);
 
   game.play();
 }

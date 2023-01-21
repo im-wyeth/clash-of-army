@@ -1,5 +1,5 @@
-export default [
-  {
+export const LOCATIONS = {
+  1: {
     width: 40,
     height: 25,
     tiles: [
@@ -105,4 +105,4 @@ export default [
       ],
     ],
   },
-];
+};

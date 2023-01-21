@@ -35,4 +35,11 @@ export default class WorldEffectManager {
 
     effect.activate(x, y, rad);
   }
+
+  loop(dt, renderer) {
+    for (const effect of this.effects) {
+      effect.update(dt);
+      effect.render(renderer);
+    }
+  }
 }

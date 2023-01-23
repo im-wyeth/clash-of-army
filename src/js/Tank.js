@@ -85,6 +85,7 @@ export default class Tank extends MilitaryEquipment {
   }
 
   updateDirection() {
+    // test
     switch (this.directionState) {
       case DIRECTION.FORWARD:
         this.direction = radToVec(this.rad);

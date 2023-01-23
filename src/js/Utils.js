@@ -1,3 +1,4 @@
+import Sprite from "./Sprite";
 import Vector2 from "./Vector2";
 
 export function radToDeg(rad) {
@@ -45,4 +46,23 @@ export function radToVec(rad) {
 
 export function vecToRad(vec) {
   return Math.atan2(vec.y, vec.x);
+}
+
+// test
+export function convertSpriteDataToSpriteModels(spritesInfo, spriteSheetName) {
+  const sprites = [];
+
+  for (const spriteInfo of spritesInfo) {
+    sprites.push(
+      new Sprite(
+        spriteSheetName,
+        spriteInfo.sX,
+        spriteInfo.sY,
+        spriteInfo.w,
+        spriteInfo.h
+      )
+    );
+  }
+
+  return sprites;
 }

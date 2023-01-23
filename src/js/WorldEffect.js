@@ -1,6 +1,6 @@
 import { SPRITE_SHEETS } from "./Configs";
 import FrameAnimation from "./FrameAnimation";
-import Sprite from "./Sprite";
+import { convertSpriteDataToSpriteModels } from "./Utils";
 import WorldEntity from "./WorldEntity";
 
 export default class WorldEffect extends WorldEntity {
@@ -19,14 +19,9 @@ export default class WorldEffect extends WorldEntity {
 
     this.active = false;
 
-    const animationFrames = [];
-    for (const frame of frames) {
-      animationFrames.push(
-        new Sprite(SPRITE_SHEETS.EFFECTS, frame.sX, frame.sY, frame.w, frame.h)
-      );
-    }
-
-    this.frameAnimation = new FrameAnimation(animationFrames);
+    this.frameAnimation = new FrameAnimation(
+      convertSpriteDataToSpriteModels(frames, SPRITE_SHEETS.EFFECTS)
+    );
   }
 
   getFrameAnimation() {

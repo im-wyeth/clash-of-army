@@ -1,7 +1,12 @@
 import { SPRITE_SHEETS, TANKS_DATA } from "./Configs";
 import FrameAnimation from "./FrameAnimation";
 import Vector2 from "./Vector2";
-import { radToVec, rotateTo, vecToRad } from "./Utils";
+import {
+  convertSpriteDataToSpriteModels,
+  radToVec,
+  rotateTo,
+  vecToRad,
+} from "./Utils";
 import MilitaryEquipment from "./MilitaryEquipment";
 import Sprite from "./Sprite";
 
@@ -24,16 +29,12 @@ export default class Turret extends MilitaryEquipment {
     this.shooting = false;
 
     // test
-    const frames = [];
-
-    for (const frame of TANKS_DATA[this.parent.getId()].turret.animations
-      .shoot) {
-      frames.push(
-        new Sprite(SPRITE_SHEETS.TANKS, frame.sX, frame.sY, frame.w, frame.h)
-      );
-    }
-
-    this.shootAnimation = new FrameAnimation(frames);
+    this.shootAnimation = new FrameAnimation(
+      convertSpriteDataToSpriteModels(
+        TANKS_DATA[this.parent.getId()].turret.animations.shoot,
+        SPRITE_SHEETS.TANKS
+      )
+    );
 
     this.game
       .getEventManager()

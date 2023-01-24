@@ -1,3 +1,5 @@
+import { convertMousePointToWorld } from "./Utils";
+
 export default class ComputerControlling {
   constructor(game) {
     this.game = game;
@@ -9,6 +11,7 @@ export default class ComputerControlling {
     eventManager.addCaller("click", this.click.bind(this));
     eventManager.addCaller("keydown", this.keydown.bind(this));
     eventManager.addCaller("keyup", this.keyup.bind(this));
+    eventManager.addCaller("mousemove", this.mousemove.bind(this));
   }
 
   click(e) {
@@ -48,5 +51,24 @@ export default class ComputerControlling {
         this.entity.stopRotation();
         break;
     }
+  }
+
+  mousemove(e) {
+    // test
+    const canvasScaleCoefficient =
+      this.game.getGameRenderer().getCanvas().clientWidth / 1200;
+
+    const mouseX = Math.round(e.offsetX / canvasScaleCoefficient);
+    const mouseY = Math.round(e.offsetY / canvasScaleCoefficient);
+
+    const { x, y } = this.game.getCamera().getPosition();
+    const { worldX, worldY } = convertMousePointToWorld(mouseX, mouseY, x, y);
+
+    this.entity
+      .getTurret()
+      .rotateToPoint(
+        worldX - this.entity.center.x,
+        worldY - this.entity.center.y
+      );
   }
 }

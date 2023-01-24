@@ -66,3 +66,10 @@ export function convertSpriteDataToSpriteModels(spritesInfo, spriteSheetName) {
 
   return sprites;
 }
+
+export function convertMousePointToWorld(mouseX, mouseY, cameraX, cameraY) {
+  return {
+    worldX: mouseX + cameraX,
+    worldY: mouseY + cameraY,
+  };
+}

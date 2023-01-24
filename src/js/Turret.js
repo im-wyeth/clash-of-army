@@ -8,7 +8,6 @@ import {
   vecToRad,
 } from "./Utils";
 import MilitaryEquipment from "./MilitaryEquipment";
-import Sprite from "./Sprite";
 
 export default class Turret extends MilitaryEquipment {
   game;
@@ -35,14 +34,6 @@ export default class Turret extends MilitaryEquipment {
         SPRITE_SHEETS.TANKS
       )
     );
-
-    this.game
-      .getEventManager()
-      .addCallerToElem(
-        this.game.getGameRenderer().getCanvas(),
-        "mousemove",
-        this.mouseMoveHandler.bind(this)
-      );
   }
 
   isShooting() {
@@ -115,43 +106,28 @@ export default class Turret extends MilitaryEquipment {
 
   shoot() {
     //test
-    this.shooting = true;
-
-    let effectCenter = this.parent.getPosition();
+    const effectCenter = this.parent.getPosition();
+    const dir = radToVec(this.rad);
 
     this.shootAnimation.play(effectCenter.x, effectCenter.y, this.rad);
 
-    let dir = radToVec(this.rad);
-
-    // test
     this.game
       .getWorldEffectManager()
       .activateEffect(
         "turret_shoot_smoke_1",
-        effectCenter.x + dir.x * 75,
-        effectCenter.y + dir.y * 75,
+        effectCenter.x + dir.x * 95,
+        effectCenter.y + dir.y * 95,
         this.rad
       );
+
+    this.shooting = true;
   }
 
   // test
-  mouseMoveHandler(e) {
-    const canvasScaleCoefficient =
-      this.game.getGameRenderer().getCanvas().clientWidth / 1200;
+  rotateToPoint(pointX, pointY) {
+    let vecToPoint = new Vector2(pointX, pointY);
 
-    const mouseX = Math.round(e.offsetX / canvasScaleCoefficient);
-    const mouseY = Math.round(e.offsetY / canvasScaleCoefficient);
-
-    const camera = this.game.getCamera();
-    const worldX = mouseX + camera.center.x;
-    const worldY = mouseY + camera.center.y;
-
-    let vec = new Vector2(
-      worldX - this.parent.center.x,
-      worldY - this.parent.center.y
-    );
-
-    this.radTo = vecToRad(vec.nor());
+    this.radTo = vecToRad(vecToPoint.nor());
 
     this.rotating = true;
   }

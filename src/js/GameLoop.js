@@ -4,12 +4,10 @@ export default class GameLoop {
     this.renderer = renderer;
 
     this.lastDT = Date.now();
-
-    this.rAF = null;
   }
 
   start() {
-    this.rAF = window.requestAnimationFrame(this.loop.bind(this));
+    window.requestAnimationFrame(this.loop.bind(this));
   }
 
   loop() {

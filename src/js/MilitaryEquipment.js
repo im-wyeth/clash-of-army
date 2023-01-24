@@ -3,7 +3,6 @@ import Vector2 from "./Vector2";
 import WorldEntity from "./WorldEntity";
 
 export default class MilitaryEquipment extends WorldEntity {
-  spritePosition;
   centerShift;
   direction;
 

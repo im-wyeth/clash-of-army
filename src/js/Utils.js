@@ -1,6 +1,8 @@
 import Sprite from "./Sprite";
 import Vector2 from "./Vector2";
 
+const TWO_PI = 2 * Math.PI;
+
 export function radToDeg(rad) {
   return (rad * 180) / Math.PI;
 }
@@ -9,35 +11,37 @@ export function degToRad(deg) {
   return (deg * Math.PI) / 180;
 }
 
-export function normalizeDegrees(deg) {
+export function normalizeDegree(deg) {
   return deg < 0 || deg > 360 ? (deg + 360) % 360 : deg;
 }
 
+export function normalizeRadian(rad) {
+  return rad < 0 || rad > TWO_PI ? (rad + TWO_PI) % TWO_PI : rad;
+}
+
 export function rotateTo(rad, radTo, rotationSpeed) {
-  let curr = normalizeDegrees(radToDeg(rad));
-  let to = normalizeDegrees(radToDeg(radTo));
+  rad = normalizeRadian(rad);
+  radTo = normalizeRadian(radTo);
 
-  let res = rad;
-
-  if (curr < to) {
-    if (Math.abs(curr - to) < 180) {
-      res += rotationSpeed;
+  if (rad < radTo) {
+    if (Math.abs(rad - radTo) < Math.PI) {
+      rad += rotationSpeed;
     } else {
-      res -= rotationSpeed;
+      rad -= rotationSpeed;
     }
   } else {
-    if (Math.abs(curr - to) < 180) {
-      res -= rotationSpeed;
+    if (Math.abs(rad - radTo) < Math.PI) {
+      rad -= rotationSpeed;
     } else {
-      res += rotationSpeed;
+      rad += rotationSpeed;
     }
   }
 
   if (Math.abs(rad - radTo) <= rotationSpeed) {
-    res = radTo;
+    rad = radTo;
   }
 
-  return res;
+  return rad;
 }
 
 export function radToVec(rad) {

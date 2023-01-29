@@ -46,11 +46,7 @@ export default class Turret extends MilitaryEquipment {
       this.rad = rotateTo(this.rad, this.radTo, this.rotationSpeed * dt);
 
       // solve this problem
-      // console.log(1);
-
       if (this.rad === this.radTo) {
-        // console.log(2)
-
         this.rotating = false;
       }
     }

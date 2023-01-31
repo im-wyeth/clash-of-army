@@ -6,6 +6,7 @@ import {
   radToVec,
   rotateTo,
   vecToRad,
+  normalizeRadian,
 } from "./Utils";
 import MilitaryEquipment from "./MilitaryEquipment";
 
@@ -43,9 +44,12 @@ export default class Turret extends MilitaryEquipment {
   update(dt) {
     // test
     if (this.rotating && !this.shooting) {
-      this.rad = rotateTo(this.rad, this.radTo, this.rotationSpeed * dt);
+      this.rad = rotateTo(
+        normalizeRadian(this.rad),
+        normalizeRadian(this.radTo),
+        this.rotationSpeed * dt
+      );
 
-      // solve this problem
       if (this.rad === this.radTo) {
         this.rotating = false;
       }

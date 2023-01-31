@@ -20,8 +20,9 @@ export function normalizeRadian(rad) {
 }
 
 export function rotateTo(rad, radTo, rotationSpeed) {
-  rad = normalizeRadian(rad);
-  radTo = normalizeRadian(radTo);
+  if (Math.abs(rad - radTo) <= rotationSpeed) {
+    return radTo;
+  }
 
   if (rad < radTo) {
     if (Math.abs(rad - radTo) < Math.PI) {
@@ -35,10 +36,6 @@ export function rotateTo(rad, radTo, rotationSpeed) {
     } else {
       rad += rotationSpeed;
     }
-  }
-
-  if (Math.abs(rad - radTo) <= rotationSpeed) {
-    rad = radTo;
   }
 
   return rad;

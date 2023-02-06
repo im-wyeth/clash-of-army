@@ -13,7 +13,7 @@ export default class GameLoop {
   loop() {
     if (this.paused) return;
 
-    const dt = Date.now() - this.lastDT;
+    const dt = 1 / (Date.now() - this.lastDT);
     this.lastDT = Date.now();
 
     this.game.getCamera().update(dt);

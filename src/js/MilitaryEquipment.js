@@ -21,7 +21,7 @@ export default class MilitaryEquipment extends WorldEntity {
     this.direction = new Vector2(0, 0);
 
     this.radTo = this.rad;
-    this.rotationSpeed = 1;
+    this.rotationSpeed = 0.1;
 
     this.directionState = DIRECTION.NONE;
     this.rotationState = ROTATION.NONE;

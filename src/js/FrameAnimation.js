@@ -14,7 +14,7 @@ export default class FrameAnimation {
     this.currFrame = 0;
 
     this.currAnimationTime = 0;
-    this.animationTime = 150;
+    this.animationTime = 0.8;
 
     this.frames = frames;
   }

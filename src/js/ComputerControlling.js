@@ -43,7 +43,7 @@ export default class ComputerControlling {
     switch (e.key) {
       case "w":
       case "s":
-        this.entity.stopMoving();
+        this.entity.gasUnpress();
         break;
       case "d":
         this.entity.stopRotation();

@@ -52,6 +52,7 @@ export const TANKS_DATA = {
       sX: 0,
       sY: 0,
     },
+    hitbox_data: {},
     turret: {
       w: 101,
       h: 52,
@@ -61,6 +62,7 @@ export const TANKS_DATA = {
         sX: 87,
         sY: 0,
       },
+      hitbox_data: {},
       animations: {
         shoot: [
           { sX: 0, sY: 52, w: 101, h: 52 },

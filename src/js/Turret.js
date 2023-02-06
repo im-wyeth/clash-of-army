@@ -16,7 +16,6 @@ export default class Turret extends MilitaryEquipment {
   parent;
 
   rotating;
-  shooting;
 
   constructor(game, parent) {
     super();
@@ -26,7 +25,6 @@ export default class Turret extends MilitaryEquipment {
     this.parent = parent;
 
     this.rotating = false;
-    this.shooting = false;
 
     // test
     this.shootAnimation = new FrameAnimation(
@@ -37,13 +35,9 @@ export default class Turret extends MilitaryEquipment {
     );
   }
 
-  isShooting() {
-    return this.shooting;
-  }
-
   update(dt) {
     // test
-    if (this.rotating && !this.shooting) {
+    if (this.rotating && !this.parent.isShooting()) {
       this.rad = rotateTo(
         normalizeRadian(this.rad),
         normalizeRadian(this.radTo),
@@ -59,8 +53,8 @@ export default class Turret extends MilitaryEquipment {
     if (this.shootAnimation.isPlaying()) {
       this.shootAnimation.update(dt);
     } else {
-      if (this.shooting) {
-        this.shooting = false;
+      if (this.parent.isShooting()) {
+        this.parent.setShooting(false);
       }
     }
   }
@@ -119,8 +113,6 @@ export default class Turret extends MilitaryEquipment {
         effectCenter.y + dir.y * 95,
         this.rad
       );
-
-    this.shooting = true;
   }
 
   // test

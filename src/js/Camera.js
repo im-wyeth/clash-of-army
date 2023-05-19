@@ -1,5 +1,4 @@
 import Vector2 from "./Vector2";
-import WorldEntity from "./WorldEntity";
 
 export default class Camera {
   center;
@@ -11,8 +10,12 @@ export default class Camera {
     this.center = new Vector2(0, 0);
     this.size = new Vector2(w, h);
 
-    this.followTo = false;
     this.zoom = 1;
+  }
+
+  setPosition(x, y) {
+    this.center.x = x;
+    this.center.y = y;
   }
 
   getPosition() {
@@ -23,18 +26,8 @@ export default class Camera {
     return this.zoom;
   }
 
-  lookAt(entity) {
-    if (entity instanceof WorldEntity) {
-      this.followTo = entity;
-    }
-  }
-
-  update(dt) {
-    if (this.followTo) {
-      const position = this.followTo.getPosition();
-
-      this.center.x = position.x - this.size.x / 2 / this.zoom;
-      this.center.y = position.y - this.size.y / 2 / this.zoom;
-    }
+  centerOn(x, y) {
+    this.center.x = x - this.size.x / 2 / this.zoom;
+    this.center.y = y - this.size.y / 2 / this.zoom;
   }
 }

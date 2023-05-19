@@ -1,12 +1,13 @@
 export const CANVAS_SIZE = {
-  WIDTH: 1200,
-  HEIGHT: 800,
+  WIDTH: window.innerWidth,
+  HEIGHT: window.innerHeight,
 };
 
 export const SPRITE_SHEETS = {
   TANKS: "tanks",
   RSZO: "rszo",
   ARTILLERY: "artillery",
+  TANK_DESTROYER: "tank_destroyer",
   ICONS: "icons",
   EFFECTS: "effects",
   TILES: "tiles",
@@ -117,3 +118,7 @@ export const TILES_DATA = [
     h: 48,
   },
 ];
+
+const BUILDINGS_DATA = {};
+
+export const LOOP_TIME_STEP = 1000 / 60;

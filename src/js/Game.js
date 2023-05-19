@@ -1,10 +1,9 @@
 import { CANVAS_SIZE } from "./Configs";
+import { Camera, EventManager } from "@nexty-org/core";
 import Renderer from "./Renderer";
-import Camera from "./Camera";
 import ResourceManager from "./ResourceManager";
 import World from "./World";
 import GameLoop from "./GameLoop";
-import EventManager from "./EventManager";
 import ComputerControlling from "./ComputerControlling";
 import WorldEntityManager from "./WorldEntityManager";
 import WorldEffectManager from "./WorldEffectManager";
@@ -15,7 +14,12 @@ export default class Game {
     this.camera = new Camera(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT);
 
     this.resourceManager = new ResourceManager();
-    this.eventManager = new EventManager();
+    this.eventManager = new EventManager([
+      "click",
+      "mousemove",
+      "keydown",
+      "keyup",
+    ]);
 
     this.world = new World(this);
     this.worldEntityManager = new WorldEntityManager(this);

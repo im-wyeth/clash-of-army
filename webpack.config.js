@@ -8,12 +8,13 @@ __webpack_base_uri__ = "http://localhost:8080";
 module.exports = {
   context: path.resolve(__dirname, "src"),
   mode: "development",
-  entry: "./index.js",
+  entry: "./index.ts",
   output: {
     filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
   },
   resolve: {
+    extensions: [".ts", ".js"],
     alias: {
       "@models": path.resolve(__dirname, "src/models"),
       "@": path.resolve(__dirname, "src"),
@@ -52,6 +53,11 @@ module.exports = {
       {
         test: /\.(ttf|woff|woff2|eot)/,
         use: ["file-loader"],
+      },
+      {
+        test: /\.ts/,
+        use: "ts-loader",
+        exclude: /node_modules/,
       },
     ],
   },

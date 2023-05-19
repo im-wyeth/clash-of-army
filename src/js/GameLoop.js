@@ -1,9 +1,14 @@
+const GAME_TICK_MS = 1000 / 60;
+
 export default class GameLoop {
   constructor(game, renderer) {
     this.game = game;
     this.renderer = renderer;
 
-    this.lastDT = Date.now();
+    this.previousTime = Date.now();
+    this.lag = 0;
+
+    this.l = Date.now();
   }
 
   start() {
@@ -11,12 +16,31 @@ export default class GameLoop {
   }
 
   loop() {
-    if (this.paused) return;
+    window.requestAnimationFrame(this.loop.bind(this));
 
-    const dt = 1 / (Date.now() - this.lastDT);
-    this.lastDT = Date.now();
+    const currentTime = Date.now();
+    const elapsedTime = currentTime - this.previousTime;
 
-    this.game.getCamera().update(dt);
+    this.previousTime = currentTime;
+    this.lag += elapsedTime;
+
+    while (this.lag >= GAME_TICK_MS) {
+      this.update(GAME_TICK_MS);
+
+      this.lag -= GAME_TICK_MS;
+    }
+
+    const interpolationValue = this.lag / GAME_TICK_MS;
+    this.render(interpolationValue);
+  }
+
+  update(tickMs) {
+    this.game.getWorldEntityManager().update(tickMs);
+    this.game.getWorldEffectManager().update(tickMs);
+  }
+
+  render(interpolationValue) {
+    this.game.getCamera().begin(this.renderer.getCtx());
 
     // test
     this.renderer
@@ -28,24 +52,10 @@ export default class GameLoop {
         this.renderer.getCanvas().height
       );
 
-    this.renderer.getCtx().save();
+    this.game.getWorld().render(this.renderer, interpolationValue);
+    this.game.getWorldEntityManager().render(this.renderer, interpolationValue);
+    this.game.getWorldEffectManager().render(this.renderer, interpolationValue);
 
-    this.renderer
-      .getCtx()
-      .translate(
-        -this.game.getCamera().center.x,
-        -this.game.getCamera().center.y
-      );
-    this.renderer
-      .getCtx()
-      .scale(this.game.getCamera().scale, this.game.getCamera().scale);
-
-    this.game.getWorld().loop(dt, this.renderer);
-    this.game.getWorldEntityManager().loop(dt, this.renderer);
-    this.game.getWorldEffectManager().loop(dt, this.renderer);
-
-    this.renderer.getCtx().restore();
-
-    window.requestAnimationFrame(this.loop.bind(this));
+    this.game.getCamera().end(this.renderer.getCtx());
   }
 }

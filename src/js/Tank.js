@@ -1,7 +1,10 @@
 import { DIRECTION, ROTATION } from "./Enums";
 import MilitaryEquipment from "./MilitaryEquipment";
 import Turret from "./Turret";
-import { degToRad, radToVec, radToDeg } from "./Utils";
+import { degToRad, radToVec, radToDeg } from "@nexty-org/core";
+
+// test
+const ONE_SECOND_MS = 1000;
 
 export default class Tank extends MilitaryEquipment {
   game;
@@ -22,11 +25,11 @@ export default class Tank extends MilitaryEquipment {
     // test
     this.gasPressed = false;
 
-    this.maxVelocity = 28;
-    this.velocity = 0;
-    this.acceleration = 1.5;
+    this.maxVelocityPerSecond = 28;
+    this.velocityPerSecond = 100;
+    this.accelerationPerSecond = 1.5;
 
-    this.brakingForce = 5;
+    this.brakingForcePerSecond = 5;
     this.braking = false;
 
     this.shooting = false;
@@ -50,16 +53,16 @@ export default class Tank extends MilitaryEquipment {
     this.shooting = shooting;
   }
 
-  update(dt) {
-    this.handleMoving(dt);
-    this.handleRotation(dt);
+  update(tickMs) {
+    this.handleMoving(tickMs);
+    this.handleRotation(tickMs);
 
     this.turret.setPosition(this.center.x, this.center.y);
 
-    this.turret.update(dt);
+    this.turret.update(tickMs);
   }
 
-  render(renderer) {
+  render(renderer, deltaTime) {
     const sprites = this.game.getResourceManager().getSprites();
 
     renderer.drawImage(
@@ -78,7 +81,7 @@ export default class Tank extends MilitaryEquipment {
     this.turret.render(renderer);
   }
 
-  handleMoving(dt) {
+  handleMoving(tickMs) {
     this.updateDirection();
 
     if (this.directionState === DIRECTION.NONE) {
@@ -87,47 +90,52 @@ export default class Tank extends MilitaryEquipment {
 
     // test (если идет торможение и если скорость не сброшена)
     if (this.braking) {
-      if (this.velocity - this.brakingForce * dt <= 0) {
-        this.velocity = 0;
+      if (this.velocityPerSecond - this.brakingForcePerSecond * tickMs <= 0) {
+        this.velocityPerSecond = 0;
 
         this.braking = false;
 
         this.directionState = DIRECTION.NONE;
       } else {
-        this.velocity -= this.brakingForce * dt;
+        this.velocityPerSecond -= this.brakingForcePerSecond * tickMs;
       }
     }
 
     // test (если газ не нажат, но скорость имеется)
-    if (!this.gasPressed && this.velocity > 0) {
-      if (this.velocity - (this.weight / 5000) * dt <= 0) {
-        this.velocity = 0;
+    if (!this.gasPressed && this.velocityPerSecond > 0) {
+      if (this.velocityPerSecond - (this.weight / 5000) * tickMs <= 0) {
+        this.velocityPerSecond = 0;
       } else {
-        this.velocity -= (this.weight / 5000) * dt;
+        this.velocityPerSecond -= (this.weight / 5000) * tickMs;
       }
     }
 
     // test (если педаль газа нажата, но ускорение не максимальное)
-    if (this.gasPressed && this.velocity < this.maxVelocity) {
-      if (this.velocity + this.acceleration >= this.maxVelocity) {
-        this.velocity = this.maxVelocity;
+    if (this.gasPressed && this.velocityPerSecond < this.maxVelocityPerSecond) {
+      if (
+        this.velocityPerSecond + this.accelerationPerSecond >=
+        this.maxVelocityPerSecond
+      ) {
+        this.velocityPerSecond = this.maxVelocityPerSecond;
       } else {
-        this.velocity += this.acceleration * dt;
+        this.velocityPerSecond += this.accelerationPerSecond * tickMs;
       }
     }
 
     // test (если танк не стоит)
-    if (this.directionState != DIRECTION.NONE || this.velocity > 0) {
-      this.center.x += this.direction.x * this.velocity * dt;
-      this.center.y += this.direction.y * this.velocity * dt;
+    if (this.directionState != DIRECTION.NONE || this.velocityPerSecond > 0) {
+      this.center.x +=
+        this.direction.x * ((this.velocityPerSecond / ONE_SECOND_MS) * tickMs);
+      this.center.y +=
+        this.direction.y * ((this.velocityPerSecond / ONE_SECOND_MS) * tickMs);
     }
   }
 
-  handleRotation(dt) {
+  handleRotation(tickMs) {
     if (this.rotationState === ROTATION.LEFT) {
-      this.rad -= this.rotationSpeed * dt;
+      this.rad -= (this.rotationRadSpeedPerSecond / ONE_SECOND_MS) * tickMs;
     } else if (this.rotationState === ROTATION.RIGHT) {
-      this.rad += this.rotationSpeed * dt;
+      this.rad += (this.rotationRadSpeedPerSecond / ONE_SECOND_MS) * tickMs;
     }
   }
 

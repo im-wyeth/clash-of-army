@@ -1,14 +1,17 @@
 import { SPRITE_SHEETS, TANKS_DATA } from "./Configs";
 import FrameAnimation from "./FrameAnimation";
-import Vector2 from "./Vector2";
 import {
+  Vector2,
   convertSpriteDataToSpriteModels,
   radToVec,
   rotateTo,
   vecToRad,
   normalizeRadian,
-} from "./Utils";
+} from "@nexty-org/core";
 import MilitaryEquipment from "./MilitaryEquipment";
+
+// test
+const ONE_SECOND_MS = 1000;
 
 export default class Turret extends MilitaryEquipment {
   game;
@@ -35,13 +38,13 @@ export default class Turret extends MilitaryEquipment {
     );
   }
 
-  update(dt) {
+  update(tickMs) {
     // test
     if (this.rotating && !this.parent.isShooting()) {
       this.rad = rotateTo(
         normalizeRadian(this.rad),
         normalizeRadian(this.radTo),
-        this.rotationSpeed * dt
+        (this.rotationRadSpeedPerSecond / ONE_SECOND_MS) * tickMs
       );
 
       if (this.rad === this.radTo) {
@@ -51,7 +54,7 @@ export default class Turret extends MilitaryEquipment {
     //
 
     if (this.shootAnimation.isPlaying()) {
-      this.shootAnimation.update(dt);
+      this.shootAnimation.update(tickMs);
     } else {
       if (this.parent.isShooting()) {
         this.parent.setShooting(false);
@@ -59,7 +62,7 @@ export default class Turret extends MilitaryEquipment {
     }
   }
 
-  render(renderer) {
+  render(renderer, deltaTime) {
     const sprites = this.game.getResourceManager().getSprites();
 
     if (this.shootAnimation.isPlaying()) {

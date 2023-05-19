@@ -1,4 +1,4 @@
-import { convertMousePointToWorld } from "./Utils";
+import { convertMousePointToWorld } from "@nexty-org/core";
 
 export default class ComputerControlling {
   constructor(game) {
@@ -12,9 +12,11 @@ export default class ComputerControlling {
     eventManager.addCaller("keydown", this.keydown.bind(this));
     eventManager.addCaller("keyup", this.keyup.bind(this));
     eventManager.addCaller("mousemove", this.mousemove.bind(this));
+
+    console.log(1);
   }
 
-  click(e) {
+  click() {
     this.entity.shoot();
   }
 
@@ -55,20 +57,25 @@ export default class ComputerControlling {
 
   mousemove(e) {
     // test
-    const canvasScaleCoefficient =
-      this.game.getGameRenderer().getCanvas().clientWidth / 1200;
+    const canvasScaleCoefficient = 1;
 
     const mouseX = Math.round(e.offsetX / canvasScaleCoefficient);
     const mouseY = Math.round(e.offsetY / canvasScaleCoefficient);
 
-    const { x, y } = this.game.getCamera().getPosition();
-    const { worldX, worldY } = convertMousePointToWorld(mouseX, mouseY, x, y);
+    const { x, y } = this.game.getCamera().getOffset();
+    const world = convertMousePointToWorld(
+      mouseX,
+      mouseY,
+      this.game.getCamera().getZoom(),
+      x,
+      y
+    );
 
     this.entity
       .getTurret()
       .rotateToPoint(
-        worldX - this.entity.center.x,
-        worldY - this.entity.center.y
+        world.x - this.entity.center.x,
+        world.y - this.entity.center.y
       );
   }
 }

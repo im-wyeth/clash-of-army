@@ -15,10 +15,15 @@ export default class WorldEntityManager {
     this.entities.push(entity);
   }
 
-  loop(dt, renderer) {
+  update(tickMs) {
     for (const entity of this.entities) {
-      entity.update(dt);
-      entity.render(renderer);
+      entity.update(tickMs);
+    }
+  }
+
+  render(renderer, interpolationValue) {
+    for (const entity of this.entities) {
+      entity.render(renderer, interpolationValue);
     }
   }
 }

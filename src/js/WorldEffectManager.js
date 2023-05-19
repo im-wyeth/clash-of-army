@@ -36,10 +36,15 @@ export default class WorldEffectManager {
     effect.activate(x, y, rad);
   }
 
-  loop(dt, renderer) {
+  update(tickMs) {
     for (const effect of this.effects) {
-      effect.update(dt);
-      effect.render(renderer);
+      effect.update(tickMs);
+    }
+  }
+
+  render(renderer, interpolationValue) {
+    for (const effect of this.effects) {
+      effect.render(renderer, interpolationValue);
     }
   }
 }

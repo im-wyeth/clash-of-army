@@ -1,6 +1,6 @@
 import { SPRITE_SHEETS } from "./Configs";
 import FrameAnimation from "./FrameAnimation";
-import { convertSpriteDataToSpriteModels } from "./Utils";
+import { convertSpriteDataToSpriteModels } from "@nexty-org/core";
 import WorldEntity from "./WorldEntity";
 
 export default class WorldEffect extends WorldEntity {
@@ -39,7 +39,7 @@ export default class WorldEffect extends WorldEntity {
     this.frameAnimation.play();
   }
 
-  update(dt) {
+  update(tickMs) {
     if (!this.active) {
       return;
     }
@@ -48,10 +48,10 @@ export default class WorldEffect extends WorldEntity {
       this.active = false;
     }
 
-    this.frameAnimation.update(dt);
+    this.frameAnimation.update(tickMs);
   }
 
-  render(renderer) {
+  render(renderer, interpolationValue) {
     if (!this.frameAnimation.isPlaying()) {
       return;
     }

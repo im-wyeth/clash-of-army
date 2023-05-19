@@ -14,7 +14,7 @@ export default class FrameAnimation {
     this.currFrame = 0;
 
     this.currAnimationTime = 0;
-    this.animationTime = 0.8;
+    this.animationTime = 100;
 
     this.frames = frames;
   }
@@ -33,13 +33,13 @@ export default class FrameAnimation {
     this.currFrame = 0;
   }
 
-  update(dt) {
+  update(tickMs) {
     if (this.currAnimationTime >= this.animationTime) {
       this.currFrame += 1;
 
       this.currAnimationTime = 0;
     } else {
-      this.currAnimationTime += dt;
+      this.currAnimationTime += tickMs;
     }
 
     if (this.currFrame + 1 > this.frames.length) {

@@ -1,4 +1,4 @@
-import Vector2 from "./Vector2";
+import { Vector2 } from "@nexty-org/core";
 
 export default class WorldEntity {
   center;

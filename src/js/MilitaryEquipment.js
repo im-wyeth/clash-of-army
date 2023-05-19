@@ -1,5 +1,5 @@
 import { DIRECTION, ROTATION } from "./Enums";
-import Vector2 from "./Vector2";
+import { Vector2 } from "@nexty-org/core";
 import WorldEntity from "./WorldEntity";
 
 export default class MilitaryEquipment extends WorldEntity {
@@ -21,7 +21,7 @@ export default class MilitaryEquipment extends WorldEntity {
     this.direction = new Vector2(0, 0);
 
     this.radTo = this.rad;
-    this.rotationSpeed = 0.1;
+    this.rotationRadSpeedPerSecond = 1.2;
 
     this.directionState = DIRECTION.NONE;
     this.rotationState = ROTATION.NONE;

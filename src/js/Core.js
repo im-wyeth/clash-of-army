@@ -1,6 +1,6 @@
 import SceneManager from "./Managers/SceneManager";
 import ResourceManager from "./ResourceManager";
-import Renderer from "./Renderer";
+import Renderer from "./CanvasRenderer";
 
 import { SPRITES } from "./Configs";
 

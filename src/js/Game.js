@@ -1,6 +1,6 @@
 import { CANVAS_SIZE } from "./Configs";
 import { Camera, EventManager } from "@nexty-org/core";
-import Renderer from "./Renderer";
+import Renderer from "./CanvasRenderer";
 import ResourceManager from "./ResourceManager";
 import World from "./World";
 import GameLoop from "./GameLoop";

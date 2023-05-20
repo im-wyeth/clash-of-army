@@ -1,63 +1,28 @@
 import "./styles/styles.css";
 
-import { CANVAS_SIZE, TANKS_DATA, SPRITES, SPRITE_SHEETS } from "./js/Configs";
-import Core from "./js/Core";
-
-// import Game from "./js/Game";
-// import Tank from "./js/Tank";
-// import { Sprite } from "@nexty-org/core";
-// import ParcticleSystem from "./js/ParcticleSystem";
+import Engine from "./js/Engine/Engine";
+import { CANVAS_SIZE, LOOP_TIME_STEP } from "./js/Configs";
+import Loop from "./js/Engine/Loop";
+import SceneManager from "./js/Engine/Managers/SceneManager";
+import GameScene from "./js/Scenes/WorldScene";
+import MenuScene from "./js/Scenes/MenuScene";
+import CanvasRenderer from "./js/CanvasRenderer";
 
 const canvas = document.createElement("canvas");
 canvas.width = CANVAS_SIZE.WIDTH;
 canvas.height = CANVAS_SIZE.HEIGHT;
 canvas.classList.add("canvas");
 
-const core = new Core(canvas);
-// const game = new Game(gameCanvas);
+function main() {
+  const sceneManager = new SceneManager();
+  sceneManager.addScene(new GameScene());
+  sceneManager.addScene(new MenuScene());
 
-async function main() {
-  await core.init();
+  const renderer = new CanvasRenderer(canvas);
 
-  // await game.getResourceManager().loadSprites(SPRITES);
-  // // test
-  // const tank_id = 1;
-  // const tankInfo = TANKS_DATA[tank_id];
-  // const tank = new Tank(game, tank_id);
-  // tank.setSize(tankInfo.w, tankInfo.h);
-  // tank.setPosition(250, 250);
-  // tank.setSprite(
-  //   new Sprite(
-  //     SPRITE_SHEETS.TANKS,
-  //     tankInfo.img_data.sX,
-  //     tankInfo.img_data.sY,
-  //     tankInfo.w,
-  //     tankInfo.h
-  //   )
-  // );
-  // tank
-  //   .getTurret()
-  //   .setSize(TANKS_DATA[tank_id].turret.w, TANKS_DATA[tank_id].turret.h);
-  // tank
-  //   .getTurret()
-  //   .setSprite(
-  //     new Sprite(
-  //       SPRITE_SHEETS.TANKS,
-  //       tankInfo.turret.img_data.sX,
-  //       tankInfo.turret.img_data.sY,
-  //       tankInfo.turret.w,
-  //       tankInfo.turret.h
-  //     )
-  //   );
-  // // game.getCamera().lookAt(tank);
-  // const parcticleSystem = new ParcticleSystem();
-  // parcticleSystem.activate(400, 400);
-  // game.getWorldEntityManager().addEntity(tank);
-  // game.getWorldEntityManager().addEntity(parcticleSystem);
-  // game.computerControlling.entity = tank;
-  // //
+  const engine = new Engine(new Loop(LOOP_TIME_STEP), renderer, sceneManager);
+
   document.body.appendChild(canvas);
-  // game.play();
 }
 
 main();

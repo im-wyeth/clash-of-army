@@ -1,7 +1,19 @@
-import { LOOP_TIME_STEP } from "./Configs";
+import ILoop from "../Interfaces/ILoop";
 
-export default class Loop {
-  constructor() {
+export default class Loop implements ILoop {
+  private readonly _timeStep: number;
+
+  private _onUpdateCB: null | Function;
+  private _onRenderCB: null | Function;
+
+  private _previousTimeStemp: number;
+  private _lag: number;
+
+  private _isDestroyed: boolean;
+
+  constructor(timeStep: number) {
+    this._timeStep = timeStep;
+
     this._onUpdateCB = null;
     this._onRenderCB = null;
 
@@ -29,23 +41,25 @@ export default class Loop {
     this._previousTimeStemp = currentTimeStemp;
     this._lag += elapsedTime;
 
-    while (this._lag >= LOOP_TIME_STEP) {
-      this._lag -= LOOP_TIME_STEP;
+    while (this._lag >= this._timeStep) {
+      this._lag -= this._timeStep;
 
       if (this._onUpdateCB) {
-        this._onUpdateCB(LOOP_TIME_STEP);
+        this._onUpdateCB(this._timeStep);
       }
     }
 
-    const interpolationValue = this.lag / LOOP_TIME_STEP;
-    this._onRenderCB(interpolationValue);
+    const interpolationValue = this._lag / this._timeStep;
+    if (this._onRenderCB) {
+      this._onRenderCB(interpolationValue);
+    }
   }
 
-  onUpdate(cb) {
+  onUpdate(cb: Function) {
     this._onUpdateCB = cb;
   }
 
-  onRender(cb) {
+  onRender(cb: Function) {
     this._onRenderCB = cb;
   }
 

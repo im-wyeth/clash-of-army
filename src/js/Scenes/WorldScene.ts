@@ -1,11 +1,9 @@
-import IScene from "../Interfaces/IScene";
+import Scene from "./Scene";
 
-export default class WorldScene implements IScene {
-  private readonly _name = "world";
+export default class WorldScene extends Scene {
+  constructor() {
+    super();
 
-  constructor() {}
-
-  getName(): string {
-    return this._name;
+    this._name = "world";
   }
 }

@@ -2,7 +2,7 @@ import IRenderer from "./Interfaces/IRenderer";
 
 export default class CanvasRenderer implements IRenderer {
   private readonly _canvas: HTMLCanvasElement;
-  private readonly _ctx: CanvasRenderingContext2D;
+  private readonly _ctx: null | CanvasRenderingContext2D;
 
   constructor(canvas: HTMLCanvasElement) {
     this._canvas = canvas;
@@ -18,7 +18,18 @@ export default class CanvasRenderer implements IRenderer {
   }
 
   antialiasing(val: boolean) {
-    this._ctx.imageSmoothingEnabled = val;
+    if (this._ctx) this._ctx.imageSmoothingEnabled = val;
+  }
+
+  clear() {
+    if (!this._ctx) return;
+
+    this._ctx.clearRect(
+      0,
+      0,
+      this._canvas.clientWidth,
+      this._canvas.clientHeight
+    );
   }
 
   drawImage(
@@ -35,6 +46,8 @@ export default class CanvasRenderer implements IRenderer {
     centerShiftX: number = 0,
     centerShiftY: number = 0
   ) {
+    if (!this._ctx) return;
+
     this._ctx.save();
 
     this._ctx.translate(x, y);
@@ -47,6 +60,8 @@ export default class CanvasRenderer implements IRenderer {
   }
 
   drawRectangle(x: number, y: number, w: number, h: number, r: number) {
+    if (!this._ctx) return;
+
     this._ctx.save();
 
     this._ctx.translate(x, y);
@@ -66,6 +81,8 @@ export default class CanvasRenderer implements IRenderer {
     x: number,
     y: number
   ) {
+    if (!this._ctx) return;
+
     this._ctx.save();
 
     this._ctx.font = `${size}px ${font}`;

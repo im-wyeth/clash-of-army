@@ -1,4 +1,6 @@
 export default interface IRenderer {
+  clear(): void;
+
   drawImage(
     img: HTMLImageElement,
     x: number,

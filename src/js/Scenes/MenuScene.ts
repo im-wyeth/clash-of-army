@@ -1,11 +1,9 @@
-import IScene from "../Interfaces/IScene";
+import Scene from "./Scene";
 
-export default class MenuScene implements IScene {
-  private readonly _name = "menu";
+export default class MenuScene extends Scene {
+  constructor() {
+    super();
 
-  constructor() {}
-
-  getName(): string {
-    return this._name;
+    this._name = "menu";
   }
 }

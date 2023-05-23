@@ -1,7 +1,13 @@
+import IActor from "./IActor";
+
 export default interface IScene {
   getName(): string;
 
-  // update(timeStep: number): void;
+  getActors(): Array<IActor>;
 
-  // render(interpolationValue: number): void;
+  addActor(actor: IActor): void;
+
+  onLoad?(): void;
+
+  onDestroy?(): void;
 }

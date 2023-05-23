@@ -1,7 +1,7 @@
 import IScene from "./IScene";
 
 export default interface ISceneManager {
-  getCurrentScene(): IScene;
+  getCurrentScene(): null | IScene;
 
   addScene(scene: IScene): void;
 

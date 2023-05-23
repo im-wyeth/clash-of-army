@@ -8,7 +8,7 @@ export default class Engine {
     private readonly _renderer: IRenderer,
     private readonly _sceneManager: ISceneManager
   ) {
-    _sceneManager.loadScene("menu");
+    _sceneManager.loadScene("world");
 
     _loop.init();
     _loop.onUpdate(this.update);

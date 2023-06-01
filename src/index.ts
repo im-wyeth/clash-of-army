@@ -7,35 +7,67 @@ import SceneManager from "./js/Engine/Managers/SceneManager";
 import WorldScene from "./js/Scenes/WorldScene";
 import MenuScene from "./js/Scenes/MenuScene";
 import CanvasRenderer from "./js/CanvasRenderer";
-import Tank from "./js/World/Entities/Tank";
-import TankTurret from "./js/World/Entities/TankTurret";
+import ActorsRenderer from "./js/Engine/ActorsRenderer";
+import ResourceManager from "./js/Engine/Managers/ResourceManager";
+import ImageLoader from "./js/ImageLoader";
+import SpriteSheetLoadInfo from "./js/SpriteSheetLoadInfo";
+import TankBuilder from "./js/Builders/TankBuilder";
+import ActorSpriteComponentBuilder from "./js/Builders/ActorSpriteComponentBuilder";
+import TankTurretBuilder from "./js/Builders/TankTurretBuilder";
 
 const canvas = document.createElement("canvas");
 canvas.width = CANVAS_SIZE.WIDTH;
 canvas.height = CANVAS_SIZE.HEIGHT;
 canvas.classList.add("canvas");
 
-function main() {
-  const turret = new TankTurret();
-  const tank = new Tank(turret);
+async function main() {
+  const actorSpriteComponentBuilder = new ActorSpriteComponentBuilder();
+  const tankTurretBuilder = new TankTurretBuilder();
+  const tankBuilder = new TankBuilder();
 
-  // tank.addAction("fire", new TankFireAction())
-  // tank.addAction("rotate", new TankRotateAction());
-  // tank.addAction("moveTo", new TankMoveToAction());
+  const turret = tankTurretBuilder
+    .setPosition(150, 150)
+    .setSpriteComponent(
+      actorSpriteComponentBuilder
+        .setSpriteSheetName("tank")
+        .setSize(65, 24)
+        .setSource(59, 0)
+        .build()
+    )
+    .build();
+
+  const tank = tankBuilder
+    .setPosition(150, 150)
+    .setSpriteComponent(
+      actorSpriteComponentBuilder
+        .setSpriteSheetName("tank")
+        .setSize(59, 34)
+        .setSource(0, 0)
+        .build()
+    )
+    .setTurret(turret)
+    .build();
+
+  const resourceManager = new ResourceManager(new ImageLoader());
+  await resourceManager.loadSpriteSheets([
+    new SpriteSheetLoadInfo("tank", "../assets/tank.png"),
+  ]);
+
+  const canvasRenderer = new CanvasRenderer(canvas);
+  const actorsRenderer = new ActorsRenderer(canvasRenderer, resourceManager);
 
   const menuScene = new MenuScene();
   const worldScene = new WorldScene();
 
   worldScene.addActor(tank);
+  worldScene.addActor(turret);
 
   const sceneManager = new SceneManager();
   sceneManager.addScene(menuScene);
   sceneManager.addScene(worldScene);
   sceneManager.loadScene("world");
 
-  const renderer = new CanvasRenderer(canvas);
-
-  new Engine(new Loop(LOOP_TIME_STEP), renderer, sceneManager);
+  new Engine(new Loop(LOOP_TIME_STEP), sceneManager, actorsRenderer);
 
   document.body.appendChild(canvas);
 }

@@ -1,37 +1,37 @@
 import IActor from "../Interfaces/IActor";
-import IActorAction from "../Interfaces/IActorAction";
-import IActorCollision from "../Interfaces/IActorCollision";
-import IActorComponent from "../Interfaces/IActorComponent";
+import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
+import IVector2 from "../Interfaces/IVector2";
+import Vector2 from "../Vector2";
 
 export default abstract class Actor implements IActor {
-  private _components: Map<string, IActorComponent> = new Map();
-  private _actions: Map<string, IActorAction> = new Map();
+  private readonly _position: IVector2 = new Vector2(0, 0);
 
-  private _collision: null | IActorCollision = null;
+  private _sprite: null | IActorSpriteComponent = null;
+
+  private _radians: number = 0;
 
   constructor() {}
 
-  getComponents(): Map<string, IActorComponent> {
-    return this._components;
+  getPosition(): IVector2 {
+    return this._position;
   }
 
-  getCollision(): null | IActorCollision {
-    return this._collision;
+  getSpriteComponent(): null | IActorSpriteComponent {
+    return this._sprite;
   }
 
-  getActions(): Map<string, IActorAction> {
-    return this._actions;
+  getRadians(): number {
+    return this._radians;
   }
 
-  addComponent(name: string, component: IActorComponent): void {
-    this._components.set(name, component);
+  setPosition(x: number, y: number): void {
+    this._position.x = x;
+    this._position.y = y;
   }
 
-  addAction(name: string, action: IActorAction): void {
-    this._actions.set(name, action);
+  setSpriteComponent(spriteComponent: IActorSpriteComponent) {
+    this._sprite = spriteComponent;
   }
 
-  setCollision(collision: IActorCollision) {
-    this._collision = collision;
-  }
+  update(timeStep: number): void {}
 }

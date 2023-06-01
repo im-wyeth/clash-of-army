@@ -16,7 +16,14 @@ export default interface IRenderer {
     originShiftY: number
   ): void;
 
-  drawRectangle(x: number, y: number, w: number, h: number, r: number): void;
+  drawRectangle(
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    r: number,
+    color: string
+  ): void;
 
   drawText(
     text: string,

@@ -1,1 +1,5 @@
-export default interface IActorComponent {}
+import IActor from "./IActor";
+
+export default interface IActorComponent {
+  getParent(): IActor;
+}

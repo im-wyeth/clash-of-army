@@ -9,11 +9,11 @@ export default class CanvasRenderer implements IRenderer {
     this._ctx = canvas.getContext("2d");
   }
 
-  getCanvas() {
+  getCanvas(): HTMLCanvasElement {
     return this._canvas;
   }
 
-  getCtx() {
+  getCtx(): null | CanvasRenderingContext2D {
     return this._ctx;
   }
 
@@ -59,10 +59,19 @@ export default class CanvasRenderer implements IRenderer {
     this._ctx.restore();
   }
 
-  drawRectangle(x: number, y: number, w: number, h: number, r: number) {
+  drawRectangle(
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    r: number,
+    color: string
+  ) {
     if (!this._ctx) return;
 
     this._ctx.save();
+
+    this._ctx.fillStyle = color;
 
     this._ctx.translate(x, y);
     this._ctx.rotate(r);

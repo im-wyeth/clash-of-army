@@ -1,19 +1,16 @@
-import IActorAction from "./IActorAction";
-import IActorCollision from "./IActorCollision";
-import IActorComponent from "./IActorComponent";
+import IActorSpriteComponent from "./IActorSpriteComponent";
+import IVector2 from "./IVector2";
 
 export default interface IActor {
-  getComponents(): Map<string, IActorComponent>;
+  getPosition(): IVector2;
 
-  getActions(): Map<string, IActorAction>;
+  getSpriteComponent(): null | IActorSpriteComponent;
 
-  getCollision(): null | IActorCollision;
+  getRadians(): number;
 
-  addComponent(name: string, component: IActorComponent): void;
+  setPosition(x: number, y: number): void;
 
-  addAction(name: string, action: IActorAction): void;
-
-  setCollision(collision: IActorCollision): void;
+  setSpriteComponent(spriteComponent: IActorSpriteComponent): void;
 
   update?(timeStep: number): void;
 }

@@ -12,8 +12,8 @@ export default interface IRenderer {
     sY: number,
     sW: number,
     sH: number,
-    originShiftX: number,
-    originShiftY: number
+    originX: number,
+    originY: number
   ): void;
 
   drawRectangle(

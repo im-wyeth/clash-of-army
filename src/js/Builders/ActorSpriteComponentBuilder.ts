@@ -10,6 +10,7 @@ export default class ActorSpriteComponentBuilder
   private _spriteSheetName: string = "";
   private _size: IVector2 = new Vector2(0, 0);
   private _source: IVector2 = new Vector2(0, 0);
+  private _origin: IVector2 = new Vector2(0, 0);
 
   setSpriteSheetName(spriteSheetName: string): IActorSpriteComponentBuilder {
     this._spriteSheetName = spriteSheetName;
@@ -31,11 +32,19 @@ export default class ActorSpriteComponentBuilder
     return this;
   }
 
+  setOrigin(x: number, y: number): IActorSpriteComponentBuilder {
+    this._origin.x = x;
+    this._origin.y = y;
+
+    return this;
+  }
+
   build(): IActorSpriteComponent {
     const spriteComponent = new ActorSpriteComponent(
       this._spriteSheetName,
       new Vector2(this._source.x, this._source.y),
-      new Vector2(this._size.x, this._size.y)
+      new Vector2(this._size.x, this._size.y),
+      new Vector2(this._origin.x, this._origin.y)
     );
 
     return spriteComponent;

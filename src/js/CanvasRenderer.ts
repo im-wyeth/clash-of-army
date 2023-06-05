@@ -1,4 +1,6 @@
 import IRenderer from "./Interfaces/IRenderer";
+import IVector2 from "./Interfaces/IVector2";
+import Vector2 from "./Vector2";
 
 export default class CanvasRenderer implements IRenderer {
   private readonly _canvas: HTMLCanvasElement;
@@ -7,6 +9,42 @@ export default class CanvasRenderer implements IRenderer {
   constructor(canvas: HTMLCanvasElement) {
     this._canvas = canvas;
     this._ctx = canvas.getContext("2d");
+  }
+
+  private _pivotPointFromOrigin(
+    originX: number,
+    originY: number,
+    halfWidth: number,
+    halfHeight: number,
+    positionX: number,
+    positionY: number
+  ): IVector2 {
+    const pivotPoint = new Vector2(0, 0);
+
+    if (originX < halfWidth) {
+      pivotPoint.x = positionX - originX;
+    } else if (originX > halfWidth) {
+      pivotPoint.x = positionX + originX;
+    } else {
+      pivotPoint.x = positionX;
+    }
+
+    if (originY < halfHeight) {
+      pivotPoint.y = positionY - originY;
+    } else if (originY > halfHeight) {
+      pivotPoint.y = positionY + originY;
+    } else {
+      pivotPoint.y = positionY;
+    }
+
+    if (originX === 0) {
+      pivotPoint.x = positionX - halfWidth;
+    }
+    if (originY === 0) {
+      pivotPoint.y = positionY - halfHeight;
+    }
+
+    return pivotPoint;
   }
 
   getCanvas(): HTMLCanvasElement {
@@ -43,18 +81,32 @@ export default class CanvasRenderer implements IRenderer {
     sY: number,
     sW: number,
     sH: number,
-    centerShiftX: number = 0,
-    centerShiftY: number = 0
+    originX: number,
+    originY: number
   ) {
     if (!this._ctx) return;
 
+    const halfWidth = w / 2;
+    const halfHeight = h / 2;
+
+    const pivotPoint: IVector2 = this._pivotPointFromOrigin(
+      originX,
+      originY,
+      halfWidth,
+      halfHeight,
+      x,
+      y
+    );
+
     this._ctx.save();
 
-    this._ctx.translate(x, y);
-    this._ctx.rotate(r);
-    this._ctx.translate(-w / 2 + centerShiftX, -h / 2 + centerShiftY);
+    this._ctx.translate(pivotPoint.x, pivotPoint.y);
 
-    this._ctx.drawImage(img, sX, sY, sW, sH, 0, 0, w, h);
+    this._ctx.rotate(r);
+
+    this._ctx.translate(-pivotPoint.x, -pivotPoint.y);
+
+    this._ctx.drawImage(img, sX, sY, sW, sH, x - w / 2, y - h / 2, w, h);
 
     this._ctx.restore();
   }

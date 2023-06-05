@@ -7,5 +7,7 @@ export default interface IActorSpriteComponentBuilder {
 
   setSource(x: number, y: number): IActorSpriteComponentBuilder;
 
+  setOrigin(x: number, y: number): IActorSpriteComponentBuilder;
+
   build(): IActorSpriteComponent;
 }

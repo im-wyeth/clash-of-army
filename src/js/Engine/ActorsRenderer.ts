@@ -38,8 +38,8 @@ export default class ActorsRenderer implements IActorRenderer {
       actorSpriteComponent.getSource().y,
       actorSpriteComponent.getSize().x,
       actorSpriteComponent.getSize().y,
-      0,
-      0
+      actorSpriteComponent.getOrigin().x,
+      actorSpriteComponent.getOrigin().y
     );
   }
 }

@@ -26,12 +26,13 @@ async function main() {
   const tankBuilder = new TankBuilder();
 
   const turret = tankTurretBuilder
-    .setPosition(150, 150)
+    .setPosition(165, 150)
     .setSpriteComponent(
       actorSpriteComponentBuilder
         .setSpriteSheetName("tank")
         .setSize(65, 24)
         .setSource(59, 0)
+        .setOrigin(15, 24 / 2)
         .build()
     )
     .build();
@@ -43,6 +44,7 @@ async function main() {
         .setSpriteSheetName("tank")
         .setSize(59, 34)
         .setSource(0, 0)
+        .setOrigin(59 / 2, 34 / 2)
         .build()
     )
     .setTurret(turret)
@@ -67,7 +69,12 @@ async function main() {
   sceneManager.addScene(worldScene);
   sceneManager.loadScene("world");
 
-  new Engine(new Loop(LOOP_TIME_STEP), sceneManager, actorsRenderer);
+  new Engine(
+    new Loop(LOOP_TIME_STEP),
+    sceneManager,
+    actorsRenderer,
+    canvasRenderer
+  );
 
   document.body.appendChild(canvas);
 }

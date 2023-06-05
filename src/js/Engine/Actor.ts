@@ -4,11 +4,11 @@ import IVector2 from "../Interfaces/IVector2";
 import Vector2 from "../Vector2";
 
 export default abstract class Actor implements IActor {
-  private readonly _position: IVector2 = new Vector2(0, 0);
+  protected readonly _position: IVector2 = new Vector2(0, 0);
 
-  private _sprite: null | IActorSpriteComponent = null;
+  protected _sprite: null | IActorSpriteComponent = null;
 
-  private _radians: number = 0;
+  protected _radians: number = 0;
 
   constructor() {}
 

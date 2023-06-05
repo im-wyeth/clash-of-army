@@ -6,4 +6,6 @@ export default interface IActorSpriteComponent {
   getSource(): IVector2;
 
   getSize(): IVector2;
+
+  getOrigin(): IVector2;
 }

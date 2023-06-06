@@ -2,25 +2,25 @@ import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
 import IVector2 from "../Interfaces/IVector2";
 
 export default class ActorSpriteComponent implements IActorSpriteComponent {
-  private _spriteSheetName: string;
+  private _sheetName: string;
   private _source: IVector2;
   private _size: IVector2;
   private _origin: IVector2;
 
   constructor(
-    spriteSheetName: string,
+    sheetName: string,
     source: IVector2,
     size: IVector2,
     origin: IVector2
   ) {
-    this._spriteSheetName = spriteSheetName;
+    this._sheetName = sheetName;
     this._source = source;
     this._size = size;
     this._origin = origin;
   }
 
-  getSpriteSheetName(): string {
-    return this._spriteSheetName;
+  getSheetName(): string {
+    return this._sheetName;
   }
 
   getSource(): IVector2 {

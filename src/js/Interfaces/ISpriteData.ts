@@ -1,11 +1,11 @@
 import IVector2 from "./IVector2";
 
-export default interface IActorSpriteComponent {
+export default interface ISpriteData {
   getSheetName(): string;
 
-  getSource(): IVector2;
-
   getSize(): IVector2;
+
+  getSource(): IVector2;
 
   getOrigin(): IVector2;
 }

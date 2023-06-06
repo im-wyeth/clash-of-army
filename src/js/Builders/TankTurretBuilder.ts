@@ -17,16 +17,16 @@ export default class TankTurretBuilder implements ITankTurretBuilder {
     return this;
   }
 
-  setPosition(x: number, y: number): ITankTurretBuilder {
-    this._position.x = x;
-    this._position.y = y;
+  setPosition(position: IVector2): ITankTurretBuilder {
+    this._position.x = position.x;
+    this._position.y = position.y;
 
     return this;
   }
 
   build(): IActor {
     const tankTurret = new TankTurret();
-    tankTurret.setPosition(this._position.x, this._position.y);
+    tankTurret.setPosition(this._position);
 
     if (this._spriteComponent) {
       tankTurret.setSpriteComponent(this._spriteComponent);

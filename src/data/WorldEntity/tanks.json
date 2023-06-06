@@ -1,0 +1,41 @@
+{
+  "1": {
+    "name": "Captor 2A",
+    "sprite": {
+      "sheet_name": "tanks",
+      "size": {
+        "x": 59,
+        "y": 34
+      },
+      "source": {
+        "x": 0,
+        "y": 0
+      },
+      "origin": {
+        "x": 29.5,
+        "y": 17
+      }
+    },
+    "rotation_speed": 1,
+    "turret": {
+      "rotation_speed": 10,
+      "sprite": {
+        "sheet_name": "tanks",
+        "size": {
+          "x": 65,
+          "y": 24
+        },
+        "source": {
+          "x": 59,
+          "y": 0
+        },
+        "origin": {
+          "x": 15,
+          "y": 12
+        }
+      }
+    },
+    "details": {},
+    "crew": {}
+  }
+}

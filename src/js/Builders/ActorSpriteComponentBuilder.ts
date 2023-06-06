@@ -18,23 +18,23 @@ export default class ActorSpriteComponentBuilder
     return this;
   }
 
-  setSize(w: number, h: number): IActorSpriteComponentBuilder {
-    this._size.x = w;
-    this._size.y = h;
+  setSize(size: IVector2): IActorSpriteComponentBuilder {
+    this._size.x = size.x;
+    this._size.y = size.y;
 
     return this;
   }
 
-  setSource(x: number, y: number): IActorSpriteComponentBuilder {
-    this._source.x = x;
-    this._source.y = y;
+  setSource(source: IVector2): IActorSpriteComponentBuilder {
+    this._source.x = source.x;
+    this._source.y = source.y;
 
     return this;
   }
 
-  setOrigin(x: number, y: number): IActorSpriteComponentBuilder {
-    this._origin.x = x;
-    this._origin.y = y;
+  setOrigin(origin: IVector2): IActorSpriteComponentBuilder {
+    this._origin.x = origin.x;
+    this._origin.y = origin.y;
 
     return this;
   }

@@ -36,7 +36,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: "assets", to: "assets" },
-        { from: "json", to: "json" },
+        { from: "data", to: "data" },
       ],
     }),
   ],
@@ -47,7 +47,7 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(png|jpg|svg|gif)$/,
+        test: /\.(png|jpg|svg|gif|json`)$/,
         use: ["file-loader"],
       },
       {

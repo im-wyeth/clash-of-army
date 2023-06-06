@@ -1,3 +1,7 @@
+export const WORLD_ENTITY_DATA_PATH = "./data/WorldEntity";
+
+export const TANKS_DATA_JSON_NAME = "tanks";
+
 export const CANVAS_SIZE = {
   WIDTH: window.innerWidth,
   HEIGHT: window.innerHeight,

@@ -16,9 +16,9 @@ export default class TankBuilder implements ITankBuilder {
     return this;
   }
 
-  setPosition(x: number, y: number): ITankBuilder {
-    this._position.x = x;
-    this._position.y = y;
+  setPosition(position: IVector2): ITankBuilder {
+    this._position.x = position.x;
+    this._position.y = position.y;
 
     return this;
   }
@@ -31,7 +31,7 @@ export default class TankBuilder implements ITankBuilder {
 
   build(): IActor {
     const tank = new Tank();
-    tank.setPosition(this._position.x, this._position.y);
+    tank.setPosition(this._position);
 
     if (this._spriteComponent) {
       tank.setSpriteComponent(this._spriteComponent);

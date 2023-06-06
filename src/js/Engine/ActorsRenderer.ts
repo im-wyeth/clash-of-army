@@ -21,7 +21,7 @@ export default class ActorsRenderer implements IActorRenderer {
 
     const spriteSheet = this._resourceManager
       .getSpriteSheets()
-      .get(actorSpriteComponent.getSpriteSheetName());
+      .get(actorSpriteComponent.getSheetName());
 
     if (!spriteSheet) {
       return;

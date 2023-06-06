@@ -24,9 +24,9 @@ export default abstract class Actor implements IActor {
     return this._radians;
   }
 
-  setPosition(x: number, y: number): void {
-    this._position.x = x;
-    this._position.y = y;
+  setPosition(position: IVector2): void {
+    this._position.x = position.x;
+    this._position.y = position.y;
   }
 
   setSpriteComponent(spriteComponent: IActorSpriteComponent) {

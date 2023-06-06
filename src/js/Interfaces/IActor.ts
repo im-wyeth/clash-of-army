@@ -8,7 +8,7 @@ export default interface IActor {
 
   getRadians(): number;
 
-  setPosition(x: number, y: number): void;
+  setPosition(position: IVector2): void;
 
   setSpriteComponent(spriteComponent: IActorSpriteComponent): void;
 

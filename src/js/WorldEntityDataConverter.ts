@@ -4,7 +4,7 @@ import ITankTurretData from "./Interfaces/ITankTurretData";
 import SpriteData from "./SpriteData";
 import TankData from "./TankData";
 import TankTurretData from "./TankTurretData";
-import Vector2 from "./Vector2";
+import Vector2 from "./Engine/Vector2";
 
 export default class WorldEntityDataConverter {
   private _spriteDataToModel(spriteData: any): ISpriteData {

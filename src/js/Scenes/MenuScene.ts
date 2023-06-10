@@ -1,8 +1,9 @@
-import Scene from "./Scene";
+import Scene from "../Engine/Scene";
+import ICamera from "../Interfaces/ICamera";
 
 export default class MenuScene extends Scene {
-  constructor() {
-    super();
+  constructor(camera: ICamera) {
+    super(camera);
 
     this._name = "menu";
   }

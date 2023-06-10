@@ -1,5 +1,7 @@
+import IVector2 from "./IVector2";
+
 export default interface IRenderer {
-  clear(): void;
+  antialiasing(val: boolean): void;
 
   drawImage(
     img: HTMLImageElement,
@@ -22,7 +24,9 @@ export default interface IRenderer {
     w: number,
     h: number,
     r: number,
-    color: string
+    color: string,
+    originX: number,
+    originY: number
   ): void;
 
   drawText(
@@ -33,4 +37,8 @@ export default interface IRenderer {
     x: number,
     y: number
   ): void;
+
+  start?(offset: IVector2): void;
+
+  end?(): void;
 }

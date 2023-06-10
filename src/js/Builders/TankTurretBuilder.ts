@@ -2,7 +2,7 @@ import IActor from "../Interfaces/IActor";
 import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
 import ITankTurretBuilder from "../Interfaces/ITankTurretBuilder";
 import IVector2 from "../Interfaces/IVector2";
-import Vector2 from "../Vector2";
+import Vector2 from "../Engine/Vector2";
 import TankTurret from "../WorldEntities/TankTurret";
 
 export default class TankTurretBuilder implements ITankTurretBuilder {

@@ -22,7 +22,11 @@ import TankTurretBuilder from "./js/Builders/TankTurretBuilder";
 import WorldEntityDataLoader from "./js/WorldEntityDataLoader";
 import FetchClient from "./js/FetchClient";
 import WorldEntityDataConverter from "./js/WorldEntityDataConverter";
-import Vector2 from "./js/Vector2";
+import Vector2 from "./js/Engine/Vector2";
+import EventManager from "./js/Engine/Managers/EventManager";
+import InputKeyHandler from "./js/Engine/InputKeyHandler";
+import MouseHandler from "./js/Engine/MouseHandler";
+import Camera from "./js/Engine/Camera";
 
 const canvas = document.createElement("canvas");
 canvas.width = CANVAS_SIZE.WIDTH;
@@ -46,6 +50,18 @@ async function main() {
   const tankTurretData = tankData.getTurretData();
 
   const turret = tankTurretBuilder
+    .setPosition(new Vector2(165, 150))
+    .setSpriteComponent(
+      actorSpriteComponentBuilder
+        .setSpriteSheetName(tankTurretData.getSpriteData().getSheetName())
+        .setSize(tankTurretData.getSpriteData().getSize())
+        .setSource(tankTurretData.getSpriteData().getSource())
+        .setOrigin(tankTurretData.getSpriteData().getOrigin())
+        .build()
+    )
+    .build();
+
+  const tank = tankBuilder
     .setPosition(new Vector2(150, 150))
     .setSpriteComponent(
       actorSpriteComponentBuilder
@@ -55,20 +71,23 @@ async function main() {
         .setOrigin(tankData.getSpriteData().getOrigin())
         .build()
     )
-    .build();
-
-  const tank = tankBuilder
-    .setPosition(new Vector2(150, 150))
-    .setSpriteComponent(
-      actorSpriteComponentBuilder
-        .setSpriteSheetName(tankTurretData.getSpriteData().getSheetName())
-        .setSize(tankTurretData.getSpriteData().getSize())
-        .setSource(tankTurretData.getSpriteData().getSource())
-        .setOrigin(tankTurretData.getSpriteData().getOrigin())
-        .build()
-    )
     .setTurret(turret)
     .build();
+
+  const camera = new Camera(new Vector2(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT));
+  camera.lookAt(tank);
+
+  const menuScene = new MenuScene(camera);
+  const worldScene = new WorldScene(camera);
+  worldScene.addActor(tank);
+  worldScene.addActor(turret);
+
+  const eventManager = new EventManager(window);
+  const inputKeyHandler = new InputKeyHandler();
+  const mouseHandler = new MouseHandler(worldScene.getCamera());
+
+  eventManager.onMouseMove(mouseHandler.onMouseMove.bind(mouseHandler));
+  eventManager.onKeyDown(inputKeyHandler.onKeyDown.bind(inputKeyHandler));
 
   const resourceManager = new ResourceManager(new ImageLoader());
   await resourceManager.loadSpriteSheets([
@@ -77,12 +96,6 @@ async function main() {
 
   const canvasRenderer = new CanvasRenderer(canvas);
   const actorsRenderer = new ActorsRenderer(canvasRenderer, resourceManager);
-
-  const menuScene = new MenuScene();
-  const worldScene = new WorldScene();
-
-  worldScene.addActor(tank);
-  worldScene.addActor(turret);
 
   const sceneManager = new SceneManager();
   sceneManager.addScene(menuScene);

@@ -1,7 +1,7 @@
 import IActor from "../Interfaces/IActor";
 import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
 import IVector2 from "../Interfaces/IVector2";
-import Vector2 from "../Vector2";
+import Vector2 from "./Vector2";
 
 export default abstract class Actor implements IActor {
   protected readonly _position: IVector2 = new Vector2(0, 0);

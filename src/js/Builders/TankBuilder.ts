@@ -2,7 +2,7 @@ import IActor from "../Interfaces/IActor";
 import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
 import ITankBuilder from "../Interfaces/ITankBuilder";
 import IVector2 from "../Interfaces/IVector2";
-import Vector2 from "../Vector2";
+import Vector2 from "../Engine/Vector2";
 import Tank from "../WorldEntities/Tank";
 
 export default class TankBuilder implements ITankBuilder {

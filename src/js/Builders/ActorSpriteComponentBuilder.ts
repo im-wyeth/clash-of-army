@@ -2,7 +2,7 @@ import ActorSpriteComponent from "../ActorComponents/ActorSpriteComponent";
 import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
 import IActorSpriteComponentBuilder from "../Interfaces/IActorSpriteComponentBuilder";
 import IVector2 from "../Interfaces/IVector2";
-import Vector2 from "../Vector2";
+import Vector2 from "../Engine/Vector2";
 
 export default class ActorSpriteComponentBuilder
   implements IActorSpriteComponentBuilder

@@ -1,6 +1,6 @@
 import IRenderer from "./Interfaces/IRenderer";
 import IVector2 from "./Interfaces/IVector2";
-import Vector2 from "./Vector2";
+import Vector2 from "./Engine/Vector2";
 
 export default class CanvasRenderer implements IRenderer {
   private readonly _canvas: HTMLCanvasElement;
@@ -9,6 +9,26 @@ export default class CanvasRenderer implements IRenderer {
   constructor(canvas: HTMLCanvasElement) {
     this._canvas = canvas;
     this._ctx = canvas.getContext("2d");
+  }
+
+  start(offset: IVector2): void {
+    if (!this._ctx) {
+      return;
+    }
+
+    this._clear();
+
+    this._ctx.save();
+
+    this._ctx.translate(-offset.x, -offset.y);
+  }
+
+  end(): void {
+    if (!this._ctx) {
+      return;
+    }
+
+    this._ctx.restore();
   }
 
   private _pivotPointFromOrigin(
@@ -47,19 +67,11 @@ export default class CanvasRenderer implements IRenderer {
     return pivotPoint;
   }
 
-  getCanvas(): HTMLCanvasElement {
-    return this._canvas;
-  }
-
-  getCtx(): null | CanvasRenderingContext2D {
-    return this._ctx;
-  }
-
   antialiasing(val: boolean) {
     if (this._ctx) this._ctx.imageSmoothingEnabled = val;
   }
 
-  clear() {
+  private _clear() {
     if (!this._ctx) return;
 
     this._ctx.clearRect(
@@ -99,15 +111,20 @@ export default class CanvasRenderer implements IRenderer {
     );
 
     this._ctx.save();
-
     this._ctx.translate(pivotPoint.x, pivotPoint.y);
-
     this._ctx.rotate(r);
-
     this._ctx.translate(-pivotPoint.x, -pivotPoint.y);
-
-    this._ctx.drawImage(img, sX, sY, sW, sH, x - w / 2, y - h / 2, w, h);
-
+    this._ctx.drawImage(
+      img,
+      sX,
+      sY,
+      sW,
+      sH,
+      x - halfWidth,
+      y - halfHeight,
+      w,
+      h
+    );
     this._ctx.restore();
   }
 
@@ -117,20 +134,30 @@ export default class CanvasRenderer implements IRenderer {
     w: number,
     h: number,
     r: number,
-    color: string
+    color: string,
+    originX: number,
+    originY: number
   ) {
     if (!this._ctx) return;
 
+    const halfWidth = w / 2;
+    const halfHeight = h / 2;
+
+    const pivotPoint: IVector2 = this._pivotPointFromOrigin(
+      originX,
+      originY,
+      halfWidth,
+      halfHeight,
+      x,
+      y
+    );
+
     this._ctx.save();
-
     this._ctx.fillStyle = color;
-
-    this._ctx.translate(x, y);
+    this._ctx.translate(pivotPoint.x, pivotPoint.y);
     this._ctx.rotate(r);
-    this._ctx.translate(-w / 2, -h / 2);
-
-    this._ctx.fillRect(0, 0, w, h);
-
+    this._ctx.translate(-pivotPoint.x, -pivotPoint.y);
+    this._ctx.fillRect(x - halfWidth, y - halfHeight, w, h);
     this._ctx.restore();
   }
 

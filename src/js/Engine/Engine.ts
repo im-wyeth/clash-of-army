@@ -30,16 +30,23 @@ export default class Engine {
   }
 
   render(interpolationValue: number): void {
-    this._renderer.clear();
-
     const currentScene = this._sceneManager.getCurrentScene();
 
-    if (currentScene) {
-      const actors = currentScene.getActors();
+    if (!currentScene) {
+      return;
+    }
 
-      for (const actor of actors) {
-        this._actorsRenderer.renderActor(actor);
-      }
+    if (this._renderer.start) {
+      this._renderer.start(currentScene.getCamera().getLeftTopCorner());
+    }
+
+    const actors = currentScene.getActors();
+    for (const actor of actors) {
+      this._actorsRenderer.renderActor(actor);
+    }
+
+    if (this._renderer.end) {
+      this._renderer.end();
     }
   }
 }

@@ -1,3 +1,4 @@
+import TankAbstraction from "../Abstractions/TankAbstraction";
 import IActor from "./IActor";
 import IActorSpriteComponent from "./IActorSpriteComponent";
 import IVector2 from "./IVector2";
@@ -9,5 +10,5 @@ export default interface ITankBuilder {
 
   setTurret(turret: IActor): ITankBuilder;
 
-  build(): IActor;
+  build(): TankAbstraction;
 }

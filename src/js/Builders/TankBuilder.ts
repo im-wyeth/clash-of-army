@@ -4,6 +4,8 @@ import ITankBuilder from "../Interfaces/ITankBuilder";
 import IVector2 from "../Interfaces/IVector2";
 import Vector2 from "../Engine/Vector2";
 import Tank from "../WorldEntities/Tank";
+import ITank from "../Interfaces/ITank";
+import TankAbstraction from "../Abstractions/TankAbstraction";
 
 export default class TankBuilder implements ITankBuilder {
   private _spriteComponent: null | IActorSpriteComponent = null;
@@ -29,7 +31,7 @@ export default class TankBuilder implements ITankBuilder {
     return this;
   }
 
-  build(): IActor {
+  build(): TankAbstraction {
     const tank = new Tank();
     tank.setPosition(this._position);
 

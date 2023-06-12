@@ -3,8 +3,8 @@ import ILoop from "../Interfaces/ILoop";
 export default class Loop implements ILoop {
   private readonly _timeStep: number;
 
-  private _onUpdateCB: null | Function;
-  private _onRenderCB: null | Function;
+  private _onUpdateCB: Array<Function> = [];
+  private _onRenderCB: Array<Function> = [];
 
   private _previousTimeStemp: number;
   private _lag: number;
@@ -13,9 +13,6 @@ export default class Loop implements ILoop {
 
   constructor(timeStep: number) {
     this._timeStep = timeStep;
-
-    this._onUpdateCB = null;
-    this._onRenderCB = null;
 
     this._previousTimeStemp = Date.now();
     this._lag = 0;
@@ -44,23 +41,23 @@ export default class Loop implements ILoop {
     while (this._lag >= this._timeStep) {
       this._lag -= this._timeStep;
 
-      if (this._onUpdateCB) {
-        this._onUpdateCB(this._timeStep);
+      for (const cb of this._onUpdateCB) {
+        cb(this._timeStep);
       }
     }
 
     const interpolationValue = this._lag / this._timeStep;
-    if (this._onRenderCB) {
-      this._onRenderCB(interpolationValue);
+    for (const cb of this._onRenderCB) {
+      cb(interpolationValue);
     }
   }
 
   onUpdate(cb: Function) {
-    this._onUpdateCB = cb;
+    this._onUpdateCB.push(cb);
   }
 
   onRender(cb: Function) {
-    this._onRenderCB = cb;
+    this._onRenderCB.push(cb);
   }
 
   destroy() {

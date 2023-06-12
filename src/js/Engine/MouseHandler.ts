@@ -41,7 +41,5 @@ export default class MouseHandler implements IMouseHandler {
     this._mouse.y = e.clientY;
 
     this.calculateWorldCoordinates();
-
-    console.log(this._world.x, this._world.y);
   }
 }

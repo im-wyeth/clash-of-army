@@ -27,6 +27,7 @@ import EventManager from "./js/Engine/Managers/EventManager";
 import InputKeyHandler from "./js/Engine/InputKeyHandler";
 import MouseHandler from "./js/Engine/MouseHandler";
 import Camera from "./js/Engine/Camera";
+import PlayerTankControlling from "./js/PlayerTankControlling";
 
 const canvas = document.createElement("canvas");
 canvas.width = CANVAS_SIZE.WIDTH;
@@ -88,6 +89,7 @@ async function main() {
 
   eventManager.onMouseMove(mouseHandler.onMouseMove.bind(mouseHandler));
   eventManager.onKeyDown(inputKeyHandler.onKeyDown.bind(inputKeyHandler));
+  eventManager.onKeyUp(inputKeyHandler.onKeyUp.bind(inputKeyHandler));
 
   const resourceManager = new ResourceManager(new ImageLoader());
   await resourceManager.loadSpriteSheets([
@@ -102,12 +104,19 @@ async function main() {
   sceneManager.addScene(worldScene);
   sceneManager.loadScene("world");
 
-  new Engine(
+  const engine = new Engine(
     new Loop(LOOP_TIME_STEP),
     sceneManager,
     actorsRenderer,
     canvasRenderer
   );
+
+  const tankControlling = new PlayerTankControlling(
+    tank,
+    inputKeyHandler,
+    mouseHandler
+  );
+  engine.getLoop().onUpdate(tankControlling.update.bind(tankControlling));
 
   document.body.appendChild(canvas);
 }

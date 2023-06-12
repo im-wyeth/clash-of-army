@@ -1,7 +1,7 @@
-import Actor from "../Engine/Actor";
+import TankAbstraction from "../Abstractions/TankAbstraction";
 import IActor from "../Interfaces/IActor";
 
-export default class Tank extends Actor {
+export default class Tank extends TankAbstraction {
   private _turret: null | IActor = null;
 
   constructor() {
@@ -13,4 +13,10 @@ export default class Tank extends Actor {
   }
 
   update(timeStep: number): void {}
+
+  fire(): void {}
+
+  moveTo(): void {}
+
+  rotateTo(): void {}
 }

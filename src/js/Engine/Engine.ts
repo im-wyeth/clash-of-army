@@ -17,6 +17,10 @@ export default class Engine {
     _loop.onRender(this.render.bind(this));
   }
 
+  getLoop() {
+    return this._loop;
+  }
+
   update(timeStep: number): void {
     const currentScene = this._sceneManager.getCurrentScene();
 

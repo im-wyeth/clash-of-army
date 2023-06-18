@@ -12,7 +12,11 @@ export default class Tank extends TankAbstraction {
     this._turret = turret;
   }
 
-  update(timeStep: number): void {}
+  update(timeStep: number): void {
+    if (this._acceleration) {
+      this._acceleration.setForce(1000);
+    }
+  }
 
   fire(): void {}
 

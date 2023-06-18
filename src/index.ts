@@ -28,6 +28,7 @@ import InputKeyHandler from "./js/Engine/InputKeyHandler";
 import MouseHandler from "./js/Engine/MouseHandler";
 import Camera from "./js/Engine/Camera";
 import PlayerTankControlling from "./js/PlayerTankControlling";
+import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationComponentBuilder";
 
 const canvas = document.createElement("canvas");
 canvas.width = CANVAS_SIZE.WIDTH;
@@ -36,6 +37,8 @@ canvas.classList.add("canvas");
 
 async function main() {
   const actorSpriteComponentBuilder = new ActorSpriteComponentBuilder();
+  const actorAccelerationComponentBuilder =
+    new ActorAccelerationComponentBuilder();
   const tankTurretBuilder = new TankTurretBuilder();
   const tankBuilder = new TankBuilder();
 
@@ -74,6 +77,10 @@ async function main() {
     )
     .setTurret(turret)
     .build();
+
+  tank.setAccelerationComponent(
+    actorAccelerationComponentBuilder.setMass(10000).build(tank)
+  );
 
   const camera = new Camera(new Vector2(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT));
   camera.lookAt(tank);

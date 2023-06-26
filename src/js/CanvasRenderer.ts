@@ -1,14 +1,20 @@
 import IRenderer from "./Interfaces/IRenderer";
 import IVector2 from "./Interfaces/IVector2";
 import Vector2 from "./Engine/Vector2";
+import IVector2Manager from "./Interfaces/IVector2Manager";
+import Vector2Manager from "./Engine/Vector2Manager";
 
 export default class CanvasRenderer implements IRenderer {
   private readonly _canvas: HTMLCanvasElement;
   private readonly _ctx: null | CanvasRenderingContext2D;
 
-  constructor(canvas: HTMLCanvasElement) {
+  private readonly _vector2Manager: IVector2Manager;
+
+  constructor(canvas: HTMLCanvasElement, vector2Manager: IVector2Manager) {
     this._canvas = canvas;
     this._ctx = canvas.getContext("2d");
+
+    this._vector2Manager = vector2Manager;
   }
 
   start(offset: IVector2): void {
@@ -39,7 +45,7 @@ export default class CanvasRenderer implements IRenderer {
     positionX: number,
     positionY: number
   ): IVector2 {
-    const pivotPoint = new Vector2(0, 0);
+    const pivotPoint = this._vector2Manager.getNew(0, 0);
 
     if (originX < halfWidth) {
       pivotPoint.x = positionX - originX;

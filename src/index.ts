@@ -22,13 +22,14 @@ import TankTurretBuilder from "./js/Builders/TankTurretBuilder";
 import WorldEntityDataLoader from "./js/WorldEntityDataLoader";
 import FetchClient from "./js/FetchClient";
 import WorldEntityDataConverter from "./js/WorldEntityDataConverter";
-import Vector2 from "./js/Engine/Vector2";
 import EventManager from "./js/Engine/Managers/EventManager";
 import InputKeyHandler from "./js/Engine/InputKeyHandler";
 import MouseHandler from "./js/Engine/MouseHandler";
 import Camera from "./js/Engine/Camera";
 import PlayerTankControlling from "./js/PlayerTankControlling";
 import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationComponentBuilder";
+import Vector2Manager from "./js/Engine/Vector2Manager";
+import ActorRotationComponentBuilder from "./js/Builders/ActorRotationComponentBuilder";
 
 const canvas = document.createElement("canvas");
 canvas.width = CANVAS_SIZE.WIDTH;
@@ -36,9 +37,13 @@ canvas.height = CANVAS_SIZE.HEIGHT;
 canvas.classList.add("canvas");
 
 async function main() {
+  const vector2Manager = new Vector2Manager();
+
   const actorSpriteComponentBuilder = new ActorSpriteComponentBuilder();
   const actorAccelerationComponentBuilder =
     new ActorAccelerationComponentBuilder();
+  const actorRotationComponentBuilder = new ActorRotationComponentBuilder();
+
   const tankTurretBuilder = new TankTurretBuilder();
   const tankBuilder = new TankBuilder();
 
@@ -47,14 +52,14 @@ async function main() {
     WORLD_ENTITY_DATA_PATH,
     TANKS_DATA_JSON_NAME
   );
-  const worldEntityDataConverter = new WorldEntityDataConverter();
+  const worldEntityDataConverter = new WorldEntityDataConverter(vector2Manager);
 
   const tanksData = await worldEntityDataLoader.getTanksData();
   const tankData = worldEntityDataConverter.tankDataToModel(tanksData[1]);
   const tankTurretData = tankData.getTurretData();
 
   const turret = tankTurretBuilder
-    .setPosition(new Vector2(165, 150))
+    .setPosition(vector2Manager.getNew(165, 150))
     .setSpriteComponent(
       actorSpriteComponentBuilder
         .setSpriteSheetName(tankTurretData.getSpriteData().getSheetName())
@@ -66,7 +71,8 @@ async function main() {
     .build();
 
   const tank = tankBuilder
-    .setPosition(new Vector2(150, 150))
+    .setPosition(vector2Manager.getNew(150, 150))
+    .setTurret(turret)
     .setSpriteComponent(
       actorSpriteComponentBuilder
         .setSpriteSheetName(tankData.getSpriteData().getSheetName())
@@ -75,14 +81,20 @@ async function main() {
         .setOrigin(tankData.getSpriteData().getOrigin())
         .build()
     )
-    .setTurret(turret)
-    .build();
+    .build(vector2Manager);
 
-  tank.setAccelerationComponent(
-    actorAccelerationComponentBuilder.setMass(10000).build(tank)
+  tank
+    .getComponents()
+    .setAcceleration(
+      actorAccelerationComponentBuilder
+        .setMass(3000)
+        .addActingForce(0.09)
+        .build(tank)
+    );
+
+  const camera = new Camera(
+    vector2Manager.getNew(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT)
   );
-
-  const camera = new Camera(new Vector2(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT));
   camera.lookAt(tank);
 
   const menuScene = new MenuScene(camera);
@@ -91,19 +103,15 @@ async function main() {
   worldScene.addActor(turret);
 
   const eventManager = new EventManager(window);
-  const inputKeyHandler = new InputKeyHandler();
-  const mouseHandler = new MouseHandler(worldScene.getCamera());
-
-  eventManager.onMouseMove(mouseHandler.onMouseMove.bind(mouseHandler));
-  eventManager.onKeyDown(inputKeyHandler.onKeyDown.bind(inputKeyHandler));
-  eventManager.onKeyUp(inputKeyHandler.onKeyUp.bind(inputKeyHandler));
+  const inputKeyHandler = new InputKeyHandler(eventManager);
+  const mouseHandler = new MouseHandler(eventManager, worldScene.getCamera());
 
   const resourceManager = new ResourceManager(new ImageLoader());
   await resourceManager.loadSpriteSheets([
     new SpriteSheetLoadInfo("tanks", "../assets/tanks.png"),
   ]);
 
-  const canvasRenderer = new CanvasRenderer(canvas);
+  const canvasRenderer = new CanvasRenderer(canvas, vector2Manager);
   const actorsRenderer = new ActorsRenderer(canvasRenderer, resourceManager);
 
   const sceneManager = new SceneManager();
@@ -123,6 +131,7 @@ async function main() {
     inputKeyHandler,
     mouseHandler
   );
+
   engine.getLoop().onUpdate(tankControlling.update.bind(tankControlling));
 
   document.body.appendChild(canvas);

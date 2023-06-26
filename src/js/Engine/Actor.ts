@@ -1,30 +1,26 @@
 import IActor from "../Interfaces/IActor";
-import IActorAccelerationComponent from "../Interfaces/IActorAccelerationComponent";
-import IActorComponent from "../Interfaces/IActorComponent";
-import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
+import IActorComponents from "../Interfaces/IActorComponents";
 import IVector2 from "../Interfaces/IVector2";
+import ActorComponents from "./ActorComponents";
 import Vector2 from "./Vector2";
 
 export default abstract class Actor implements IActor {
   protected readonly _position: IVector2 = new Vector2(0, 0);
-
-  protected _sprite: null | IActorSpriteComponent = null;
-  protected _acceleration: null | IActorAccelerationComponent = null;
-
+  protected readonly _direction: IVector2 = new Vector2(0, 0);
   protected _radians: number = 0;
 
-  constructor() {}
+  protected readonly _components: IActorComponents = new ActorComponents();
+
+  getComponents(): IActorComponents {
+    return this._components;
+  }
 
   getPosition(): IVector2 {
     return this._position;
   }
 
-  getSpriteComponent(): null | IActorSpriteComponent {
-    return this._sprite;
-  }
-
-  getAccelerationComponent(): null | IActorAccelerationComponent {
-    return this._acceleration;
+  getDirection(): IVector2 {
+    return this._direction;
   }
 
   getRadians(): number {
@@ -36,14 +32,9 @@ export default abstract class Actor implements IActor {
     this._position.y = position.y;
   }
 
-  setSpriteComponent(spriteComponent: IActorSpriteComponent) {
-    this._sprite = spriteComponent;
-  }
-
-  setAccelerationComponent(
-    accelerationComponent: IActorAccelerationComponent
-  ): void {
-    this._acceleration = accelerationComponent;
+  setDirection(direction: IVector2): void {
+    this._direction.x = direction.x;
+    this._direction.y = direction.y;
   }
 
   update(timeStep: number): void {}

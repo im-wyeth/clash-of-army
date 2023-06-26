@@ -4,15 +4,17 @@ import ITankTurretData from "./Interfaces/ITankTurretData";
 import SpriteData from "./SpriteData";
 import TankData from "./TankData";
 import TankTurretData from "./TankTurretData";
-import Vector2 from "./Engine/Vector2";
+import IVector2Manager from "./Interfaces/IVector2Manager";
 
 export default class WorldEntityDataConverter {
+  constructor(private readonly _vector2Manager: IVector2Manager) {}
+
   private _spriteDataToModel(spriteData: any): ISpriteData {
     return new SpriteData(
       spriteData.sheet_name,
-      new Vector2(spriteData.size.x, spriteData.size.y),
-      new Vector2(spriteData.source.x, spriteData.source.y),
-      new Vector2(spriteData.origin.x, spriteData.origin.y)
+      this._vector2Manager.getNew(spriteData.size.x, spriteData.size.y),
+      this._vector2Manager.getNew(spriteData.source.x, spriteData.source.y),
+      this._vector2Manager.getNew(spriteData.origin.x, spriteData.origin.y)
     );
   }
 

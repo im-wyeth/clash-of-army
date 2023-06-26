@@ -13,15 +13,15 @@ export default class ActorsRenderer implements IActorRenderer {
   }
 
   renderActor(actor: IActor) {
-    const actorSpriteComponent = actor.getSpriteComponent();
+    const { sprite } = actor.getComponents();
 
-    if (!actorSpriteComponent) {
+    if (!sprite) {
       return;
     }
 
     const spriteSheet = this._resourceManager
       .getSpriteSheets()
-      .get(actorSpriteComponent.getSheetName());
+      .get(sprite.getSheetName());
 
     if (!spriteSheet) {
       return;
@@ -31,15 +31,15 @@ export default class ActorsRenderer implements IActorRenderer {
       spriteSheet,
       actor.getPosition().x,
       actor.getPosition().y,
-      actorSpriteComponent.getSize().x,
-      actorSpriteComponent.getSize().y,
+      sprite.getSize().x,
+      sprite.getSize().y,
       actor.getRadians(),
-      actorSpriteComponent.getSource().x,
-      actorSpriteComponent.getSource().y,
-      actorSpriteComponent.getSize().x,
-      actorSpriteComponent.getSize().y,
-      actorSpriteComponent.getOrigin().x,
-      actorSpriteComponent.getOrigin().y
+      sprite.getSource().x,
+      sprite.getSource().y,
+      sprite.getSize().x,
+      sprite.getSize().y,
+      sprite.getOrigin().x,
+      sprite.getOrigin().y
     );
   }
 }

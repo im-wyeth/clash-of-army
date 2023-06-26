@@ -1,6 +1,6 @@
-import Actor from "../Engine/Actor";
+import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
 
-export default class TankTurret extends Actor {
+export default class TankTurret extends TankTurretAbstraction {
   constructor() {
     super();
   }

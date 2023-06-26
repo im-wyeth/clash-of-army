@@ -1,5 +1,7 @@
+import Vector2 from "../Engine/Vector2";
 import IActor from "../Interfaces/IActor";
 import IActorAccelerationComponent from "../Interfaces/IActorAccelerationComponent";
+import IVector2Manager from "../Interfaces/IVector2Manager";
 
 export default class ActorAccelerationComponent
   implements IActorAccelerationComponent
@@ -7,11 +9,27 @@ export default class ActorAccelerationComponent
   private readonly _actor: IActor;
 
   private _velocity = 0;
+  private _maxVelocity = 100;
   private _mass = 0;
-  private _force = 0;
+  private _accelerationForce = 0;
+  private _brakingForce = 0;
+
+  private _actingForces: Array<number> = [];
 
   constructor(actor: IActor) {
     this._actor = actor;
+  }
+
+  getVelocity(): number {
+    return this._velocity;
+  }
+
+  getMass(): number {
+    return this._mass;
+  }
+
+  getAccelerationForce(): number {
+    return this._accelerationForce;
   }
 
   setVelocity(v: number): void {
@@ -22,18 +40,36 @@ export default class ActorAccelerationComponent
     this._mass = m;
   }
 
-  setForce(f: number): void {
-    this._force = f;
+  setAccelerationForce(f: number): void {
+    this._accelerationForce = f;
   }
 
-  increaseVelocity(timeStep: number): void {
-    const acceleration = this._force / this._mass;
-
-    this._velocity += acceleration * timeStep;
+  setBrakingForce(f: number): void {
+    this._brakingForce = f;
   }
 
-  decreaseVelocity(timeStep: number): void {
-    this._velocity -= timeStep;
+  addActingForce(f: number): void {
+    this._actingForces.push(f);
+  }
+
+  private _increaseVelocity(timeStep: number): void {
+    let force = this._accelerationForce;
+
+    if (this._brakingForce > 0) {
+      force -= this._brakingForce;
+    }
+
+    for (const actingForce of this._actingForces) {
+      force -= actingForce;
+    }
+
+    const acceleration = (force / this._mass) * timeStep;
+
+    if (this._velocity + acceleration > this._maxVelocity) {
+      this._velocity = this._maxVelocity;
+    } else {
+      this._velocity += acceleration;
+    }
 
     if (this._velocity < 0) {
       this._velocity = 0;
@@ -41,14 +77,16 @@ export default class ActorAccelerationComponent
   }
 
   update(timeStep: number): void {
-    if (!this._force || !this._mass) {
-      return;
-    }
+    this._increaseVelocity(timeStep);
 
-    if (!this._force && this._velocity > 0) {
-      this.decreaseVelocity(timeStep);
-    } else {
-      this.increaseVelocity(timeStep);
-    }
+    const pos = this._actor.getPosition();
+    const dir = this._actor.getDirection();
+
+    this._actor.setPosition(
+      new Vector2(
+        pos.x + dir.x * this._velocity * timeStep,
+        pos.y + dir.y * this._velocity * timeStep
+      )
+    );
   }
 }

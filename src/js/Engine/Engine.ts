@@ -28,10 +28,10 @@ export default class Engine {
       const actors = currentScene.getActors();
 
       for (const actor of actors) {
-        const accelerationComponent = actor.getAccelerationComponent();
+        const { acceleration } = actor.getComponents();
 
-        if (accelerationComponent) {
-          accelerationComponent.update(timeStep);
+        if (acceleration) {
+          acceleration.update(timeStep);
         }
 
         if (actor.update) actor.update(timeStep);

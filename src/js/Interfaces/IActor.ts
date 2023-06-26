@@ -1,23 +1,18 @@
-import IActorAccelerationComponent from "./IActorAccelerationComponent";
-import IActorSpriteComponent from "./IActorSpriteComponent";
+import IActorComponents from "./IActorComponents";
 import IVector2 from "./IVector2";
 
 export default interface IActor {
   getPosition(): IVector2;
 
-  getSpriteComponent(): null | IActorSpriteComponent;
+  getDirection(): IVector2;
 
-  getAccelerationComponent(): null | IActorAccelerationComponent;
+  getComponents(): IActorComponents;
 
   getRadians(): number;
 
   setPosition(position: IVector2): void;
 
-  setSpriteComponent(spriteComponent: IActorSpriteComponent): void;
-
-  setAccelerationComponent(
-    accelerationComponent: IActorAccelerationComponent
-  ): void;
+  setDirection(direction: IVector2): void;
 
   update?(timeStep: number): void;
 }

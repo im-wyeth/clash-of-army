@@ -36,11 +36,15 @@ export default class Vector2 implements IVector2 {
     return new Vector2(this.x * v.x, this.y * v.y);
   }
 
-  rotate(theta: number) {
+  rotate(theta: number): IVector2 {
     return new Vector2(
       this.x * Math.cos(theta) - this.y * Math.sin(theta),
       this.x * Math.sin(theta) + this.y * Math.cos(theta)
     );
+  }
+
+  toRadians(): number {
+    return Math.atan2(this.y, this.x);
   }
 
   dot(vec: IVector2): number {

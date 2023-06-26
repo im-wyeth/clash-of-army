@@ -10,8 +10,20 @@ export default class PlayerTankControlling {
   ) {}
 
   update(timeStep: number) {
-    if (this._inputKeyHandler.isPressed("Space")) {
-      console.log(1);
+    if (this._inputKeyHandler.isPressed("KeyW")) {
+      this._tank.moveForward();
+    }
+
+    if (this._inputKeyHandler.isPressed("KeyS")) {
+      this._tank.moveBackward();
+    }
+
+    if (this._inputKeyHandler.isPressed("KeyD")) {
+      this._tank.rotateRight();
+    }
+
+    if (this._inputKeyHandler.isPressed("KeyA")) {
+      this._tank.rotateLeft();
     }
   }
 }

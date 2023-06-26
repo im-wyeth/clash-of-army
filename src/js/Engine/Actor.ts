@@ -1,4 +1,7 @@
-import IActor from "../Interfaces/IActor";
+import ActorAccelerationComponent from "../ActorComponents/ActorAccelerationComponent";
+import ActorRotationComponent from "../ActorComponents/ActorRotationComponent";
+import ActorSpriteComponent from "../ActorComponents/ActorSpriteComponent";
+import IActor, { ComponentList } from "../Interfaces/IActor";
 import IActorComponents from "../Interfaces/IActorComponents";
 import IVector2 from "../Interfaces/IVector2";
 import ActorComponents from "./ActorComponents";
@@ -9,9 +12,13 @@ export default abstract class Actor implements IActor {
   protected readonly _direction: IVector2 = new Vector2(0, 0);
   protected _radians: number = 0;
 
-  protected readonly _components: IActorComponents = new ActorComponents();
+  protected readonly _components: ComponentList = [
+    undefined,
+    undefined,
+    undefined,
+  ];
 
-  getComponents(): IActorComponents {
+  getComponents(): ComponentList {
     return this._components;
   }
 

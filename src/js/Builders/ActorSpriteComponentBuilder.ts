@@ -2,6 +2,7 @@ import ActorSpriteComponent from "../ActorComponents/ActorSpriteComponent";
 import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
 import IVector2 from "../Interfaces/IVector2";
 import Vector2 from "../Engine/Vector2";
+import IActor from "../Interfaces/IActor";
 
 export default class ActorSpriteComponentBuilder {
   private _spriteSheetName: string = "";
@@ -36,8 +37,9 @@ export default class ActorSpriteComponentBuilder {
     return this;
   }
 
-  build(): IActorSpriteComponent {
+  build(actor: IActor): ActorSpriteComponent {
     const spriteComponent = new ActorSpriteComponent(
+      actor,
       this._spriteSheetName,
       new Vector2(this._source.x, this._source.y),
       new Vector2(this._size.x, this._size.y),

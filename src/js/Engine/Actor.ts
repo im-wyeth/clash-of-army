@@ -1,10 +1,7 @@
-import ActorAccelerationComponent from "../ActorComponents/ActorAccelerationComponent";
-import ActorRotationComponent from "../ActorComponents/ActorRotationComponent";
-import ActorSpriteComponent from "../ActorComponents/ActorSpriteComponent";
-import IActor, { ComponentList } from "../Interfaces/IActor";
-import IActorComponents from "../Interfaces/IActorComponents";
+import ActorComponent from "../ActorComponents/ActorComponent";
+import IActor from "../Interfaces/IActor";
+import IActorComponent from "../Interfaces/IActorComponent";
 import IVector2 from "../Interfaces/IVector2";
-import ActorComponents from "./ActorComponents";
 import Vector2 from "./Vector2";
 
 export default abstract class Actor implements IActor {
@@ -12,14 +9,20 @@ export default abstract class Actor implements IActor {
   protected readonly _direction: IVector2 = new Vector2(0, 0);
   protected _radians: number = 0;
 
-  protected readonly _components: ComponentList = [
-    undefined,
-    undefined,
-    undefined,
-  ];
+  protected readonly _components: Array<IActorComponent> = [];
 
-  getComponents(): ComponentList {
-    return this._components;
+  setComponent(component: IActorComponent) {
+    this._components.push(component);
+  }
+
+  getComponent<T>(type: { new (...args: any): T }): null | T {
+    for (const component of this._components) {
+      if (component instanceof type) {
+        return component;
+      }
+    }
+
+    return null;
   }
 
   getPosition(): IVector2 {
@@ -43,6 +46,4 @@ export default abstract class Actor implements IActor {
     this._direction.x = direction.x;
     this._direction.y = direction.y;
   }
-
-  update(timeStep: number): void {}
 }

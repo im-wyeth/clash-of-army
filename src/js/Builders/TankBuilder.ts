@@ -1,4 +1,3 @@
-import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
 import IVector2 from "../Interfaces/IVector2";
 import Vector2 from "../Engine/Vector2";
 import Tank from "../WorldEntities/Tank";
@@ -7,15 +6,8 @@ import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
 import IVector2Manager from "../Interfaces/IVector2Manager";
 
 export default class TankBuilder {
-  private _spriteComponent: null | IActorSpriteComponent = null;
   private _position: IVector2 = new Vector2(0, 0);
   private _turret: null | TankTurretAbstraction = null;
-
-  setSpriteComponent(spriteComponent: IActorSpriteComponent): TankBuilder {
-    this._spriteComponent = spriteComponent;
-
-    return this;
-  }
 
   setPosition(position: IVector2): TankBuilder {
     this._position.x = position.x;
@@ -33,10 +25,6 @@ export default class TankBuilder {
   build(vector2Manager: IVector2Manager): TankAbstraction {
     const tank = new Tank(vector2Manager);
     tank.setPosition(this._position);
-
-    if (this._spriteComponent) {
-      tank.getComponents().setSprite(this._spriteComponent);
-    }
 
     if (this._turret) {
       tank.setTurret(this._turret);

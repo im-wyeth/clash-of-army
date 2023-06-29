@@ -1,13 +1,13 @@
 import IActor from "../Interfaces/IActor";
 import IActorRotationComponent from "../Interfaces/IActorRotationComponent";
 import IVector2 from "../Interfaces/IVector2";
+import ActorComponent from "./ActorComponent";
 
-export default class ActorRotationComponent implements IActorRotationComponent {
-  private readonly _actor: IActor;
+export default class ActorRotationComponent extends ActorComponent {
   private _rotationSpeed: number = 0.001;
 
   constructor(actor: IActor) {
-    this._actor = actor;
+    super(actor);
   }
 
   rotateToPoint(point: IVector2) {}

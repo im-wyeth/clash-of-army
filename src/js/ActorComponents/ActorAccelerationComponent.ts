@@ -1,13 +1,9 @@
 import Vector2 from "../Engine/Vector2";
 import IActor from "../Interfaces/IActor";
 import IActorAccelerationComponent from "../Interfaces/IActorAccelerationComponent";
-import IVector2Manager from "../Interfaces/IVector2Manager";
+import ActorComponent from "./ActorComponent";
 
-export default class ActorAccelerationComponent
-  implements IActorAccelerationComponent
-{
-  private readonly _actor: IActor;
-
+export default class ActorAccelerationComponent extends ActorComponent {
   private _velocity = 0;
   private _maxVelocity = 100;
   private _mass = 0;
@@ -17,7 +13,7 @@ export default class ActorAccelerationComponent
   private _actingForces: Array<number> = [];
 
   constructor(actor: IActor) {
-    this._actor = actor;
+    super(actor);
   }
 
   getVelocity(): number {

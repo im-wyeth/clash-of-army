@@ -31,12 +31,12 @@ import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationCo
 import Vector2Manager from "./js/Engine/Vector2Manager";
 import ActorRotationComponentBuilder from "./js/Builders/ActorRotationComponentBuilder";
 
-const canvas = document.createElement("canvas");
-canvas.width = CANVAS_SIZE.WIDTH;
-canvas.height = CANVAS_SIZE.HEIGHT;
-canvas.classList.add("canvas");
-
 async function main() {
+  const canvas = document.createElement("canvas");
+  canvas.width = CANVAS_SIZE.WIDTH;
+  canvas.height = CANVAS_SIZE.HEIGHT;
+  canvas.classList.add("canvas");
+
   const vector2Manager = new Vector2Manager();
 
   const actorSpriteComponentBuilder = new ActorSpriteComponentBuilder();
@@ -60,37 +60,37 @@ async function main() {
 
   const turret = tankTurretBuilder
     .setPosition(vector2Manager.getNew(165, 150))
-    .setSpriteComponent(
-      actorSpriteComponentBuilder
-        .setSpriteSheetName(tankTurretData.getSpriteData().getSheetName())
-        .setSize(tankTurretData.getSpriteData().getSize())
-        .setSource(tankTurretData.getSpriteData().getSource())
-        .setOrigin(tankTurretData.getSpriteData().getOrigin())
-        .build()
-    )
     .build();
+
+  turret.setComponent(
+    actorSpriteComponentBuilder
+      .setSpriteSheetName(tankTurretData.getSpriteData().getSheetName())
+      .setSize(tankTurretData.getSpriteData().getSize())
+      .setSource(tankTurretData.getSpriteData().getSource())
+      .setOrigin(tankTurretData.getSpriteData().getOrigin())
+      .build(turret)
+  );
 
   const tank = tankBuilder
     .setPosition(vector2Manager.getNew(150, 150))
     .setTurret(turret)
-    .setSpriteComponent(
-      actorSpriteComponentBuilder
-        .setSpriteSheetName(tankData.getSpriteData().getSheetName())
-        .setSize(tankData.getSpriteData().getSize())
-        .setSource(tankData.getSpriteData().getSource())
-        .setOrigin(tankData.getSpriteData().getOrigin())
-        .build()
-    )
     .build(vector2Manager);
 
-  tank
-    .getComponents()
-    .setAcceleration(
-      actorAccelerationComponentBuilder
-        .setMass(3000)
-        .addActingForce(0.09)
-        .build(tank)
-    );
+  tank.setComponent(
+    actorSpriteComponentBuilder
+      .setSpriteSheetName(tankData.getSpriteData().getSheetName())
+      .setSize(tankData.getSpriteData().getSize())
+      .setSource(tankData.getSpriteData().getSource())
+      .setOrigin(tankData.getSpriteData().getOrigin())
+      .build(tank)
+  );
+
+  tank.setComponent(
+    actorAccelerationComponentBuilder
+      .setMass(3000)
+      .addActingForce(0.09)
+      .build(tank)
+  );
 
   const camera = new Camera(
     vector2Manager.getNew(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT)

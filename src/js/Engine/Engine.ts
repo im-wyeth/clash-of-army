@@ -1,3 +1,4 @@
+import ActorAccelerationComponent from "../ActorComponents/ActorAccelerationComponent";
 import IActorRenderer from "../Interfaces/IActorsRenderer";
 import ILoop from "../Interfaces/ILoop";
 import IRenderer from "../Interfaces/IRenderer";
@@ -28,7 +29,7 @@ export default class Engine {
       const actors = currentScene.getActors();
 
       for (const actor of actors) {
-        const { acceleration } = actor.getComponents();
+        const acceleration = actor.getComponent(ActorAccelerationComponent);
 
         if (acceleration) {
           acceleration.update(timeStep);

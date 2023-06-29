@@ -1,3 +1,4 @@
+import ActorSpriteComponent from "../ActorComponents/ActorSpriteComponent";
 import IActor from "../Interfaces/IActor";
 import IActorRenderer from "../Interfaces/IActorsRenderer";
 import IRenderer from "../Interfaces/IRenderer";
@@ -13,7 +14,7 @@ export default class ActorsRenderer implements IActorRenderer {
   }
 
   renderActor(actor: IActor) {
-    const { sprite } = actor.getComponents();
+    const sprite = actor.getComponent(ActorSpriteComponent);
 
     if (!sprite) {
       return;

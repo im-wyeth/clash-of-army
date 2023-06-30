@@ -1,5 +1,5 @@
-import ActorAccelerationComponent from "../ActorComponents/ActorAccelerationComponent";
-import IActor from "../Interfaces/IActor";
+import { ActorComponents } from "../Engine";
+import IActor from "../Engine/Interfaces/IActor";
 
 export default class ActorAccelerationComponentBuilder {
   private _mass: number = 0;
@@ -18,8 +18,8 @@ export default class ActorAccelerationComponentBuilder {
     return this;
   }
 
-  build(actor: IActor): ActorAccelerationComponent {
-    const component = new ActorAccelerationComponent(actor);
+  build(actor: IActor): ActorComponents.Acceleration {
+    const component = new ActorComponents.Acceleration(actor);
 
     component.setMass(this._mass);
 

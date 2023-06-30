@@ -1,8 +1,8 @@
-import IActor from "../Interfaces/IActor";
-import ICamera from "../Interfaces/ICamera";
-import IScene from "../Interfaces/IScene";
+import IActor from "./Interfaces/IActor";
+import ICamera from "./Interfaces/ICamera";
+import IScene from "./Interfaces/IScene";
 
-export default class Scene implements IScene {
+export class Scene implements IScene {
   protected _name = "scene";
 
   protected readonly _camera: ICamera;

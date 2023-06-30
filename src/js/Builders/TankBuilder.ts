@@ -1,9 +1,9 @@
-import IVector2 from "../Interfaces/IVector2";
-import Vector2 from "../Engine/Vector2";
+import IVector2 from "../Engine/Interfaces/IVector2";
+import { Vector2 } from "../Engine/Vector2";
 import Tank from "../WorldEntities/Tank";
 import TankAbstraction from "../Abstractions/TankAbstraction";
 import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
-import IVector2Manager from "../Interfaces/IVector2Manager";
+import IVector2Manager from "../Engine/Interfaces/IVector2Manager";
 
 export default class TankBuilder {
   private _position: IVector2 = new Vector2(0, 0);

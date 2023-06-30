@@ -1,4 +1,4 @@
-import IHTTPClient from "./Interfaces/IHTTPClient";
+import IHTTPClient from "./Engine/Interfaces/IHTTPClient";
 
 export default class WorldEntityDataLoader {
   private readonly _httpClient: IHTTPClient;

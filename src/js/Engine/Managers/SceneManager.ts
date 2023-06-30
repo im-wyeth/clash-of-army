@@ -1,7 +1,7 @@
-import IScene from "../../Interfaces/IScene";
-import ISceneManager from "../../Interfaces/ISceneManager";
+import IScene from "../Interfaces/IScene";
+import ISceneManager from "../Interfaces/ISceneManager";
 
-export default class SceneManager implements ISceneManager {
+export class SceneManager implements ISceneManager {
   private _scenes: Array<IScene> = [];
   private _currentScene: null | IScene = null;
 

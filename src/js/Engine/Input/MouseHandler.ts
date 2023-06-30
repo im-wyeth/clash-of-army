@@ -2,9 +2,9 @@ import ICamera from "../Interfaces/ICamera";
 import { IEventManager } from "../Interfaces/IEventManager";
 import IMouseHandler from "../Interfaces/IMouseHandler";
 import IVector2 from "../Interfaces/IVector2";
-import Vector2 from "./Vector2";
+import { Vector2 } from "../Vector2";
 
-export default class MouseHandler implements IMouseHandler {
+export class MouseHandler implements IMouseHandler {
   private readonly _mouse: IVector2;
   private readonly _world: IVector2;
   private readonly _camera: ICamera;

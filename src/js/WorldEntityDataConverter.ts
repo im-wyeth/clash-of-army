@@ -1,10 +1,10 @@
-import ISpriteData from "./Interfaces/ISpriteData";
+import ISpriteData from "./Engine/Interfaces/ISpriteData";
 import ITankData from "./Interfaces/ITankData";
 import ITankTurretData from "./Interfaces/ITankTurretData";
-import SpriteData from "./SpriteData";
+import { SpriteData } from "./Engine/SpriteData";
 import TankData from "./TankData";
 import TankTurretData from "./TankTurretData";
-import IVector2Manager from "./Interfaces/IVector2Manager";
+import IVector2Manager from "./Engine/Interfaces/IVector2Manager";
 
 export default class WorldEntityDataConverter {
   constructor(private readonly _vector2Manager: IVector2Manager) {}

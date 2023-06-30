@@ -1,6 +1,6 @@
-import IVector2 from "../Interfaces/IVector2";
+import IVector2 from "./Interfaces/IVector2";
 
-export default class Vector2 implements IVector2 {
+export class Vector2 implements IVector2 {
   x: number;
   y: number;
 

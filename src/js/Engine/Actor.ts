@@ -1,10 +1,9 @@
-import ActorComponent from "../ActorComponents/ActorComponent";
-import IActor from "../Interfaces/IActor";
-import IActorComponent from "../Interfaces/IActorComponent";
-import IVector2 from "../Interfaces/IVector2";
-import Vector2 from "./Vector2";
+import IActor from "./Interfaces/IActor";
+import IActorComponent from "./Interfaces/IActorComponent";
+import IVector2 from "./Interfaces/IVector2";
+import { Vector2 } from "./Vector2";
 
-export default abstract class Actor implements IActor {
+export abstract class Actor implements IActor {
   protected readonly _position: IVector2 = new Vector2(0, 0);
   protected readonly _direction: IVector2 = new Vector2(0, 0);
   protected _radians: number = 0;

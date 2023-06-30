@@ -1,6 +1,6 @@
 import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
-import ActorRotationComponent from "../ActorComponents/ActorRotationComponent";
-import IVector2 from "../Interfaces/IVector2";
+import { ActorComponents } from "../Engine/";
+import IVector2 from "../Engine/Interfaces/IVector2";
 
 export default class TankTurret extends TankTurretAbstraction {
   constructor() {
@@ -8,7 +8,7 @@ export default class TankTurret extends TankTurretAbstraction {
   }
 
   rotateTo(point: IVector2): void {
-    const rotation = this.getComponent(ActorRotationComponent);
+    const rotation = this.getComponent(ActorComponents.Rotation);
 
     if (rotation) {
       rotation.lookAt(point);

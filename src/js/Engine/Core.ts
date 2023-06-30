@@ -1,9 +1,9 @@
-import IActorRenderer from "../Interfaces/IActorsRenderer";
-import ILoop from "../Interfaces/ILoop";
-import IRenderer from "../Interfaces/IRenderer";
-import ISceneManager from "../Interfaces/ISceneManager";
+import IActorRenderer from "./Interfaces/IActorsRenderer";
+import ILoop from "./Interfaces/ILoop";
+import IRenderer from "./Interfaces/IRenderer";
+import ISceneManager from "./Interfaces/ISceneManager";
 
-export default class Engine {
+export class Core {
   constructor(
     private readonly _loop: ILoop,
     private readonly _sceneManager: ISceneManager,

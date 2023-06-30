@@ -1,9 +1,8 @@
-import Vector2 from "./Engine/Vector2";
-import IRenderer from "./Interfaces/IRenderer";
-import IVector2 from "./Interfaces/IVector2";
-import IVector2Manager from "./Interfaces/IVector2Manager";
+import IRenderer from "../Interfaces/IRenderer";
+import IVector2 from "../Interfaces/IVector2";
+import IVector2Manager from "../Interfaces/IVector2Manager";
 
-export default class CanvasRenderer implements IRenderer {
+export class CanvasRenderer implements IRenderer {
   private readonly _canvas: HTMLCanvasElement;
   private readonly _ctx: null | CanvasRenderingContext2D;
 

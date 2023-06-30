@@ -1,8 +1,8 @@
-import Vector2 from "../Engine/Vector2";
+import { Vector2 } from "../Vector2";
 import IActor from "../Interfaces/IActor";
-import ActorComponent from "./ActorComponent";
+import { BaseComponent } from "./BaseComponent";
 
-export default class ActorAccelerationComponent extends ActorComponent {
+export class Acceleration extends BaseComponent {
   private _velocity = 0;
   private _maxVelocity = 100;
   private _mass = 0;

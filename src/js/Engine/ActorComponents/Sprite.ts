@@ -1,8 +1,8 @@
 import IActor from "../Interfaces/IActor";
 import IVector2 from "../Interfaces/IVector2";
-import ActorComponent from "./ActorComponent";
+import { BaseComponent } from "./BaseComponent";
 
-export default class ActorSpriteComponent extends ActorComponent {
+export class Sprite extends BaseComponent {
   private _sheetName: string;
   private _source: IVector2;
   private _size: IVector2;

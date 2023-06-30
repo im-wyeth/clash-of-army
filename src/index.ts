@@ -1,37 +1,24 @@
 import "./styles/styles.css";
 
-import Engine from "./js/Engine/Engine";
+import * as Engine from "./js/Engine";
+
 import {
   CANVAS_SIZE,
   LOOP_TIME_STEP,
   TANKS_DATA_JSON_NAME,
   WORLD_ENTITY_DATA_PATH,
 } from "./js/ClientConfig";
-import Loop from "./js/Engine/Loop";
-import SceneManager from "./js/Engine/Managers/SceneManager";
+
 import WorldScene from "./js/Scenes/WorldScene";
 import MenuScene from "./js/Scenes/MenuScene";
-import CanvasRenderer from "./js/CanvasRenderer";
-import ActorsRenderer from "./js/Engine/ActorsRenderer";
-import ResourceManager from "./js/Engine/Managers/ResourceManager";
-import ImageLoader from "./js/ImageLoader";
-import SpriteSheetLoadInfo from "./js/SpriteSheetLoadInfo";
 import TankBuilder from "./js/Builders/TankBuilder";
 import ActorSpriteComponentBuilder from "./js/Builders/ActorSpriteComponentBuilder";
 import TankTurretBuilder from "./js/Builders/TankTurretBuilder";
 import WorldEntityDataLoader from "./js/WorldEntityDataLoader";
-import FetchClient from "./js/FetchClient";
 import WorldEntityDataConverter from "./js/WorldEntityDataConverter";
-import EventManager from "./js/Engine/Managers/EventManager";
-import InputKeyHandler from "./js/Engine/InputKeyHandler";
-import MouseHandler from "./js/Engine/MouseHandler";
-import Camera from "./js/Engine/Camera";
 import PlayerTankControlling from "./js/PlayerTankControlling";
 import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationComponentBuilder";
-import Vector2Manager from "./js/Engine/Vector2Manager";
 import ActorRotationComponentBuilder from "./js/Builders/ActorRotationComponentBuilder";
-import ActorRotationComponent from "./js/ActorComponents/ActorRotationComponent";
-import MathUtils from "./js/Engine/MathUtils";
 
 async function main() {
   const canvas = document.createElement("canvas");
@@ -39,8 +26,8 @@ async function main() {
   canvas.height = CANVAS_SIZE.HEIGHT;
   canvas.classList.add("canvas");
 
-  const vector2Manager = new Vector2Manager();
-  const mathUtils = new MathUtils();
+  const vector2Manager = new Engine.Managers.Vector2Manager();
+  const mathUtils = new Engine.MathUtils();
 
   const actorSpriteComponentBuilder = new ActorSpriteComponentBuilder();
   const actorAccelerationComponentBuilder =
@@ -51,7 +38,7 @@ async function main() {
   const tankBuilder = new TankBuilder();
 
   const worldEntityDataLoader = new WorldEntityDataLoader(
-    new FetchClient(),
+    new Engine.Net.FetchClient(),
     WORLD_ENTITY_DATA_PATH,
     TANKS_DATA_JSON_NAME
   );
@@ -73,7 +60,7 @@ async function main() {
       .setOrigin(tankTurretData.getSpriteData().getOrigin())
       .build(turret)
   );
-  turret.setComponent(new ActorRotationComponent(turret, mathUtils));
+  turret.setComponent(new Engine.ActorComponents.Rotation(turret, mathUtils));
 
   const tank = tankBuilder
     .setPosition(vector2Manager.getNew(150, 150))
@@ -96,7 +83,7 @@ async function main() {
       .build(tank)
   );
 
-  const camera = new Camera(
+  const camera = new Engine.Camera(
     vector2Manager.getNew(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT)
   );
   camera.lookAt(tank);
@@ -106,25 +93,36 @@ async function main() {
   worldScene.addActor(tank);
   worldScene.addActor(turret);
 
-  const eventManager = new EventManager(window);
-  const inputKeyHandler = new InputKeyHandler(eventManager);
-  const mouseHandler = new MouseHandler(eventManager, worldScene.getCamera());
+  const eventManager = new Engine.Managers.EventManager(window);
+  const inputKeyHandler = new Engine.Input.InputKeyHandler(eventManager);
+  const mouseHandler = new Engine.Input.MouseHandler(
+    eventManager,
+    worldScene.getCamera()
+  );
 
-  const resourceManager = new ResourceManager(new ImageLoader());
+  const resourceManager = new Engine.Managers.ResourceManager(
+    new Engine.Net.ImageLoader()
+  );
   await resourceManager.loadSpriteSheets([
-    new SpriteSheetLoadInfo("tanks", "../assets/tanks.png"),
+    new Engine.SpriteSheetLoadInfo("tanks", "../assets/tanks.png"),
   ]);
 
-  const canvasRenderer = new CanvasRenderer(canvas, vector2Manager);
-  const actorsRenderer = new ActorsRenderer(canvasRenderer, resourceManager);
+  const canvasRenderer = new Engine.Render.CanvasRenderer(
+    canvas,
+    vector2Manager
+  );
+  const actorsRenderer = new Engine.Render.ActorsRenderer(
+    canvasRenderer,
+    resourceManager
+  );
 
-  const sceneManager = new SceneManager();
+  const sceneManager = new Engine.Managers.SceneManager();
   sceneManager.addScene(menuScene);
   sceneManager.addScene(worldScene);
   sceneManager.loadScene("world");
 
-  const engine = new Engine(
-    new Loop(LOOP_TIME_STEP),
+  const engine = new Engine.Core(
+    new Engine.Loop(LOOP_TIME_STEP),
     sceneManager,
     actorsRenderer,
     canvasRenderer

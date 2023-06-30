@@ -1,8 +1,8 @@
-import IMathUtils from "../Interfaces/IMathUtils";
+import IMathUtils from "./Interfaces/IMathUtils";
 
 const TWO_PI = Math.PI * 2;
 
-export default class MathUtils implements IMathUtils {
+export class MathUtils implements IMathUtils {
   constructor() {}
 
   normalizeRadians(radians: number): number {

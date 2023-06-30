@@ -1,6 +1,6 @@
-import ILoop from "../Interfaces/ILoop";
+import ILoop from "./Interfaces/ILoop";
 
-export default class Loop implements ILoop {
+export class Loop implements ILoop {
   private readonly _timeStep: number;
 
   private _onUpdateCB: Array<Function> = [];

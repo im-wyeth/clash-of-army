@@ -1,6 +1,6 @@
-import IHTTPResponse from "./Interfaces/IHTTPResponse";
+import IHTTPResponse from "../Interfaces/IHTTPResponse";
 
-export default class HTTPResponse implements IHTTPResponse {
+export class HTTPResponse implements IHTTPResponse {
   private readonly _json: object;
 
   constructor(json: object) {

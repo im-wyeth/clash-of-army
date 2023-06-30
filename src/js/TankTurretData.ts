@@ -1,4 +1,4 @@
-import ISpriteData from "./Interfaces/ISpriteData";
+import ISpriteData from "./Engine/Interfaces/ISpriteData";
 import ITankTurretData from "./Interfaces/ITankTurretData";
 
 export default class TankTurretData implements ITankTurretData {

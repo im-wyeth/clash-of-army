@@ -6,7 +6,7 @@ enum KEY_STATE {
   UNPRESSED,
 }
 
-export default class InputKeyHandler implements IInputKeyHandler {
+export class InputKeyHandler implements IInputKeyHandler {
   private readonly _keys: Map<string, KEY_STATE> = new Map();
 
   constructor(eventManager: IEventManager) {

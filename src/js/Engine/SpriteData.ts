@@ -1,7 +1,7 @@
 import ISpriteData from "./Interfaces/ISpriteData";
 import IVector2 from "./Interfaces/IVector2";
 
-export default class SpriteData implements ISpriteData {
+export class SpriteData implements ISpriteData {
   constructor(
     private readonly _sheetName: string,
     private readonly _size: IVector2,

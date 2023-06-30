@@ -1,6 +1,6 @@
 import TankAbstraction from "./Abstractions/TankAbstraction";
-import IInputKeyHandler from "./Interfaces/IInputKeyHandler";
-import IMouseHandler from "./Interfaces/IMouseHandler";
+import IInputKeyHandler from "./Engine/Interfaces/IInputKeyHandler";
+import IMouseHandler from "./Engine/Interfaces/IMouseHandler";
 
 export default class PlayerTankControlling {
   constructor(

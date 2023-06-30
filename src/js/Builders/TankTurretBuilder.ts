@@ -1,5 +1,5 @@
-import IVector2 from "../Interfaces/IVector2";
-import Vector2 from "../Engine/Vector2";
+import IVector2 from "../Engine/Interfaces/IVector2";
+import { Vector2 } from "../Engine/Vector2";
 import TankTurret from "../WorldEntities/TankTurret";
 import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
 

@@ -1,9 +1,9 @@
-import IActor from "../Interfaces/IActor";
-import ICamera from "../Interfaces/ICamera";
-import IVector2 from "../Interfaces/IVector2";
-import Vector2 from "./Vector2";
+import IActor from "./Interfaces/IActor";
+import ICamera from "./Interfaces/ICamera";
+import IVector2 from "./Interfaces/IVector2";
+import { Vector2 } from "./Vector2";
 
-export default class Camera implements ICamera {
+export class Camera implements ICamera {
   private readonly _position = new Vector2(0, 0);
   private readonly _viewPort = new Vector2(0, 0);
 

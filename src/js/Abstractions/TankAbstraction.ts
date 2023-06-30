@@ -1,4 +1,4 @@
-import Actor from "../Engine/Actor";
+import { Actor } from "../Engine/Actor";
 import TankTurretAbstraction from "./TankTurretAbstraction";
 
 export default abstract class TankAbstraction extends Actor {

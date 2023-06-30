@@ -1,4 +1,4 @@
-import ISpriteData from "./ISpriteData";
+import ISpriteData from "../Engine/Interfaces/ISpriteData";
 import ITankTurretData from "./ITankTurretData";
 
 export default interface ITankData {

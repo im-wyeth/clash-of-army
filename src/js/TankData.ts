@@ -1,4 +1,4 @@
-import ISpriteData from "./Interfaces/ISpriteData";
+import ISpriteData from "./Engine/Interfaces/ISpriteData";
 import ITankData from "./Interfaces/ITankData";
 import ITankTurretData from "./Interfaces/ITankTurretData";
 

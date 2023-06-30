@@ -1,7 +1,7 @@
 import TankAbstraction from "../Abstractions/TankAbstraction";
 import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
-import ActorAccelerationComponent from "../ActorComponents/ActorAccelerationComponent";
-import IVector2Manager from "../Interfaces/IVector2Manager";
+import { ActorComponents } from "../Engine/";
+import IVector2Manager from "../Engine/Interfaces/IVector2Manager";
 
 enum TANK_ROTATION_STATES {
   NONE,
@@ -72,7 +72,7 @@ export default class Tank extends TankAbstraction {
   }
 
   private _handleMoving(): void {
-    const acceleration = this.getComponent(ActorAccelerationComponent);
+    const acceleration = this.getComponent(ActorComponents.Acceleration);
 
     if (!acceleration) {
       return;
@@ -143,7 +143,7 @@ export default class Tank extends TankAbstraction {
       return;
     }
 
-    const acceleration = this.getComponent(ActorAccelerationComponent);
+    const acceleration = this.getComponent(ActorComponents.Acceleration);
     if (acceleration) {
       acceleration.setAccelerationForce(this._forwardForce);
     }
@@ -161,7 +161,7 @@ export default class Tank extends TankAbstraction {
       return;
     }
 
-    const acceleration = this.getComponent(ActorAccelerationComponent);
+    const acceleration = this.getComponent(ActorComponents.Acceleration);
     if (acceleration) {
       acceleration.setAccelerationForce(this._backwardForce);
     }

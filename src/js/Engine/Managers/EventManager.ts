@@ -2,9 +2,9 @@ import {
   OnKeyCallback,
   IEventManager,
   OnMouseCallback,
-} from "../../Interfaces/IEventManager";
+} from "../Interfaces/IEventManager";
 
-export default class EventManager implements IEventManager {
+export class EventManager implements IEventManager {
   private readonly _window: Window;
 
   constructor(window: Window) {

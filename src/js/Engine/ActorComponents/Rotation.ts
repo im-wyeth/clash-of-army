@@ -1,11 +1,11 @@
-import Vector2 from "../Engine/Vector2";
+import { Vector2 } from "../Vector2";
 import IActor from "../Interfaces/IActor";
 import IMathUtils from "../Interfaces/IMathUtils";
 import IVector2 from "../Interfaces/IVector2";
-import ActorComponent from "./ActorComponent";
-import ActorSpriteComponent from "./ActorSpriteComponent";
+import { BaseComponent } from "./BaseComponent";
+import { Sprite } from "./Sprite";
 
-export default class ActorRotationComponent extends ActorComponent {
+export class Rotation extends BaseComponent {
   private readonly _mathUtils: IMathUtils;
 
   private _rotationSpeed: number = 0.001;
@@ -23,20 +23,20 @@ export default class ActorRotationComponent extends ActorComponent {
   }
 
   lookAt(point: IVector2): void {
-    let actorRotationPoint = this._actor.getPosition();
+    let actorOriginOfRotation = this._actor.getPosition();
 
-    const sprite = this._actor.getComponent(ActorSpriteComponent);
+    const sprite = this._actor.getComponent(Sprite);
     if (sprite) {
       const size = sprite.getSize();
       const origin = sprite.getOrigin();
 
-      actorRotationPoint = new Vector2(
-        actorRotationPoint.x - size.x / 2 + origin.x,
-        actorRotationPoint.y - size.y / 2 + origin.y
+      actorOriginOfRotation = new Vector2(
+        actorOriginOfRotation.x - size.x / 2 + origin.x,
+        actorOriginOfRotation.y - size.y / 2 + origin.y
       );
     }
 
-    this._lookAt = point.minus(actorRotationPoint);
+    this._lookAt = point.minus(actorOriginOfRotation);
 
     this._radiansTo = this._mathUtils.normalizeRadians(
       this._lookAt.nor().toRadians()

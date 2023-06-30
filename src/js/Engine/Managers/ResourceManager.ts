@@ -1,8 +1,8 @@
-import IImageLoader from "../../Interfaces/IImageLoader";
-import IResourceManager from "../../Interfaces/IResourceRenderer";
-import ISpriteSheetLoadInfo from "../../Interfaces/ISpriteSheetLoadInfo";
+import IImageLoader from "../Interfaces/IImageLoader";
+import IResourceManager from "../Interfaces/IResourceManager";
+import ISpriteSheetLoadInfo from "../Interfaces/ISpriteSheetLoadInfo";
 
-export default class ResourceManager implements IResourceManager {
+export class ResourceManager implements IResourceManager {
   private readonly _spriteSheets: Map<string, HTMLImageElement> = new Map();
   private readonly _sounds: Map<string, HTMLAudioElement> = new Map();
 

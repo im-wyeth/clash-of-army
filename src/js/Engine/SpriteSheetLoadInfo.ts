@@ -1,4 +1,4 @@
-export default class SpriteSheetLoadInfo {
+export class SpriteSheetLoadInfo {
   private readonly _name: string;
   private readonly _src: string;
 

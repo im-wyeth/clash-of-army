@@ -60,7 +60,9 @@ async function main() {
       .setOrigin(tankTurretData.getSpriteData().getOrigin())
       .build(turret)
   );
-  turret.setComponent(new Engine.ActorComponents.Rotation(turret, mathUtils));
+  turret.setComponent(
+    actorRotationComponentBuilder.setRotationSpeed(0.001).build(turret)
+  );
 
   const tank = tankBuilder
     .setPosition(vector2Manager.getNew(150, 150))

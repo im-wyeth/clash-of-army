@@ -1,6 +1,6 @@
 import TankAbstraction from "../Abstractions/TankAbstraction";
 import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
-import { ActorComponents } from "../Engine/";
+import { Actor, ActorComponents } from "../Engine/";
 import IVector2Manager from "../Engine/Interfaces/IVector2Manager";
 
 enum TANK_ROTATION_STATES {

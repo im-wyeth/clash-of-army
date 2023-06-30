@@ -18,6 +18,10 @@ export class Rotation extends BaseComponent {
     this._mathUtils = mathUtils;
   }
 
+  getRotationSpeed(): number {
+    return this._rotationSpeed;
+  }
+
   setRotationSpeed(speed: number): void {
     this._rotationSpeed = speed;
   }

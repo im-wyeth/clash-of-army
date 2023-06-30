@@ -27,21 +27,15 @@ export default class MouseHandler implements IMouseHandler {
   }
 
   calculateWorldCoordinates() {
-    const cameraViewPort = this._camera.getViewPort();
-    const cameraPosition = this._camera.getPosition();
-
-    const cameraLeftTopCorner = new Vector2(
-      cameraPosition.x - cameraViewPort.x / 2,
-      cameraPosition.y - cameraViewPort.y / 2
-    );
+    const cameraLeftTopCorner = this._camera.getLeftTopCorner();
 
     this._world.x = cameraLeftTopCorner.x + this._mouse.x;
     this._world.y = cameraLeftTopCorner.y + this._mouse.y;
   }
 
   onMouseMove(e: MouseEvent): void {
-    this._mouse.x = e.clientX;
-    this._mouse.y = e.clientY;
+    this._mouse.x = e.offsetX;
+    this._mouse.y = e.offsetY;
 
     this.calculateWorldCoordinates();
   }

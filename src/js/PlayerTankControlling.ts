@@ -25,5 +25,7 @@ export default class PlayerTankControlling {
     if (this._inputKeyHandler.isPressed("KeyA")) {
       this._tank.rotateLeft();
     }
+
+    this._tank.getTurret()?.rotateTo(this._mouseHandler.getWorldCoordinates());
   }
 }

@@ -25,6 +25,10 @@ export default abstract class Actor implements IActor {
     return null;
   }
 
+  getComponents(): Array<IActorComponent> {
+    return this._components;
+  }
+
   getPosition(): IVector2 {
     return this._position;
   }
@@ -45,5 +49,9 @@ export default abstract class Actor implements IActor {
   setDirection(direction: IVector2): void {
     this._direction.x = direction.x;
     this._direction.y = direction.y;
+  }
+
+  setRadians(radians: number): void {
+    this._radians = radians;
   }
 }

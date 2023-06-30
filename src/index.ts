@@ -30,6 +30,8 @@ import PlayerTankControlling from "./js/PlayerTankControlling";
 import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationComponentBuilder";
 import Vector2Manager from "./js/Engine/Vector2Manager";
 import ActorRotationComponentBuilder from "./js/Builders/ActorRotationComponentBuilder";
+import ActorRotationComponent from "./js/ActorComponents/ActorRotationComponent";
+import MathUtils from "./js/Engine/MathUtils";
 
 async function main() {
   const canvas = document.createElement("canvas");
@@ -38,6 +40,7 @@ async function main() {
   canvas.classList.add("canvas");
 
   const vector2Manager = new Vector2Manager();
+  const mathUtils = new MathUtils();
 
   const actorSpriteComponentBuilder = new ActorSpriteComponentBuilder();
   const actorAccelerationComponentBuilder =
@@ -70,6 +73,7 @@ async function main() {
       .setOrigin(tankTurretData.getSpriteData().getOrigin())
       .build(turret)
   );
+  turret.setComponent(new ActorRotationComponent(turret, mathUtils));
 
   const tank = tankBuilder
     .setPosition(vector2Manager.getNew(150, 150))

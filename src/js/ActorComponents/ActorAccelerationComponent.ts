@@ -1,6 +1,5 @@
 import Vector2 from "../Engine/Vector2";
 import IActor from "../Interfaces/IActor";
-import IActorAccelerationComponent from "../Interfaces/IActorAccelerationComponent";
 import ActorComponent from "./ActorComponent";
 
 export default class ActorAccelerationComponent extends ActorComponent {

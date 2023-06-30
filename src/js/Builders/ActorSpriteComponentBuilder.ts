@@ -1,5 +1,4 @@
 import ActorSpriteComponent from "../ActorComponents/ActorSpriteComponent";
-import IActorSpriteComponent from "../Interfaces/IActorSpriteComponent";
 import IVector2 from "../Interfaces/IVector2";
 import Vector2 from "../Engine/Vector2";
 import IActor from "../Interfaces/IActor";

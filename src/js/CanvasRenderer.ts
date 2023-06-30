@@ -1,8 +1,7 @@
+import Vector2 from "./Engine/Vector2";
 import IRenderer from "./Interfaces/IRenderer";
 import IVector2 from "./Interfaces/IVector2";
-import Vector2 from "./Engine/Vector2";
 import IVector2Manager from "./Interfaces/IVector2Manager";
-import Vector2Manager from "./Engine/Vector2Manager";
 
 export default class CanvasRenderer implements IRenderer {
   private readonly _canvas: HTMLCanvasElement;
@@ -45,32 +44,10 @@ export default class CanvasRenderer implements IRenderer {
     positionX: number,
     positionY: number
   ): IVector2 {
-    const pivotPoint = this._vector2Manager.getNew(0, 0);
-
-    if (originX < halfWidth) {
-      pivotPoint.x = positionX - originX;
-    } else if (originX > halfWidth) {
-      pivotPoint.x = positionX + originX;
-    } else {
-      pivotPoint.x = positionX;
-    }
-
-    if (originY < halfHeight) {
-      pivotPoint.y = positionY - originY;
-    } else if (originY > halfHeight) {
-      pivotPoint.y = positionY + originY;
-    } else {
-      pivotPoint.y = positionY;
-    }
-
-    if (originX === 0) {
-      pivotPoint.x = positionX - halfWidth;
-    }
-    if (originY === 0) {
-      pivotPoint.y = positionY - halfHeight;
-    }
-
-    return pivotPoint;
+    return this._vector2Manager.getNew(
+      positionX - halfWidth + originX,
+      positionY - halfHeight + originY
+    );
   }
 
   antialiasing(val: boolean) {

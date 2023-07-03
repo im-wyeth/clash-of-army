@@ -37,9 +37,6 @@ async function main() {
   const actorRotationComponentBuilder = new ActorRotationComponentBuilder();
   const actorShapeComponentBuilder = new ActorShapeComponentBuilder();
 
-  // const tankTurretBuilder = new TankTurretBuilder();
-  // const tankBuilder = new TankBuilder();
-
   const worldEntityDataLoader = new WorldEntityDataLoader(
     new Engine.Net.FetchClient(),
     WORLD_ENTITY_DATA_PATH,
@@ -52,8 +49,7 @@ async function main() {
   const tankData = worldEntityDataConverter.tankDataToModel(tanksData[1]);
   const tankTurretData = tankData.getTurretData();
 
-  const turret = new TankTurret();
-  turret.setPosition(vector2Manager.getNew(165, 150));
+  const turret = new TankTurret(vector2Manager.getNew(44.5, 17));
 
   turret.setComponent(
     actorSpriteComponentBuilder
@@ -74,7 +70,7 @@ async function main() {
   tank.setRotationSpeed(tankData.getRotationSpeed());
   tank.setTurret(turret);
 
-  const tankEngine = new TankEngine();
+  const tankEngine = new TankEngine(vector2Manager.getNew(7 + 4.5, 11 + 6));
   tankEngine.setComponent(
     actorShapeComponentBuilder
       .createRectangle(vector2Manager.getNew(9, 12))
@@ -152,6 +148,7 @@ async function main() {
   );
 
   engine.getLoop().onUpdate(tankControlling.update.bind(tankControlling));
+  engine.getRenderer().antialiasing(false);
 
   document.body.appendChild(canvas);
 }

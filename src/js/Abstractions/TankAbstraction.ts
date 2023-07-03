@@ -4,8 +4,6 @@ import TankTurretAbstraction from "./TankTurretAbstraction";
 export default abstract class TankAbstraction extends Actor {
   abstract getTurret(): null | TankTurretAbstraction;
 
-  abstract fire(): void;
-
   abstract moveForward(): void;
 
   abstract moveBackward(): void;

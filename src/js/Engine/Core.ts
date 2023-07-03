@@ -21,6 +21,10 @@ export class Core {
     return this._loop;
   }
 
+  getRenderer() {
+    return this._renderer;
+  }
+
   update(timeStep: number): void {
     const currentScene = this._sceneManager.getCurrentScene();
 
@@ -53,6 +57,7 @@ export class Core {
     }
 
     const actors = currentScene.getActors();
+
     for (const actor of actors) {
       if (actor.isVisible()) this._actorsRenderer.renderActor(actor);
     }

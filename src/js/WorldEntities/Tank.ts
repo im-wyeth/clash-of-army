@@ -1,8 +1,9 @@
 import TankAbstraction from "../Abstractions/TankAbstraction";
+import TankEngineAbstraction from "../Abstractions/TankEngineAbstraction";
 import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
-import { ActorComponents } from "../Engine/";
+import { ActorComponents, Vector2 } from "../Engine/";
+import IVector2 from "../Engine/Interfaces/IVector2";
 import IVector2Manager from "../Engine/Interfaces/IVector2Manager";
-import { ITankDetail } from "../Interfaces/ITankDetail";
 
 enum TANK_ROTATION_STATES {
   NONE,
@@ -32,7 +33,7 @@ export default class Tank extends TankAbstraction {
   private _movingState: TANK_MOVING_STATES = TANK_MOVING_STATES.NONE;
   private _rotationState: TANK_ROTATION_STATES = TANK_ROTATION_STATES.NONE;
 
-  private _engine: null | ITankDetail = null;
+  private _engine: null | TankEngineAbstraction = null;
 
   constructor(vector2Manager: IVector2Manager) {
     super();
@@ -52,7 +53,7 @@ export default class Tank extends TankAbstraction {
     this._turret = turret;
   }
 
-  setEngine(engine: ITankDetail): void {
+  setEngine(engine: TankEngineAbstraction): void {
     this._engine = engine;
   }
 
@@ -62,7 +63,20 @@ export default class Tank extends TankAbstraction {
     this._updateDirection();
     this._resetMovingState();
     this._resetRotatingState();
-    this._updateTurretPosition();
+    this._updateDetailsPosition();
+  }
+
+  private _leftTopCornerPosition(): IVector2 {
+    const sprite = this.getComponent(ActorComponents.Sprite);
+
+    const pos = this._vector2Manager.getNew(this._position.x, this._position.y);
+    if (sprite) {
+      const size = sprite.getSize();
+      pos.x = pos.x - size.x / 2;
+      pos.y = pos.y - size.y / 2;
+    }
+
+    return pos;
   }
 
   private _handleRotation(timeStep: number): void {
@@ -106,12 +120,6 @@ export default class Tank extends TankAbstraction {
     }
   }
 
-  private _updateTurretPosition() {
-    this._turret?.setPosition(
-      this._vector2Manager.getNew(this._position.x + 15, this._position.y)
-    );
-  }
-
   private _resetMovingState() {
     if (this._movingState === TANK_MOVING_STATES.FORWARD) {
       this._movingState = TANK_MOVING_STATES.FORWARD_ROLLING;
@@ -140,7 +148,31 @@ export default class Tank extends TankAbstraction {
     }
   }
 
-  fire(): void {}
+  private _updateDetailsPosition(): void {
+    const leftTopCornerOfTank = this._leftTopCornerPosition();
+
+    if (this._engine) {
+      const enginePositionOnTank = this._engine.getPositionOnTank();
+
+      this._engine.setPosition(
+        this._vector2Manager.getNew(
+          leftTopCornerOfTank.x + enginePositionOnTank.x,
+          leftTopCornerOfTank.y + enginePositionOnTank.y
+        )
+      );
+    }
+
+    if (this._turret) {
+      const turretPositionOnTank = this._turret?.getPositionOnTank();
+
+      this._turret.setPosition(
+        this._vector2Manager.getNew(
+          leftTopCornerOfTank.x + turretPositionOnTank.x,
+          leftTopCornerOfTank.y + turretPositionOnTank.y
+        )
+      );
+    }
+  }
 
   moveForward(): void {
     if (

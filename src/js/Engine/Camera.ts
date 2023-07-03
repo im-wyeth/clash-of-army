@@ -7,7 +7,7 @@ export class Camera implements ICamera {
   private readonly _position = new Vector2(0, 0);
   private readonly _viewPort = new Vector2(0, 0);
 
-  private _zoom = 1;
+  private _zoom = 2;
 
   constructor(viewPort: IVector2) {
     this._viewPort.x = viewPort.x;

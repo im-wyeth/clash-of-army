@@ -40,25 +40,36 @@ export class ActorsRenderer implements IActorRenderer {
     );
   }
 
-  _drawShape(shapeComponent: ActorComponents.Shape): void {
-    const shape = shapeComponent.getConcreteShape();
+  _drawRectangle(shape: IRectangle, actor: IActor): void {
+    const position = actor.getPosition();
+    const size = shape.getSize();
 
-    if (isRectangle(shape)) {
-      this._drawRectangle(shape);
-    }
+    this._renderer.drawRectangle(
+      position.x,
+      position.y,
+      size.x,
+      size.y,
+      actor.getRadians(),
+      "green",
+      size.x / 2,
+      size.y / 2
+    );
   }
 
-  _drawRectangle(shape: IRectangle): void {}
-
   renderActor(actor: IActor) {
-    const sprite = actor.getComponent(ActorComponents.Sprite);
-    const shape = actor.getComponent(ActorComponents.Shape);
+    const spriteComponent = actor.getComponent(ActorComponents.Sprite);
+    const shapeComponent = actor.getComponent(ActorComponents.Shape);
 
-    if (sprite) {
-      this._drawSprite(actor, sprite);
+    if (spriteComponent) {
+      this._drawSprite(actor, spriteComponent);
     }
-    if (shape) {
-      this._drawShape(shape);
+
+    if (shapeComponent) {
+      const shape = shapeComponent.getConcreteShape();
+
+      if (isRectangle(shape)) {
+        this._drawRectangle(shape, actor);
+      }
     }
   }
 }

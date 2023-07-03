@@ -1,18 +1,12 @@
-import IConcreteShape from "../Interfaces/IConcreteShape";
+import IRectangle from "../Interfaces/IRectangle";
 import IVector2 from "../Interfaces/IVector2";
 
-export class Rectangle implements IConcreteShape {
+export class Rectangle implements IRectangle {
+  readonly type = "rectangle";
+
   constructor(private readonly _size: IVector2) {}
 
-  getSize() {
+  getSize(): IVector2 {
     return this._size;
-  }
-
-  getCorners(): IVector2[] {
-    return [];
-  }
-
-  getNormals(): IVector2[] {
-    return [];
   }
 }

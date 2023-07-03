@@ -11,9 +11,7 @@ import {
 
 import WorldScene from "./js/Scenes/WorldScene";
 import MenuScene from "./js/Scenes/MenuScene";
-import TankBuilder from "./js/Builders/TankBuilder";
 import ActorSpriteComponentBuilder from "./js/Builders/ActorSpriteComponentBuilder";
-import TankTurretBuilder from "./js/Builders/TankTurretBuilder";
 import WorldEntityDataLoader from "./js/WorldEntityDataLoader";
 import WorldEntityDataConverter from "./js/WorldEntityDataConverter";
 import PlayerTankControlling from "./js/PlayerTankControlling";
@@ -21,6 +19,8 @@ import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationCo
 import ActorRotationComponentBuilder from "./js/Builders/ActorRotationComponentBuilder";
 import Tank from "./js/WorldEntities/Tank";
 import TankTurret from "./js/WorldEntities/TankTurret";
+import ActorShapeComponentBuilder from "./js/Builders/ActorShapeComponentBuilder";
+import TankEngine from "./js/WorldEntities/TechnicalDetails/TankEngine";
 
 async function main() {
   const canvas = document.createElement("canvas");
@@ -35,6 +35,7 @@ async function main() {
   const actorAccelerationComponentBuilder =
     new ActorAccelerationComponentBuilder();
   const actorRotationComponentBuilder = new ActorRotationComponentBuilder();
+  const actorShapeComponentBuilder = new ActorShapeComponentBuilder();
 
   // const tankTurretBuilder = new TankTurretBuilder();
   // const tankBuilder = new TankBuilder();
@@ -73,6 +74,15 @@ async function main() {
   tank.setRotationSpeed(tankData.getRotationSpeed());
   tank.setTurret(turret);
 
+  const tankEngine = new TankEngine();
+  tankEngine.setComponent(
+    actorShapeComponentBuilder
+      .createRectangle(vector2Manager.getNew(9, 12))
+      .build(tank)
+  );
+
+  tank.setEngine(tankEngine);
+
   tank.setComponent(
     actorSpriteComponentBuilder
       .setSpriteSheetName(tankData.getSpriteData().getSheetName())
@@ -97,6 +107,7 @@ async function main() {
   const menuScene = new MenuScene(camera);
   const worldScene = new WorldScene(camera);
   worldScene.addActor(tank);
+  worldScene.addActor(tankEngine);
   worldScene.addActor(turret);
 
   const eventManager = new Engine.Managers.EventManager(window);

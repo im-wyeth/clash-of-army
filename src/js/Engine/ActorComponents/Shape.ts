@@ -1,17 +1,17 @@
 import IActor from "../Interfaces/IActor";
-import IConcreteShape from "../Interfaces/IConcreteShape";
+import { ShapeTypes } from "../Types";
 import { BaseComponent } from "./BaseComponent";
 
-export default class Shape extends BaseComponent {
-  private readonly _concreteShape: IConcreteShape;
+export class Shape extends BaseComponent {
+  private readonly _concreteShape: ShapeTypes;
 
-  constructor(actor: IActor, concreteShape: IConcreteShape) {
+  constructor(actor: IActor, concreteShape: ShapeTypes) {
     super(actor);
 
     this._concreteShape = concreteShape;
   }
 
-  getShape(): IConcreteShape {
+  getConcreteShape(): ShapeTypes {
     return this._concreteShape;
   }
 }

@@ -1,8 +1,10 @@
-import { Sprite } from "../ActorComponents";
+import { ActorComponents } from "../";
 import IActor from "../Interfaces/IActor";
 import IActorRenderer from "../Interfaces/IActorsRenderer";
+import IRectangle from "../Interfaces/IRectangle";
 import IRenderer from "../Interfaces/IRenderer";
 import IResourceManager from "../Interfaces/IResourceManager";
+import { isRectangle } from "../TypeGuards";
 
 export class ActorsRenderer implements IActorRenderer {
   private readonly _renderer: IRenderer;
@@ -13,13 +15,7 @@ export class ActorsRenderer implements IActorRenderer {
     this._resourceManager = resourceManager;
   }
 
-  renderActor(actor: IActor) {
-    const sprite = actor.getComponent(Sprite);
-
-    if (!sprite) {
-      return;
-    }
-
+  _drawSprite(actor: IActor, sprite: ActorComponents.Sprite): void {
     const spriteSheet = this._resourceManager
       .getSpriteSheets()
       .get(sprite.getSheetName());
@@ -42,5 +38,27 @@ export class ActorsRenderer implements IActorRenderer {
       sprite.getOrigin().x,
       sprite.getOrigin().y
     );
+  }
+
+  _drawShape(shapeComponent: ActorComponents.Shape): void {
+    const shape = shapeComponent.getConcreteShape();
+
+    if (isRectangle(shape)) {
+      this._drawRectangle(shape);
+    }
+  }
+
+  _drawRectangle(shape: IRectangle): void {}
+
+  renderActor(actor: IActor) {
+    const sprite = actor.getComponent(ActorComponents.Sprite);
+    const shape = actor.getComponent(ActorComponents.Shape);
+
+    if (sprite) {
+      this._drawSprite(actor, sprite);
+    }
+    if (shape) {
+      this._drawShape(shape);
+    }
   }
 }

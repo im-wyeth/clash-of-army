@@ -2,6 +2,7 @@ import TankAbstraction from "../Abstractions/TankAbstraction";
 import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
 import { ActorComponents } from "../Engine/";
 import IVector2Manager from "../Engine/Interfaces/IVector2Manager";
+import { ITankDetail } from "../Interfaces/ITankDetail";
 
 enum TANK_ROTATION_STATES {
   NONE,
@@ -31,6 +32,8 @@ export default class Tank extends TankAbstraction {
   private _movingState: TANK_MOVING_STATES = TANK_MOVING_STATES.NONE;
   private _rotationState: TANK_ROTATION_STATES = TANK_ROTATION_STATES.NONE;
 
+  private _engine: null | ITankDetail = null;
+
   constructor(vector2Manager: IVector2Manager) {
     super();
 
@@ -47,6 +50,10 @@ export default class Tank extends TankAbstraction {
 
   setTurret(turret: TankTurretAbstraction): void {
     this._turret = turret;
+  }
+
+  setEngine(engine: ITankDetail): void {
+    this._engine = engine;
   }
 
   update(timeStep: number): void {

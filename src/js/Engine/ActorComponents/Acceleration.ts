@@ -72,6 +72,10 @@ export class Acceleration extends BaseComponent {
   }
 
   update(timeStep: number): void {
+    if (this._brakingForce) {
+      console.log(this._brakingForce);
+    }
+
     this._increaseVelocity(timeStep);
 
     const pos = this._actor.getPosition();

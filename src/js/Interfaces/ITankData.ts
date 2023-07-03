@@ -5,4 +5,6 @@ export default interface ITankData {
   getSpriteData(): ISpriteData;
 
   getTurretData(): ITankTurretData;
+
+  getRotationSpeed(): number;
 }

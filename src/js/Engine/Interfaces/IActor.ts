@@ -12,6 +12,8 @@ export default interface IActor {
 
   getRadians(): number;
 
+  isVisible(): boolean;
+
   setComponent(component: IActorComponent): void;
 
   setPosition(position: IVector2): void;

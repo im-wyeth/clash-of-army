@@ -5,7 +5,8 @@ import ITankTurretData from "./Interfaces/ITankTurretData";
 export default class TankData implements ITankData {
   constructor(
     private readonly _spriteData: ISpriteData,
-    private readonly _tankTurretData: ITankTurretData
+    private readonly _tankTurretData: ITankTurretData,
+    private readonly _rotationSpeed: number
   ) {}
 
   getSpriteData(): ISpriteData {
@@ -14,5 +15,9 @@ export default class TankData implements ITankData {
 
   getTurretData(): ITankTurretData {
     return this._tankTurretData;
+  }
+
+  getRotationSpeed(): number {
+    return this._rotationSpeed;
   }
 }

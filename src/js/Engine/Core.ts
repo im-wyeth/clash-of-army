@@ -54,7 +54,7 @@ export class Core {
 
     const actors = currentScene.getActors();
     for (const actor of actors) {
-      this._actorsRenderer.renderActor(actor);
+      if (actor.isVisible()) this._actorsRenderer.renderActor(actor);
     }
 
     if (this._renderer.end) {

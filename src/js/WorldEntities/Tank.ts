@@ -1,6 +1,6 @@
 import TankAbstraction from "../Abstractions/TankAbstraction";
 import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
-import { Actor, ActorComponents } from "../Engine/";
+import { ActorComponents } from "../Engine/";
 import IVector2Manager from "../Engine/Interfaces/IVector2Manager";
 
 enum TANK_ROTATION_STATES {
@@ -25,7 +25,7 @@ export default class Tank extends TankAbstraction {
 
   private _forwardForce: number = 0.22;
   private _backwardForce: number = 0.2;
-  private _brakingForce: number = 0;
+  private _brakingForce: number = 0.2;
   private _rotationSpeed: number = 0.0005;
 
   private _movingState: TANK_MOVING_STATES = TANK_MOVING_STATES.NONE;
@@ -138,8 +138,11 @@ export default class Tank extends TankAbstraction {
   moveForward(): void {
     if (
       this._movingState === TANK_MOVING_STATES.BACKWARD ||
-      this._movingState === TANK_MOVING_STATES.BACKWARD_ROLLING
+      this._movingState === TANK_MOVING_STATES.BACKWARD_ROLLING ||
+      this._movingState === TANK_MOVING_STATES.BACKWARD_BRAKING
     ) {
+      this._movingState = TANK_MOVING_STATES.BACKWARD_BRAKING;
+
       return;
     }
 
@@ -156,8 +159,11 @@ export default class Tank extends TankAbstraction {
   moveBackward(): void {
     if (
       this._movingState === TANK_MOVING_STATES.FORWARD ||
-      this._movingState === TANK_MOVING_STATES.FORWARD_ROLLING
+      this._movingState === TANK_MOVING_STATES.FORWARD_ROLLING ||
+      this._movingState === TANK_MOVING_STATES.FORWARD_BRAKING
     ) {
+      this._movingState = TANK_MOVING_STATES.FORWARD_BRAKING;
+
       return;
     }
 

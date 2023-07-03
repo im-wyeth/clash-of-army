@@ -21,13 +21,13 @@ export default class WorldEntityDataConverter {
   private _tankTurretDataToModel(turretData: any): ITankTurretData {
     const spriteData = this._spriteDataToModel(turretData.sprite);
 
-    return new TankTurretData(spriteData);
+    return new TankTurretData(spriteData, turretData.rotation_speed);
   }
 
   tankDataToModel(tankData: any): ITankData {
     const spriteData = this._spriteDataToModel(tankData.sprite);
     const turretData = this._tankTurretDataToModel(tankData.turret);
 
-    return new TankData(spriteData, turretData);
+    return new TankData(spriteData, turretData, tankData.rotation_speed);
   }
 }

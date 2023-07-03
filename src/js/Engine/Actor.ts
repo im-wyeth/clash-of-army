@@ -7,6 +7,7 @@ export abstract class Actor implements IActor {
   protected readonly _position: IVector2 = new Vector2(0, 0);
   protected readonly _direction: IVector2 = new Vector2(0, 0);
   protected _radians: number = 0;
+  protected _isVisible: boolean = true;
 
   protected readonly _components: Array<IActorComponent> = [];
 
@@ -38,6 +39,10 @@ export abstract class Actor implements IActor {
 
   getRadians(): number {
     return this._radians;
+  }
+
+  isVisible(): boolean {
+    return this._isVisible;
   }
 
   setPosition(position: IVector2): void {

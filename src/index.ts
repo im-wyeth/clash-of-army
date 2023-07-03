@@ -19,6 +19,8 @@ import WorldEntityDataConverter from "./js/WorldEntityDataConverter";
 import PlayerTankControlling from "./js/PlayerTankControlling";
 import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationComponentBuilder";
 import ActorRotationComponentBuilder from "./js/Builders/ActorRotationComponentBuilder";
+import Tank from "./js/WorldEntities/Tank";
+import TankTurret from "./js/WorldEntities/TankTurret";
 
 async function main() {
   const canvas = document.createElement("canvas");
@@ -34,8 +36,8 @@ async function main() {
     new ActorAccelerationComponentBuilder();
   const actorRotationComponentBuilder = new ActorRotationComponentBuilder();
 
-  const tankTurretBuilder = new TankTurretBuilder();
-  const tankBuilder = new TankBuilder();
+  // const tankTurretBuilder = new TankTurretBuilder();
+  // const tankBuilder = new TankBuilder();
 
   const worldEntityDataLoader = new WorldEntityDataLoader(
     new Engine.Net.FetchClient(),
@@ -45,12 +47,12 @@ async function main() {
   const worldEntityDataConverter = new WorldEntityDataConverter(vector2Manager);
 
   const tanksData = await worldEntityDataLoader.getTanksData();
+
   const tankData = worldEntityDataConverter.tankDataToModel(tanksData[1]);
   const tankTurretData = tankData.getTurretData();
 
-  const turret = tankTurretBuilder
-    .setPosition(vector2Manager.getNew(165, 150))
-    .build();
+  const turret = new TankTurret();
+  turret.setPosition(vector2Manager.getNew(165, 150));
 
   turret.setComponent(
     actorSpriteComponentBuilder
@@ -61,13 +63,15 @@ async function main() {
       .build(turret)
   );
   turret.setComponent(
-    actorRotationComponentBuilder.setRotationSpeed(0.001).build(turret)
+    actorRotationComponentBuilder
+      .setRotationSpeed(tankTurretData.getRotationSpeed())
+      .build(turret)
   );
 
-  const tank = tankBuilder
-    .setPosition(vector2Manager.getNew(150, 150))
-    .setTurret(turret)
-    .build(vector2Manager);
+  const tank = new Tank(vector2Manager);
+  tank.setPosition(vector2Manager.getNew(150, 150));
+  tank.setRotationSpeed(tankData.getRotationSpeed());
+  tank.setTurret(turret);
 
   tank.setComponent(
     actorSpriteComponentBuilder

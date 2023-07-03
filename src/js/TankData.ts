@@ -1,23 +1,11 @@
-import ISpriteData from "./Engine/Interfaces/ISpriteData";
-import ITankData from "./Interfaces/ITankData";
-import ITankTurretData from "./Interfaces/ITankTurretData";
+import { SpriteDataType } from "./Engine/Types/SpriteData.Type";
+import { TankDataType } from "./Types/TankData.Type";
+import { TankTurretDataType } from "./Types/TankTurretData.Type";
 
-export default class TankData implements ITankData {
+export default class TankData implements TankDataType {
   constructor(
-    private readonly _spriteData: ISpriteData,
-    private readonly _tankTurretData: ITankTurretData,
-    private readonly _rotationSpeed: number
+    public readonly spriteData: SpriteDataType,
+    public readonly tankTurretData: TankTurretDataType,
+    public readonly rotationSpeed: number
   ) {}
-
-  getSpriteData(): ISpriteData {
-    return this._spriteData;
-  }
-
-  getTurretData(): ITankTurretData {
-    return this._tankTurretData;
-  }
-
-  getRotationSpeed(): number {
-    return this._rotationSpeed;
-  }
 }

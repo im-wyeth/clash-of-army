@@ -29,7 +29,6 @@ async function main() {
   canvas.classList.add("canvas");
 
   const vector2Manager = new Engine.Managers.Vector2Manager();
-  const mathUtils = new Engine.MathUtils();
 
   const actorSpriteComponentBuilder = new ActorSpriteComponentBuilder();
   const actorAccelerationComponentBuilder =
@@ -47,27 +46,27 @@ async function main() {
   const tanksData = await worldEntityDataLoader.getTanksData();
 
   const tankData = worldEntityDataConverter.tankDataToModel(tanksData[1]);
-  const tankTurretData = tankData.getTurretData();
+  const tankTurretData = tankData.tankTurretData;
 
   const turret = new TankTurret(vector2Manager.getNew(44.5, 17));
 
   turret.setComponent(
     actorSpriteComponentBuilder
-      .setSpriteSheetName(tankTurretData.getSpriteData().getSheetName())
-      .setSize(tankTurretData.getSpriteData().getSize())
-      .setSource(tankTurretData.getSpriteData().getSource())
-      .setOrigin(tankTurretData.getSpriteData().getOrigin())
+      .setSpriteSheetName(tankTurretData.spriteData.sheetName)
+      .setSize(tankTurretData.spriteData.size)
+      .setSource(tankTurretData.spriteData.source)
+      .setOrigin(tankTurretData.spriteData.origin)
       .build(turret)
   );
   turret.setComponent(
     actorRotationComponentBuilder
-      .setRotationSpeed(tankTurretData.getRotationSpeed())
+      .setRotationSpeed(tankTurretData.rotationSpeed)
       .build(turret)
   );
 
   const tank = new Tank(vector2Manager);
   tank.setPosition(vector2Manager.getNew(150, 150));
-  tank.setRotationSpeed(tankData.getRotationSpeed());
+  tank.setRotationSpeed(tankData.rotationSpeed);
   tank.setTurret(turret);
 
   const tankEngine = new TankEngine(vector2Manager.getNew(7 + 4.5, 11 + 6));
@@ -81,10 +80,10 @@ async function main() {
 
   tank.setComponent(
     actorSpriteComponentBuilder
-      .setSpriteSheetName(tankData.getSpriteData().getSheetName())
-      .setSize(tankData.getSpriteData().getSize())
-      .setSource(tankData.getSpriteData().getSource())
-      .setOrigin(tankData.getSpriteData().getOrigin())
+      .setSpriteSheetName(tankData.spriteData.sheetName)
+      .setSize(tankData.spriteData.size)
+      .setSource(tankData.spriteData.source)
+      .setOrigin(tankData.spriteData.origin)
       .build(tank)
   );
 

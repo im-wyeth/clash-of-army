@@ -1,6 +1,6 @@
 import IImageLoader from "../Interfaces/IImageLoader";
 import IResourceManager from "../Interfaces/IResourceManager";
-import ISpriteSheetLoadInfo from "../Interfaces/ISpriteSheetLoadInfo";
+import { SpriteSheetLoadInfoType } from "../Types";
 
 export class ResourceManager implements IResourceManager {
   private readonly _spriteSheets: Map<string, HTMLImageElement> = new Map();
@@ -21,15 +21,15 @@ export class ResourceManager implements IResourceManager {
   }
 
   async loadSpriteSheets(
-    spriteSheets: Array<ISpriteSheetLoadInfo>
+    spriteSheets: Array<SpriteSheetLoadInfoType>
   ): Promise<void> {
     for (const spriteSheetInfo of spriteSheets) {
       const spriteSheet = await this._imageLoader.loadImage(
-        spriteSheetInfo.getSrc()
+        spriteSheetInfo.src
       );
 
       if (spriteSheet) {
-        this._spriteSheets.set(spriteSheetInfo.getName(), spriteSheet);
+        this._spriteSheets.set(spriteSheetInfo.name, spriteSheet);
       }
     }
   }

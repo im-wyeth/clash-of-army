@@ -1,17 +1,5 @@
-export class SpriteSheetLoadInfo {
-  private readonly _name: string;
-  private readonly _src: string;
+import { SpriteSheetLoadInfoType } from "./Types";
 
-  constructor(name: string, src: string) {
-    this._name = name;
-    this._src = src;
-  }
-
-  getName(): string {
-    return this._name;
-  }
-
-  getSrc(): string {
-    return this._src;
-  }
+export class SpriteSheetLoadInfo implements SpriteSheetLoadInfoType {
+  constructor(readonly name: string, readonly src: string) {}
 }

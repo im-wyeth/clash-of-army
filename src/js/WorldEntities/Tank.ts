@@ -69,14 +69,15 @@ export default class Tank extends TankAbstraction {
   private _leftTopCornerPosition(): IVector2 {
     const sprite = this.getComponent(ActorComponents.Sprite);
 
-    const pos = this._vector2Manager.getNew(this._position.x, this._position.y);
+    const leftTopCornerPosition = this._vector2Manager.getNew(0, 0);
+
     if (sprite) {
-      const size = sprite.getSize();
-      pos.x = pos.x - size.x / 2;
-      pos.y = pos.y - size.y / 2;
+      const spriteSize = sprite.getSize();
+      leftTopCornerPosition.x = this._position.x - spriteSize.x / 2;
+      leftTopCornerPosition.y = this._position.y - spriteSize.y / 2;
     }
 
-    return pos;
+    return leftTopCornerPosition;
   }
 
   private _handleRotation(timeStep: number): void {

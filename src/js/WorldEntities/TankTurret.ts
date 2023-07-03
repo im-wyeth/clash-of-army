@@ -12,7 +12,6 @@ export default class TankTurret extends TankTurretAbstraction {
   }
 
   rotateTo(point: IVector2): void {
-    console.log(this._position);
     const rotation = this.getComponent(ActorComponents.Rotation);
 
     if (rotation) {

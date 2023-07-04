@@ -1,8 +1,8 @@
-import TankTurretAbstraction from "../Abstractions/TankTurretAbstraction";
-import { ActorComponents } from "../Engine/";
-import IVector2 from "../Engine/Interfaces/IVector2";
+import TankDetailAbstraction from "../../Abstractions/TankDetailAbstraction";
+import { ActorComponents } from "../../Engine/";
+import IVector2 from "../../Engine/Interfaces/IVector2";
 
-export default class TankTurret extends TankTurretAbstraction {
+export class Turret extends TankDetailAbstraction {
   constructor(private readonly _positionOnTank: IVector2) {
     super();
   }

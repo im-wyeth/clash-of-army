@@ -7,6 +7,8 @@ export const CANVAS_SIZE = {
   HEIGHT: window.innerHeight,
 };
 
+export const FRICTION_FORCE = 0.09;
+
 export const SPRITE_SHEETS = {
   TANKS: "tanks",
   RSZO: "rszo",

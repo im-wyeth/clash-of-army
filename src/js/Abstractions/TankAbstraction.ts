@@ -1,8 +1,10 @@
 import { Actor } from "../Engine/Actor";
-import TankTurretAbstraction from "./TankTurretAbstraction";
+import ITankDetail from "../Engine/Interfaces/ITankDetail";
 
 export default abstract class TankAbstraction extends Actor {
-  abstract getTurret(): null | TankTurretAbstraction;
+  abstract getDetail<T>(type: { new (...args: any): T }): null | T;
+
+  abstract addDetail(detail: ITankDetail): void;
 
   abstract moveForward(): void;
 

@@ -1,6 +1,6 @@
 import { SpriteData } from "./Engine/SpriteData";
-import TankData from "./TankData";
-import TankTurretData from "./TankTurretData";
+import TankData from "./DataStructures/TankData";
+import TankTurretData from "./DataStructures/TankTurretData";
 import IVector2Manager from "./Engine/Interfaces/IVector2Manager";
 import { SpriteDataType } from "./Engine/Types/SpriteData.Type";
 import { TankTurretDataType } from "./Types/TankTurretData.Type";
@@ -21,7 +21,14 @@ export default class WorldEntityDataConverter {
   private _tankTurretDataToModel(turretData: any): TankTurretDataType {
     const spriteData = this._spriteDataToModel(turretData.sprite);
 
-    return new TankTurretData(spriteData, turretData.rotation_speed);
+    return new TankTurretData(
+      spriteData,
+      turretData.rotation_speed,
+      this._vector2Manager.getNew(
+        turretData.position_on_tank.x,
+        turretData.position_on_tank.y
+      )
+    );
   }
 
   tankDataToModel(tankData: any): TankDataType {

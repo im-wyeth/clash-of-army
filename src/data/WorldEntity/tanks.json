@@ -2,6 +2,7 @@
   "1": {
     "name": "Captor 2A",
     "rotation_speed": 0.002,
+    "mass": 4200,
     "sprite": {
       "sheet_name": "tanks",
       "size": {
@@ -39,15 +40,13 @@
         }
       }
     },
-    "details": [
-      {
-        "detail": "engine",
+    "details": {
+      "engine": {
         "position_on_tank": {
           "x": 11.5,
-          "y": 17
+          "y": 7
         }
       }
-    ],
-    "crew": {}
+    }
   }
 }

@@ -1,7 +1,7 @@
-import TankEngineAbstraction from "../../Abstractions/TankEngineAbstraction";
+import TankDetailAbstraction from "../../Abstractions/TankDetailAbstraction";
 import IVector2 from "../../Engine/Interfaces/IVector2";
 
-export default class TankEngine extends TankEngineAbstraction {
+export class Engine extends TankDetailAbstraction {
   private readonly _isDestroyed: boolean = false;
 
   private readonly _positionOnTank: IVector2;

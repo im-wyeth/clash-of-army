@@ -1,10 +1,11 @@
 import { SpriteData } from "./Engine/SpriteData";
 import TankData from "./DataStructures/TankData";
-import TankTurretData from "./DataStructures/TankTurretData";
 import IVector2Manager from "./Engine/Interfaces/IVector2Manager";
 import { SpriteDataType } from "./Engine/Types/SpriteData.Type";
-import { TankTurretDataType } from "./Types/TankTurretData.Type";
 import { TankDataType } from "./Types/TankData.Type";
+import TankEngineData from "./DataStructures/TankEngineData";
+import TankTurretData from "./DataStructures/TankTurretData";
+import { TankDetailDataTypes } from "./Types/TankDetailDataTypes.Type";
 
 export default class WorldEntityDataConverter {
   constructor(private readonly _vector2Manager: IVector2Manager) {}
@@ -18,23 +19,39 @@ export default class WorldEntityDataConverter {
     );
   }
 
-  private _tankTurretDataToModel(turretData: any): TankTurretDataType {
-    const spriteData = this._spriteDataToModel(turretData.sprite);
+  private _getTankDetailsData(details: any): Array<TankDetailDataTypes> {
+    const arr: Array<TankDetailDataTypes> = [];
 
-    return new TankTurretData(
-      spriteData,
-      turretData.rotation_speed,
-      this._vector2Manager.getNew(
-        turretData.position_on_tank.x,
-        turretData.position_on_tank.y
-      )
-    );
+    for (const detail of details) {
+      switch (detail.type) {
+        case "turret":
+          arr.push(
+            new TankTurretData(
+              this._spriteDataToModel(detail.sprite),
+              detail.rotation_speed,
+              this._vector2Manager.getNew(
+                detail.position_on_tank.x,
+                detail.position_on_tank.y
+              )
+            )
+          );
+          break;
+        case "engine":
+          arr.push(new TankEngineData(detail.position_on_tank));
+          break;
+      }
+    }
+
+    return arr;
   }
 
   tankDataToModel(tankData: any): TankDataType {
     const spriteData = this._spriteDataToModel(tankData.sprite);
-    const turretData = this._tankTurretDataToModel(tankData.turret);
 
-    return new TankData(spriteData, turretData, tankData.rotation_speed);
+    return new TankData(
+      spriteData,
+      tankData.rotation_speed,
+      this._getTankDetailsData(tankData.details)
+    );
   }
 }

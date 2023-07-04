@@ -20,6 +20,7 @@ import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationCo
 import ActorRotationComponentBuilder from "./js/Builders/ActorRotationComponentBuilder";
 import * as Tank from "./js/WorldEntities/Tank";
 import ActorShapeComponentBuilder from "./js/Builders/ActorShapeComponentBuilder";
+import TankTurretData from "./js/DataStructures/TankTurretData";
 
 async function main() {
   const canvas = document.createElement("canvas");
@@ -45,28 +46,11 @@ async function main() {
   // Load entity data
   const tanksData = await worldEntityDataLoader.getTanksData();
   const tankData = worldEntityDataConverter.tankDataToModel(tanksData[1]);
-  const tankTurretData = tankData.tankTurretData;
 
   // Creating game entities
-  const turret = new Tank.Turret(tankTurretData.positionOnTank);
-  turret.setComponent(
-    actorSpriteComponentBuilder
-      .setSpriteSheetName(tankTurretData.spriteData.sheetName)
-      .setSize(tankTurretData.spriteData.size)
-      .setSource(tankTurretData.spriteData.source)
-      .setOrigin(tankTurretData.spriteData.origin)
-      .build(turret)
-  );
-  turret.setComponent(
-    actorRotationComponentBuilder
-      .setRotationSpeed(tankTurretData.rotationSpeed)
-      .build(turret)
-  );
-
   const tank = new Tank.Tank(vector2Manager);
   tank.setPosition(vector2Manager.getNew(150, 150));
   tank.setRotationSpeed(tankData.rotationSpeed);
-  tank.addDetail(turret);
   tank.setComponent(
     actorSpriteComponentBuilder
       .setSpriteSheetName(tankData.spriteData.sheetName)
@@ -81,6 +65,26 @@ async function main() {
       .addActingForce(FRICTION_FORCE)
       .build(tank)
   );
+
+  const turretData = tankData.details.find(
+    (detail) => detail instanceof TankTurretData
+  );
+
+  const turret = new Tank.Turret(tankTurretData.positionOnTank);
+  turret.setComponent(
+    actorSpriteComponentBuilder
+      .setSpriteSheetName(tankTurretData.spriteData.sheetName)
+      .setSize(tankTurretData.spriteData.size)
+      .setSource(tankTurretData.spriteData.source)
+      .setOrigin(tankTurretData.spriteData.origin)
+      .build(turret)
+  );
+  turret.setComponent(
+    actorRotationComponentBuilder
+      .setRotationSpeed(tankTurretData.rotationSpeed)
+      .build(turret)
+  );
+  tank.addDetail(turret);
 
   const tankEngine = new Tank.Engine(vector2Manager.getNew(7 + 4.5, 11 + 6));
   tankEngine.setComponent(

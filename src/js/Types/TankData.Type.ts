@@ -1,8 +1,8 @@
 import { SpriteDataType } from "../Engine/Types/SpriteData.Type";
-import { TankTurretDataType } from "./TankTurretData.Type";
+import { TankDetailDataTypes } from "./TankDetailDataTypes.Type";
 
 export type TankDataType = {
   spriteData: SpriteDataType;
-  tankTurretData: TankTurretDataType;
   rotationSpeed: number;
+  details: Array<TankDetailDataTypes>;
 };

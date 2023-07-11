@@ -1,6 +1,7 @@
 import TankDetailAbstraction from "../Abstractions/TankDetailAbstraction";
 import IVector2Manager from "../Engine/Interfaces/IVector2Manager";
 import { Engine, Turret } from "../WorldEntities/Tank";
+import ActorRotationComponentBuilder from "./ActorRotationComponentBuilder";
 import ActorShapeComponentBuilder from "./ActorShapeComponentBuilder";
 import ActorSpriteComponentBuilder from "./ActorSpriteComponentBuilder";
 
@@ -8,7 +9,8 @@ export class TankDetailBuilder {
   constructor(
     private readonly _vector2Manager: IVector2Manager,
     private readonly _actorSpriteComponentBuilder: ActorSpriteComponentBuilder,
-    private readonly _actorShapeComponentBuilder: ActorShapeComponentBuilder
+    private readonly _actorShapeComponentBuilder: ActorShapeComponentBuilder,
+    private readonly _actorRotationComponentBuilder: ActorRotationComponentBuilder
   ) {}
 
   private _getTurret(turretData: any): Turret {
@@ -40,6 +42,12 @@ export class TankDetailBuilder {
             turretData.sprite.source.y
           )
         )
+        .build(turret)
+    );
+
+    turret.setComponent(
+      this._actorRotationComponentBuilder
+        .setRotationSpeed(turretData.rotation_speed)
         .build(turret)
     );
 

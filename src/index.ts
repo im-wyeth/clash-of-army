@@ -104,7 +104,8 @@ async function main() {
   const tankDetailBuilder = new TankDetailBuilder(
     vector2Manager,
     actorSpriteComponentBuilder,
-    actorShapeComponentBuilder
+    actorShapeComponentBuilder,
+    actorRotationComponentBuilder
   );
 
   const playerTank = tankBuilder.getTank(tanksData[1]);

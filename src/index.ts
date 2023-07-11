@@ -14,13 +14,12 @@ import WorldScene from "./js/Scenes/WorldScene";
 import MenuScene from "./js/Scenes/MenuScene";
 import ActorSpriteComponentBuilder from "./js/Builders/ActorSpriteComponentBuilder";
 import WorldEntityDataLoader from "./js/WorldEntityDataLoader";
-import WorldEntityDataConverter from "./js/WorldEntityDataConverter";
 import PlayerTankControlling from "./js/PlayerTankControlling";
 import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationComponentBuilder";
 import ActorRotationComponentBuilder from "./js/Builders/ActorRotationComponentBuilder";
-import * as Tank from "./js/WorldEntities/Tank";
 import ActorShapeComponentBuilder from "./js/Builders/ActorShapeComponentBuilder";
-import TankTurretData from "./js/DataStructures/TankTurretData";
+import { TankBuilder } from "./js/Builders/TankBuilder";
+import { TankDetailBuilder } from "./js/Builders/TankDetailBuilder";
 
 async function main() {
   const canvas = document.createElement("canvas");
@@ -41,73 +40,17 @@ async function main() {
     WORLD_ENTITY_DATA_PATH,
     TANKS_DATA_JSON_NAME
   );
-  const worldEntityDataConverter = new WorldEntityDataConverter(vector2Manager);
-
-  // Load entity data
-  const tanksData = await worldEntityDataLoader.getTanksData();
-  const tankData = worldEntityDataConverter.tankDataToModel(tanksData[1]);
-
-  // Creating game entities
-  const tank = new Tank.Tank(vector2Manager);
-  tank.setPosition(vector2Manager.getNew(150, 150));
-  tank.setRotationSpeed(tankData.rotationSpeed);
-  tank.setComponent(
-    actorSpriteComponentBuilder
-      .setSpriteSheetName(tankData.spriteData.sheetName)
-      .setSize(tankData.spriteData.size)
-      .setSource(tankData.spriteData.source)
-      .setOrigin(tankData.spriteData.origin)
-      .build(tank)
-  );
-  tank.setComponent(
-    actorAccelerationComponentBuilder
-      .setMass(3000)
-      .addActingForce(FRICTION_FORCE)
-      .build(tank)
-  );
-
-  const turretData = tankData.details.find(
-    (detail) => detail instanceof TankTurretData
-  );
-
-  const turret = new Tank.Turret(tankTurretData.positionOnTank);
-  turret.setComponent(
-    actorSpriteComponentBuilder
-      .setSpriteSheetName(tankTurretData.spriteData.sheetName)
-      .setSize(tankTurretData.spriteData.size)
-      .setSource(tankTurretData.spriteData.source)
-      .setOrigin(tankTurretData.spriteData.origin)
-      .build(turret)
-  );
-  turret.setComponent(
-    actorRotationComponentBuilder
-      .setRotationSpeed(tankTurretData.rotationSpeed)
-      .build(turret)
-  );
-  tank.addDetail(turret);
-
-  const tankEngine = new Tank.Engine(vector2Manager.getNew(7 + 4.5, 11 + 6));
-  tankEngine.setComponent(
-    actorShapeComponentBuilder
-      .createRectangle(vector2Manager.getNew(9, 12))
-      .build(tank)
-  );
-  tank.addDetail(tankEngine);
 
   // Camera init
   const camera = new Engine.Camera(
     vector2Manager.getNew(CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT)
   );
-  camera.lookAt(tank);
 
   // Scenes init
   const sceneManager = new Engine.Managers.SceneManager();
 
   const menuScene = new MenuScene(camera);
   const worldScene = new WorldScene(camera);
-  worldScene.addActor(tank);
-  worldScene.addActor(tankEngine);
-  worldScene.addActor(turret);
 
   sceneManager.addScene(menuScene);
   sceneManager.addScene(worldScene);
@@ -148,9 +91,35 @@ async function main() {
   );
   engine.getRenderer().antialiasing(false);
 
+  // Load entity data
+  const tanksData = await worldEntityDataLoader.getTanksData();
+
+  // Creating game entities
+  const tankBuilder = new TankBuilder(
+    vector2Manager,
+    actorSpriteComponentBuilder,
+    actorAccelerationComponentBuilder,
+    FRICTION_FORCE
+  );
+  const tankDetailBuilder = new TankDetailBuilder(
+    vector2Manager,
+    actorSpriteComponentBuilder,
+    actorShapeComponentBuilder
+  );
+
+  const playerTank = tankBuilder.getTank(tanksData[1]);
+  worldScene.addActor(playerTank);
+
+  for (const detailData of tanksData[1].details) {
+    const detail = tankDetailBuilder.getDetail(detailData);
+    worldScene.addActor(detail);
+
+    playerTank.addDetail(detail);
+  }
+
   // Init Player Controlling
   const tankControlling = new PlayerTankControlling(
-    tank,
+    playerTank,
     inputKeyHandler,
     mouseHandler
   );

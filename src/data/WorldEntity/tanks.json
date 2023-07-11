@@ -47,6 +47,12 @@
         "position_on_tank": {
           "x": 11.5,
           "y": 7
+        },
+        "rectangle": {
+          "size": {
+            "x": 9,
+            "y": 12
+          }
         }
       }
     ]

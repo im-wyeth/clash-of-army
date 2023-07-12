@@ -4,15 +4,11 @@ import IVector2 from "../../Engine/Interfaces/IVector2";
 import IVector2Manager from "../../Engine/Interfaces/IVector2Manager";
 import { TANK_MOVING_STATE } from "../../Enums/TankMovingState.Enum";
 import { TANK_ROTATION_STATE } from "../../Enums/TankRotationState.Enum";
+import { Caterpillar } from "./Caterpillar";
 import { Engine } from "./Engine";
 import { Turret } from "./Turret";
 
 export class Body extends BodyAbstraction {
-  private _turret: Turret;
-  private _engine: Engine;
-
-  private _vector2Manager: IVector2Manager;
-
   private _forwardForce: number = 0.22;
   private _backwardForce: number = 0.2;
   private _brakingForce: number = 0.2;
@@ -21,13 +17,14 @@ export class Body extends BodyAbstraction {
   private _movingState: TANK_MOVING_STATE = TANK_MOVING_STATE.NONE;
   private _rotationState: TANK_ROTATION_STATE = TANK_ROTATION_STATE.NONE;
 
-  constructor(turret: Turret, engine: Engine, vector2Manager: IVector2Manager) {
+  constructor(
+    private readonly _turret: Turret,
+    private readonly _engine: Engine,
+    private readonly _leftCaterpillar: Caterpillar,
+    private readonly _rightCaterpillar: Caterpillar,
+    private readonly _vector2Manager: IVector2Manager
+  ) {
     super();
-
-    this._turret = turret;
-    this._engine = engine;
-
-    this._vector2Manager = vector2Manager;
   }
 
   getTurret(): Turret {

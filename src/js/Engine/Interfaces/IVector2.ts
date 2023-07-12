@@ -10,5 +10,7 @@ export default interface IVector2 {
 
   rotate(theta: number): IVector2;
 
+  rotateAround(point: IVector2, theta: number): IVector2;
+
   toRadians(): number;
 }

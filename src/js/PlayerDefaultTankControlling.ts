@@ -1,11 +1,10 @@
-import TankAbstraction from "./Abstractions/TankAbstraction";
+import BodyAbstraction from "./Abstractions/DefaultTank/BodyAbstraction";
 import IInputKeyHandler from "./Engine/Interfaces/IInputKeyHandler";
 import IMouseHandler from "./Engine/Interfaces/IMouseHandler";
-import * as Tank from "./WorldEntities/Tank";
 
-export default class PlayerTankControlling {
+export default class PlayerDefaultTankControlling {
   constructor(
-    private readonly _tank: TankAbstraction,
+    private readonly _tank: BodyAbstraction,
     private readonly _inputKeyHandler: IInputKeyHandler,
     private readonly _mouseHandler: IMouseHandler
   ) {}
@@ -27,7 +26,7 @@ export default class PlayerTankControlling {
       this._tank.rotateLeft();
     }
 
-    const turret = this._tank.getDetail(Tank.Turret);
+    const turret = this._tank.getTurret();
 
     if (turret) {
       turret.rotateTo(this._mouseHandler.getWorldCoordinates());

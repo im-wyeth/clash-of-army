@@ -14,11 +14,11 @@ import WorldScene from "./js/Scenes/WorldScene";
 import MenuScene from "./js/Scenes/MenuScene";
 import ActorSpriteComponentBuilder from "./js/Builders/ActorSpriteComponentBuilder";
 import WorldEntityDataLoader from "./js/WorldEntityDataLoader";
-import PlayerTankControlling from "./js/PlayerTankControlling";
+import PlayerDefaultTankControlling from "./js/PlayerDefaultTankControlling";
 import ActorAccelerationComponentBuilder from "./js/Builders/ActorAccelerationComponentBuilder";
 import ActorRotationComponentBuilder from "./js/Builders/ActorRotationComponentBuilder";
 import ActorShapeComponentBuilder from "./js/Builders/ActorShapeComponentBuilder";
-import { TankBuilder } from "./js/Builders/TankBuilder";
+import DefaultTankBuilder from "./js/Builders/DefaultTankBuilder";
 import { TankDetailBuilder } from "./js/Builders/TankDetailBuilder";
 
 async function main() {
@@ -95,36 +95,33 @@ async function main() {
   const tanksData = await worldEntityDataLoader.getTanksData();
 
   // Creating game entities
-  const tankBuilder = new TankBuilder(
-    vector2Manager,
-    actorSpriteComponentBuilder,
-    actorAccelerationComponentBuilder,
-    FRICTION_FORCE
-  );
   const tankDetailBuilder = new TankDetailBuilder(
     vector2Manager,
     actorSpriteComponentBuilder,
     actorShapeComponentBuilder,
     actorRotationComponentBuilder
   );
+  const tankBuilder = new DefaultTankBuilder(
+    vector2Manager,
+    tankDetailBuilder,
+    actorSpriteComponentBuilder,
+    actorAccelerationComponentBuilder,
+    FRICTION_FORCE
+  );
 
   const playerTank = tankBuilder.getTank(tanksData[1]);
   worldScene.addActor(playerTank);
-
-  for (const detailData of tanksData[1].details) {
-    const detail = tankDetailBuilder.getDetail(detailData);
-    worldScene.addActor(detail);
-
-    playerTank.addDetail(detail);
-  }
+  worldScene.addActor(playerTank.getTurret());
 
   // Init Player Controlling
-  const tankControlling = new PlayerTankControlling(
+  const tankControlling = new PlayerDefaultTankControlling(
     playerTank,
     inputKeyHandler,
     mouseHandler
   );
   engine.getLoop().onUpdate(tankControlling.update.bind(tankControlling));
+
+  camera.lookAt(playerTank);
 
   // Adding canvas
   document.body.appendChild(canvas);

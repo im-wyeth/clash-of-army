@@ -1,6 +1,5 @@
-import TankDetailAbstraction from "../Abstractions/TankDetailAbstraction";
 import IVector2Manager from "../Engine/Interfaces/IVector2Manager";
-import { Engine, Turret } from "../WorldEntities/Tank";
+import { Engine, Turret } from "../WorldEntities/DefaultTank";
 import ActorRotationComponentBuilder from "./ActorRotationComponentBuilder";
 import ActorShapeComponentBuilder from "./ActorShapeComponentBuilder";
 import ActorSpriteComponentBuilder from "./ActorSpriteComponentBuilder";
@@ -13,7 +12,7 @@ export class TankDetailBuilder {
     private readonly _actorRotationComponentBuilder: ActorRotationComponentBuilder
   ) {}
 
-  private _getTurret(turretData: any): Turret {
+  getTurret(turretData: any): Turret {
     const turret = new Turret(
       this._vector2Manager.getNew(
         turretData.position_on_tank.x,
@@ -54,7 +53,7 @@ export class TankDetailBuilder {
     return turret;
   }
 
-  private _getEngine(engineData: any): Engine {
+  getEngine(engineData: any): Engine {
     const engine = new Engine(
       this._vector2Manager.getNew(
         engineData.position_on_tank.x,
@@ -74,15 +73,5 @@ export class TankDetailBuilder {
     );
 
     return engine;
-  }
-
-  getDetail(detailJsonData: any): TankDetailAbstraction {
-    switch (detailJsonData.type) {
-      case "turret":
-        return this._getTurret(detailJsonData);
-      case "engine":
-      default:
-        return this._getEngine(detailJsonData);
-    }
   }
 }

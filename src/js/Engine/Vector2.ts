@@ -43,6 +43,17 @@ export class Vector2 implements IVector2 {
     );
   }
 
+  rotateAround(point: IVector2, theta: number): IVector2 {
+    return new Vector2(
+      (this.x - point.x) * Math.cos(theta) -
+        (this.y - point.y) * Math.sin(theta) +
+        point.x,
+      (this.x - point.x) * Math.sin(theta) +
+        (this.y - point.y) * Math.cos(theta) +
+        point.y
+    );
+  }
+
   toRadians(): number {
     return Math.atan2(this.y, this.x);
   }

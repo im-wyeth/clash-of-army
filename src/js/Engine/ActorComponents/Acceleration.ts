@@ -81,6 +81,7 @@ export class Acceleration extends BaseComponent {
     const pos = this._actor.getPosition();
     const dir = this._actor.getDirection();
 
+    // ERROR !!!!!!!!!!!!
     this._actor.setPosition(
       new Vector2(
         pos.x + dir.x * this._velocity * timeStep,

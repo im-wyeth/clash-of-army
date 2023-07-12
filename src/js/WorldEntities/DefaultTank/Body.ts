@@ -1,12 +1,16 @@
-import TankAbstraction from "../../Abstractions/TankAbstraction";
-import { ActorComponents } from "../../Engine/";
+import BodyAbstraction from "../../Abstractions/DefaultTank/BodyAbstraction";
+import { ActorComponents } from "../../Engine";
 import IVector2 from "../../Engine/Interfaces/IVector2";
 import IVector2Manager from "../../Engine/Interfaces/IVector2Manager";
 import { TANK_MOVING_STATE } from "../../Enums/TankMovingState.Enum";
 import { TANK_ROTATION_STATE } from "../../Enums/TankRotationState.Enum";
-import TankDetailAbstraction from "../../Abstractions/TankDetailAbstraction";
+import { Engine } from "./Engine";
+import { Turret } from "./Turret";
 
-export class Tank extends TankAbstraction {
+export class Body extends BodyAbstraction {
+  private _turret: Turret;
+  private _engine: Engine;
+
   private _vector2Manager: IVector2Manager;
 
   private _forwardForce: number = 0.22;
@@ -17,26 +21,17 @@ export class Tank extends TankAbstraction {
   private _movingState: TANK_MOVING_STATE = TANK_MOVING_STATE.NONE;
   private _rotationState: TANK_ROTATION_STATE = TANK_ROTATION_STATE.NONE;
 
-  private _details: Array<TankDetailAbstraction> = [];
-
-  constructor(vector2Manager: IVector2Manager) {
+  constructor(turret: Turret, engine: Engine, vector2Manager: IVector2Manager) {
     super();
+
+    this._turret = turret;
+    this._engine = engine;
 
     this._vector2Manager = vector2Manager;
   }
 
-  getDetail<T>(type: { new (...args: any): T }): null | T {
-    for (const detail of this._details) {
-      if (detail instanceof type) {
-        return detail;
-      }
-    }
-
-    return null;
-  }
-
-  addDetail(detail: TankDetailAbstraction): void {
-    this._details.push(detail);
+  getTurret(): Turret {
+    return this._turret;
   }
 
   setRotationSpeed(speed: number): void {
@@ -49,7 +44,7 @@ export class Tank extends TankAbstraction {
     this._updateDirection();
     this._resetMovingState();
     this._resetRotatingState();
-    this._updateDetailsPosition();
+    this._updateDetails();
   }
 
   private _leftTopCornerPosition(): IVector2 {
@@ -135,12 +130,18 @@ export class Tank extends TankAbstraction {
     }
   }
 
-  private _updateDetailsPosition(): void {
+  private _updateDetails(): void {
     const leftTopCornerOfTank = this._leftTopCornerPosition();
 
-    for (const detail of this._details) {
-      detail.setPosition(leftTopCornerOfTank.add(detail.getPositionOnTank()));
-    }
+    this._turret.setPosition(
+      leftTopCornerOfTank.add(this._turret.getPositionOnTank())
+    );
+
+    this._engine.setPosition(
+      leftTopCornerOfTank
+        .add(this._engine.getPositionOnTank())
+        .rotateAround(this._position, this._radians)
+    );
   }
 
   moveForward(): void {

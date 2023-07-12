@@ -113,6 +113,8 @@ async function main() {
   worldScene.addActor(playerTank);
   worldScene.addActor(playerTank.getTurret());
 
+  camera.lookAt(playerTank);
+
   // Init Player Controlling
   const tankControlling = new PlayerDefaultTankControlling(
     playerTank,
@@ -120,8 +122,6 @@ async function main() {
     mouseHandler
   );
   engine.getLoop().onUpdate(tankControlling.update.bind(tankControlling));
-
-  camera.lookAt(playerTank);
 
   // Adding canvas
   document.body.appendChild(canvas);

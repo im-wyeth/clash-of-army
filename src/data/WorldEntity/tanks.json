@@ -53,6 +53,30 @@
             "y": 12
           }
         }
+      },
+      "caterpillar_left": {
+        "position_on_tank": {
+          "x": 1,
+          "y": 1
+        },
+        "rectangle": {
+          "size": {
+            "x": 57,
+            "y": 6
+          }
+        }
+      },
+      "caterpillar_right": {
+        "position_on_tank": {
+          "x": 1,
+          "y": 26
+        },
+        "rectangle": {
+          "size": {
+            "x": 57,
+            "y": 6
+          }
+        }
       }
     }
   }

@@ -9,7 +9,7 @@ export default class PlayerDefaultTankControlling {
     private readonly _mouseHandler: IMouseHandler
   ) {}
 
-  update(timeStep: number) {
+  update() {
     if (this._inputKeyHandler.isPressed("KeyW")) {
       this._tank.moveForward();
     }

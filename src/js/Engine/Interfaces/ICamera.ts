@@ -6,7 +6,13 @@ export default interface ICamera {
 
   getPosition(): IVector2;
 
+  getZoom(): IVector2;
+
   getLeftTopCorner(): IVector2;
+
+  setPosition(position: IVector2): void;
+
+  setZoom(zoom: IVector2): void;
 
   lookAt(actor: IActor): void;
 }

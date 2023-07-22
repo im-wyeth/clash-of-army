@@ -1,5 +1,6 @@
 import IVector2Manager from "../Engine/Interfaces/IVector2Manager";
 import { Engine, Turret } from "../WorldEntities/DefaultTank";
+import { Caterpillar } from "../WorldEntities/DefaultTank/Caterpillar";
 import ActorRotationComponentBuilder from "./ActorRotationComponentBuilder";
 import ActorShapeComponentBuilder from "./ActorShapeComponentBuilder";
 import ActorSpriteComponentBuilder from "./ActorSpriteComponentBuilder";
@@ -73,5 +74,14 @@ export class TankDetailBuilder {
     );
 
     return engine;
+  }
+
+  getCaterpillar(caterpillarData: any): Caterpillar {
+    return new Caterpillar(
+      this._vector2Manager.getNew(
+        caterpillarData.position_on_tank.x,
+        caterpillarData.position_on_tank.y
+      )
+    );
   }
 }

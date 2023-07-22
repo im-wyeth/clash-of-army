@@ -1,4 +1,5 @@
 import { ActorComponents } from "../";
+import { Engine } from "../../WorldEntities/DefaultTank";
 import IActor from "../Interfaces/IActor";
 import IActorRenderer from "../Interfaces/IActorsRenderer";
 import IRenderer from "../Interfaces/IRenderer";

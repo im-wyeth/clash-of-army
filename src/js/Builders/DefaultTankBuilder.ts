@@ -17,6 +17,12 @@ export default class DefaultTankBuilder {
     const tankBody = new Body(
       this._tankDetailBuilder.getTurret(tankJsonData.details.turret),
       this._tankDetailBuilder.getEngine(tankJsonData.details.engine),
+      this._tankDetailBuilder.getCaterpillar(
+        tankJsonData.details.caterpillar_left
+      ),
+      this._tankDetailBuilder.getCaterpillar(
+        tankJsonData.details.caterpillar_right
+      ),
       this._vector2Manager
     );
 

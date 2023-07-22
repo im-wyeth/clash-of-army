@@ -1,3 +1,0 @@
-import IRectangle from "../Interfaces/IRectangle";
-
-export type ShapeTypes = IRectangle; // IRectangle | ITriangle | ISquare and more...

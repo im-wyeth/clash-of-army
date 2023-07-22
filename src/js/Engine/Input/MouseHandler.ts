@@ -29,8 +29,10 @@ export class MouseHandler implements IMouseHandler {
   calculateWorldCoordinates() {
     const cameraLeftTopCorner = this._camera.getLeftTopCorner();
 
-    this._world.x = cameraLeftTopCorner.x + this._mouse.x;
-    this._world.y = cameraLeftTopCorner.y + this._mouse.y;
+    this._world.x =
+      cameraLeftTopCorner.x + this._mouse.x / this._camera.getZoom().x;
+    this._world.y =
+      cameraLeftTopCorner.y + this._mouse.y / this._camera.getZoom().y;
   }
 
   onMouseMove(e: MouseEvent): void {

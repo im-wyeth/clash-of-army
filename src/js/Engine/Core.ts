@@ -53,6 +53,7 @@ export class Core {
     }
 
     if (this._renderer.start) {
+      this._renderer.setScaling(currentScene.getCamera().getZoom());
       this._renderer.start(currentScene.getCamera().getLeftTopCorner());
     }
 

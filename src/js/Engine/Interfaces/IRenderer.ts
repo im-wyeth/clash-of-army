@@ -1,6 +1,8 @@
 import IVector2 from "./IVector2";
 
 export default interface IRenderer {
+  setScaling(scale: IVector2): void;
+
   antialiasing(val: boolean): void;
 
   drawImage(

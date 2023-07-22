@@ -7,7 +7,7 @@ export class Camera implements ICamera {
   private readonly _position = new Vector2(0, 0);
   private readonly _viewPort = new Vector2(0, 0);
 
-  private _zoom = 2;
+  private _zoom = new Vector2(1, 1);
 
   constructor(viewPort: IVector2) {
     this._viewPort.x = viewPort.x;
@@ -22,16 +22,25 @@ export class Camera implements ICamera {
     return this._viewPort;
   }
 
+  getZoom(): IVector2 {
+    return this._zoom;
+  }
+
   getLeftTopCorner(): IVector2 {
     return new Vector2(
-      this._position.x - this._viewPort.x / 2,
-      this._position.y - this._viewPort.y / 2
+      this._position.x - this._viewPort.x / 2 / this._zoom.x,
+      this._position.y - this._viewPort.y / 2 / this._zoom.y
     );
   }
 
-  setPosition(position: IVector2) {
+  setPosition(position: IVector2): void {
     this._position.x = position.x;
     this._position.y = position.y;
+  }
+
+  setZoom(zoom: IVector2): void {
+    this._zoom.x = zoom.x;
+    this._zoom.y = zoom.y;
   }
 
   lookAt(actor: IActor) {

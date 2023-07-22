@@ -1,6 +1,7 @@
 import IRenderer from "../Interfaces/IRenderer";
 import IVector2 from "../Interfaces/IVector2";
 import IVector2Manager from "../Interfaces/IVector2Manager";
+import { Vector2 } from "../Vector2";
 
 export class CanvasRenderer implements IRenderer {
   private readonly _canvas: HTMLCanvasElement;
@@ -8,11 +9,18 @@ export class CanvasRenderer implements IRenderer {
 
   private readonly _vector2Manager: IVector2Manager;
 
+  private readonly _scale: IVector2 = new Vector2(1, 1);
+
   constructor(canvas: HTMLCanvasElement, vector2Manager: IVector2Manager) {
     this._canvas = canvas;
     this._ctx = canvas.getContext("2d");
 
     this._vector2Manager = vector2Manager;
+  }
+
+  setScaling(scale: IVector2): void {
+    this._scale.x = scale.x;
+    this._scale.y = scale.y;
   }
 
   start(offset: IVector2): void {
@@ -23,6 +31,8 @@ export class CanvasRenderer implements IRenderer {
     this._clear();
 
     this._ctx.save();
+
+    this._ctx.scale(this._scale.x, this._scale.y);
 
     this._ctx.translate(-offset.x, -offset.y);
   }

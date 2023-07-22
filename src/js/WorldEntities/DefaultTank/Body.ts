@@ -31,6 +31,18 @@ export class Body extends BodyAbstraction {
     return this._turret;
   }
 
+  getEngine(): Engine {
+    return this._engine;
+  }
+
+  getRightCaterpillar(): Caterpillar {
+    return this._rightCaterpillar;
+  }
+
+  getLeftCaterpillar(): Caterpillar {
+    return this._leftCaterpillar;
+  }
+
   setRotationSpeed(speed: number): void {
     this._rotationSpeed = speed;
   }
@@ -139,6 +151,7 @@ export class Body extends BodyAbstraction {
         .add(this._engine.getPositionOnTank())
         .rotateAround(this._position, this._radians)
     );
+    this._engine.setRadians(this._radians);
   }
 
   moveForward(): void {

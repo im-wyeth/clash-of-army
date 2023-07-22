@@ -112,6 +112,11 @@ async function main() {
   const playerTank = tankBuilder.getTank(tanksData[1]);
   worldScene.addActor(playerTank);
   worldScene.addActor(playerTank.getTurret());
+  worldScene.addActor(playerTank.getEngine());
+  worldScene.addActor(playerTank.getRightCaterpillar());
+  worldScene.addActor(playerTank.getLeftCaterpillar());
+
+  camera.setZoom(vector2Manager.getNew(3, 3));
 
   camera.lookAt(playerTank);
 

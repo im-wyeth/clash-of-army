@@ -153,6 +153,42 @@ export class CanvasRenderer implements IRenderer {
     this._ctx.restore();
   }
 
+  drawCircle(
+    x: number,
+    y: number,
+    radius: number,
+    radians: number,
+    color: string,
+    originX: number,
+    originY: number
+  ): void {
+    if (!this._ctx) return;
+
+    const halfRadius = radius / 2;
+
+    const pivotPoint: IVector2 = this._pivotPointFromOrigin(
+      originX,
+      originY,
+      halfRadius,
+      halfRadius,
+      x,
+      y
+    );
+
+    this._ctx.save();
+    this._ctx.beginPath();
+
+    this._ctx.fillStyle = color;
+    this._ctx.translate(pivotPoint.x, pivotPoint.y);
+    this._ctx.rotate(radians);
+    this._ctx.translate(-pivotPoint.x, -pivotPoint.y);
+    this._ctx.arc(x, y, radius, 0, Math.PI * 2);
+    this._ctx.fill();
+
+    this._ctx.closePath();
+    this._ctx.restore();
+  }
+
   drawText(
     text: string,
     font: string,

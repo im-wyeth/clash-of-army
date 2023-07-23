@@ -31,6 +31,16 @@ export default interface IRenderer {
     originY: number
   ): void;
 
+  drawCircle(
+    x: number,
+    y: number,
+    radius: number,
+    radians: number,
+    color: string,
+    originX: number,
+    originY: number
+  ): void;
+
   drawText(
     text: string,
     font: string,

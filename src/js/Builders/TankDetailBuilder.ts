@@ -77,11 +77,24 @@ export class TankDetailBuilder {
   }
 
   getCaterpillar(caterpillarData: any): Caterpillar {
-    return new Caterpillar(
+    const caterpillar = new Caterpillar(
       this._vector2Manager.getNew(
         caterpillarData.position_on_tank.x,
         caterpillarData.position_on_tank.y
       )
     );
+
+    caterpillar.setComponent(
+      this._actorShapeComponentBuilder
+        .createRectangle(
+          this._vector2Manager.getNew(
+            caterpillarData.rectangle.size.x,
+            caterpillarData.rectangle.size.y
+          )
+        )
+        .build(caterpillar)
+    );
+
+    return caterpillar;
   }
 }

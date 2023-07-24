@@ -57,7 +57,14 @@ export class ActorsRenderer implements IActorRenderer {
         return;
       }
 
-      shapeComponent.getConcreteShape().render(this._renderer, actor);
+      shapeComponent
+        .getConcreteShape()
+        .render(
+          this._renderer,
+          actor,
+          shapeComponent.getColor(),
+          shapeComponent.getAlpha()
+        );
     }
   }
 }

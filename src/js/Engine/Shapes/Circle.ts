@@ -7,7 +7,12 @@ export class Circle implements IShape {
 
   constructor(private readonly _radius: number) {}
 
-  render(renderer: IRenderer, actor: IActor): void {
+  render(
+    renderer: IRenderer,
+    actor: IActor,
+    color: string,
+    alpha?: number
+  ): void {
     const position = actor.getPosition();
 
     renderer.drawCircle(
@@ -15,9 +20,10 @@ export class Circle implements IShape {
       position.y,
       this._radius,
       actor.getRadians(),
-      "green",
+      color,
       this._radius / 2,
-      this._radius / 2
+      this._radius / 2,
+      alpha
     );
   }
 }

@@ -1,21 +1,29 @@
 import DetailAbstraction from "../../Abstractions/DefaultTank/DetailAbstraction";
 import IVector2 from "../../Engine/Interfaces/IVector2";
+import { Detail } from "./Detail";
 
-export default class BreakableDetail extends DetailAbstraction {
+export class BreakableDetail extends Detail {
   private readonly _isDestroyed: boolean = false;
-  private readonly _positionOnTank: IVector2;
 
   constructor(positionOnTank: IVector2) {
-    super();
-
-    this._positionOnTank = positionOnTank;
+    super(positionOnTank);
   }
 
   isDestroyed(): boolean {
     return this._isDestroyed;
   }
 
-  getPositionOnTank(): IVector2 {
-    return this._positionOnTank;
+  updatePositionOnTank(
+    tankPosition: IVector2,
+    leftTopCornerOfTank: IVector2,
+    radians: number
+  ): void {
+    this.setPosition(
+      leftTopCornerOfTank
+        .add(this._positionOnTank)
+        .rotateAround(tankPosition, radians)
+    );
+
+    this._radians = radians;
   }
 }

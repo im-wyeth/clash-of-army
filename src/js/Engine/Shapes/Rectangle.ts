@@ -8,7 +8,12 @@ export class Rectangle implements IShape {
 
   constructor(private readonly _size: IVector2) {}
 
-  render(renderer: IRenderer, actor: IActor): void {
+  render(
+    renderer: IRenderer,
+    actor: IActor,
+    color: string,
+    alpha?: number
+  ): void {
     const position = actor.getPosition();
 
     renderer.drawRectangle(
@@ -17,9 +22,10 @@ export class Rectangle implements IShape {
       this._size.x,
       this._size.y,
       actor.getRadians(),
-      "green",
+      color,
       this._size.x / 2,
-      this._size.y / 2
+      this._size.y / 2,
+      alpha
     );
   }
 }

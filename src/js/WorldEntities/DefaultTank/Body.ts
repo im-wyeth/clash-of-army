@@ -181,60 +181,48 @@ export class Body extends BodyAbstraction {
       leftTopCornerOfTank.add(this._turret.getPositionOnTank())
     );
 
-    this._engine.setPosition(
-      leftTopCornerOfTank
-        .add(this._engine.getPositionOnTank())
-        .rotateAround(this._position, this._radians)
+    this._engine.updatePositionOnTank(
+      this._position,
+      leftTopCornerOfTank,
+      this._radians
     );
-    this._engine.setRadians(this._radians);
-
-    this._turretMechanism.setPosition(
-      leftTopCornerOfTank
-        .add(this._turretMechanism.getPositionOnTank())
-        .rotateAround(this._position, this._radians)
+    this._ammunition.updatePositionOnTank(
+      this._position,
+      leftTopCornerOfTank,
+      this._radians
     );
-
-    this._leftCaterpillar.setPosition(
-      leftTopCornerOfTank
-        .add(this._leftCaterpillar.getPositionOnTank())
-        .rotateAround(this._position, this._radians)
+    this._turretMechanism.updatePositionOnTank(
+      this._position,
+      leftTopCornerOfTank,
+      this._radians
     );
-    this._leftCaterpillar.setRadians(this._radians);
-    this._rightCaterpillar.setPosition(
-      leftTopCornerOfTank
-        .add(this._rightCaterpillar.getPositionOnTank())
-        .rotateAround(this._position, this._radians)
+    this._cistern.updatePositionOnTank(
+      this._position,
+      leftTopCornerOfTank,
+      this._radians
     );
-    this._rightCaterpillar.setRadians(this._radians);
-
-    this._ammunition.setPosition(
-      leftTopCornerOfTank
-        .add(this._ammunition.getPositionOnTank())
-        .rotateAround(this._position, this._radians)
+    this._transmission.updatePositionOnTank(
+      this._position,
+      leftTopCornerOfTank,
+      this._radians
     );
-    this._ammunition.setRadians(this._radians);
-
-    this._cistern.setPosition(
-      leftTopCornerOfTank
-        .add(this._cistern.getPositionOnTank())
-        .rotateAround(this._position, this._radians)
+    this._leftCaterpillar.updatePositionOnTank(
+      this._position,
+      leftTopCornerOfTank,
+      this._radians
     );
-    this._cistern.setRadians(this._radians);
-
-    this._transmission.setPosition(
-      leftTopCornerOfTank
-        .add(this._transmission.getPositionOnTank())
-        .rotateAround(this._position, this._radians)
+    this._rightCaterpillar.updatePositionOnTank(
+      this._position,
+      leftTopCornerOfTank,
+      this._radians
     );
-    this._transmission.setRadians(this._radians);
 
     for (const armor of this._armors) {
-      armor.setPosition(
-        leftTopCornerOfTank
-          .add(armor.getPositionOnTank())
-          .rotateAround(this._position, this._radians)
+      armor.updatePositionOnTank(
+        this._position,
+        leftTopCornerOfTank,
+        this._radians
       );
-      armor.setRadians(this._radians);
     }
   }
 

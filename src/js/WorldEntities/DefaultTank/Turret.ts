@@ -1,6 +1,6 @@
 import { ActorComponents } from "../../Engine";
 import IVector2 from "../../Engine/Interfaces/IVector2";
-import Detail from "./Detail";
+import { Detail } from "./Detail";
 
 export class Turret extends Detail {
   constructor(positionOnTank: IVector2) {

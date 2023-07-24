@@ -1,5 +1,4 @@
 import BodyAbstraction from "../../Abstractions/DefaultTank/BodyAbstraction";
-import DetailAbstraction from "../../Abstractions/DefaultTank/DetailAbstraction";
 import { ActorComponents } from "../../Engine";
 import IVector2 from "../../Engine/Interfaces/IVector2";
 import IVector2Manager from "../../Engine/Interfaces/IVector2Manager";
@@ -182,7 +181,12 @@ export class Body extends BodyAbstraction {
       leftTopCornerOfTank.add(this._turret.getPositionOnTank())
     );
 
-    this._engine.updatePositionOnTank(leftTopCornerOfTank, this._radians);
+    this._engine.setPosition(
+      leftTopCornerOfTank
+        .add(this._engine.getPositionOnTank())
+        .rotateAround(this._position, this._radians)
+    );
+    this._engine.setRadians(this._radians);
 
     this._turretMechanism.setPosition(
       leftTopCornerOfTank

@@ -22,5 +22,7 @@ export default interface IActor {
 
   setRadians(radians: number): void;
 
+  setVisible(visible: boolean): void;
+
   update?(timeStep: number): void;
 }

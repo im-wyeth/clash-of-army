@@ -116,6 +116,14 @@ async function main() {
   worldScene.addActor(playerTank.getEngine());
   worldScene.addActor(playerTank.getRightCaterpillar());
   worldScene.addActor(playerTank.getLeftCaterpillar());
+  worldScene.addActor(playerTank.getAmmunition());
+  worldScene.addActor(playerTank.getTurretMehchanism());
+  worldScene.addActor(playerTank.getCistern());
+  worldScene.addActor(playerTank.getTransmission());
+
+  for (const armor of playerTank.getArmors()) {
+    worldScene.addActor(armor);
+  }
 
   camera.setZoom(vector2Manager.getNew(10, 10));
   camera.lookAt(playerTank);

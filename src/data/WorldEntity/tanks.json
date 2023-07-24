@@ -77,7 +77,390 @@
             "y": 6
           }
         }
+      },
+      "ammunition": {
+        "position_on_tank": {
+          "x": 19,
+          "y": 17.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 11
+          }
+        }
+      },
+      "turret_mechanism": {
+        "position_on_tank": {
+          "x": 29,
+          "y": 17.5
+        },
+        "circle": {
+          "radius": 5
+        }
+      },
+      "cistern": {
+        "position_on_tank": {
+          "x": 39,
+          "y": 17.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 9
+          }
+        }
+      },
+      "transmission": {
+        "position_on_tank": {
+          "x": 46,
+          "y": 17.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 11
+          }
+        }
       }
-    }
+    },
+    "armors": [
+      {
+        "position_on_tank": {
+          "x": 7.5,
+          "y": 8.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 12.5,
+          "y": 8.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 17.5,
+          "y": 8.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 22.5,
+          "y": 8.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 27.5,
+          "y": 8.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 32.5,
+          "y": 8.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 37.5,
+          "y": 8.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 42.5,
+          "y": 8.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 47.5,
+          "y": 8.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 7.5,
+          "y": 26.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 12.5,
+          "y": 26.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 17.5,
+          "y": 26.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 22.5,
+          "y": 26.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 27.5,
+          "y": 26.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 32.5,
+          "y": 26.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 37.5,
+          "y": 26.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 42.5,
+          "y": 26.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 47.5,
+          "y": 26.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 5,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 51.5,
+          "y": 11.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 51.5,
+          "y": 14.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 51.5,
+          "y": 17.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 51.5,
+          "y": 20.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 51.5,
+          "y": 23.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 3.5,
+          "y": 11.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 3.5,
+          "y": 14.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 3.5,
+          "y": 17.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 3.5,
+          "y": 20.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      },
+      {
+        "position_on_tank": {
+          "x": 3.5,
+          "y": 23.5
+        },
+        "rectangle": {
+          "size": {
+            "x": 3,
+            "y": 3
+          }
+        }
+      }
+    ]
   }
 }

@@ -58,4 +58,8 @@ export abstract class Actor implements IActor {
   setRadians(radians: number): void {
     this._radians = radians;
   }
+
+  setVisible(visible: boolean): void {
+    this._isVisible = visible;
+  }
 }

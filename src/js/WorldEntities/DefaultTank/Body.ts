@@ -1,12 +1,18 @@
 import BodyAbstraction from "../../Abstractions/DefaultTank/BodyAbstraction";
+import DetailAbstraction from "../../Abstractions/DefaultTank/DetailAbstraction";
 import { ActorComponents } from "../../Engine";
 import IVector2 from "../../Engine/Interfaces/IVector2";
 import IVector2Manager from "../../Engine/Interfaces/IVector2Manager";
 import { TANK_MOVING_STATE } from "../../Enums/TankMovingState.Enum";
 import { TANK_ROTATION_STATE } from "../../Enums/TankRotationState.Enum";
+import { Ammunition } from "./Ammunition";
+import { Armor } from "./Armor";
 import { Caterpillar } from "./Caterpillar";
+import { Cistern } from "./Cistern";
 import { Engine } from "./Engine";
+import { Transmission } from "./Transmission";
 import { Turret } from "./Turret";
+import { TurretMechanism } from "./TurretMechanism";
 
 export class Body extends BodyAbstraction {
   private _forwardForce: number = 0.22;
@@ -17,11 +23,17 @@ export class Body extends BodyAbstraction {
   private _movingState: TANK_MOVING_STATE = TANK_MOVING_STATE.NONE;
   private _rotationState: TANK_ROTATION_STATE = TANK_ROTATION_STATE.NONE;
 
+  private _armors: Array<Armor> = [];
+
   constructor(
     private readonly _turret: Turret,
     private readonly _engine: Engine,
     private readonly _leftCaterpillar: Caterpillar,
     private readonly _rightCaterpillar: Caterpillar,
+    private readonly _ammunition: Ammunition,
+    private readonly _turretMechanism: TurretMechanism,
+    private readonly _cistern: Cistern,
+    private readonly _transmission: Transmission,
     private readonly _vector2Manager: IVector2Manager
   ) {
     super();
@@ -43,8 +55,32 @@ export class Body extends BodyAbstraction {
     return this._leftCaterpillar;
   }
 
+  getAmmunition(): Ammunition {
+    return this._ammunition;
+  }
+
+  getTurretMehchanism(): TurretMechanism {
+    return this._turretMechanism;
+  }
+
+  getCistern(): Cistern {
+    return this._cistern;
+  }
+
+  getTransmission(): Transmission {
+    return this._transmission;
+  }
+
+  getArmors(): Array<Armor> {
+    return this._armors;
+  }
+
   setRotationSpeed(speed: number): void {
     this._rotationSpeed = speed;
+  }
+
+  setArmors(armors: Array<Armor>): void {
+    this._armors = armors;
   }
 
   update(timeStep: number): void {
@@ -146,12 +182,56 @@ export class Body extends BodyAbstraction {
       leftTopCornerOfTank.add(this._turret.getPositionOnTank())
     );
 
-    this._engine.setPosition(
+    this._engine.updatePositionOnTank(leftTopCornerOfTank, this._radians);
+
+    this._turretMechanism.setPosition(
       leftTopCornerOfTank
-        .add(this._engine.getPositionOnTank())
+        .add(this._turretMechanism.getPositionOnTank())
         .rotateAround(this._position, this._radians)
     );
-    this._engine.setRadians(this._radians);
+
+    this._leftCaterpillar.setPosition(
+      leftTopCornerOfTank
+        .add(this._leftCaterpillar.getPositionOnTank())
+        .rotateAround(this._position, this._radians)
+    );
+    this._leftCaterpillar.setRadians(this._radians);
+    this._rightCaterpillar.setPosition(
+      leftTopCornerOfTank
+        .add(this._rightCaterpillar.getPositionOnTank())
+        .rotateAround(this._position, this._radians)
+    );
+    this._rightCaterpillar.setRadians(this._radians);
+
+    this._ammunition.setPosition(
+      leftTopCornerOfTank
+        .add(this._ammunition.getPositionOnTank())
+        .rotateAround(this._position, this._radians)
+    );
+    this._ammunition.setRadians(this._radians);
+
+    this._cistern.setPosition(
+      leftTopCornerOfTank
+        .add(this._cistern.getPositionOnTank())
+        .rotateAround(this._position, this._radians)
+    );
+    this._cistern.setRadians(this._radians);
+
+    this._transmission.setPosition(
+      leftTopCornerOfTank
+        .add(this._transmission.getPositionOnTank())
+        .rotateAround(this._position, this._radians)
+    );
+    this._transmission.setRadians(this._radians);
+
+    for (const armor of this._armors) {
+      armor.setPosition(
+        leftTopCornerOfTank
+          .add(armor.getPositionOnTank())
+          .rotateAround(this._position, this._radians)
+      );
+      armor.setRadians(this._radians);
+    }
   }
 
   moveForward(): void {

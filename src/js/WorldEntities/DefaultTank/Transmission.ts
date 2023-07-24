@@ -1,7 +1,7 @@
 import DetailAbstraction from "../../Abstractions/DefaultTank/DetailAbstraction";
 import IVector2 from "../../Engine/Interfaces/IVector2";
 
-export class Engine extends DetailAbstraction {
+export class Transmission extends DetailAbstraction {
   private readonly _isDestroyed: boolean = false;
 
   private readonly _positionOnTank: IVector2;
@@ -18,15 +18,5 @@ export class Engine extends DetailAbstraction {
 
   getPositionOnTank(): IVector2 {
     return this._positionOnTank;
-  }
-
-  updatePositionOnTank(leftTopCornerOfTank: IVector2, radians: number): void {
-    this.setPosition(
-      leftTopCornerOfTank
-        .add(this._positionOnTank)
-        .rotateAround(this._position, this._radians)
-    );
-
-    this._radians = radians;
   }
 }

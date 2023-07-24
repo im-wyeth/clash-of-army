@@ -17,7 +17,8 @@ export default interface IRenderer {
     sW: number,
     sH: number,
     originX: number,
-    originY: number
+    originY: number,
+    alpha?: number
   ): void;
 
   drawRectangle(
@@ -28,7 +29,8 @@ export default interface IRenderer {
     r: number,
     color: string,
     originX: number,
-    originY: number
+    originY: number,
+    alpha?: number
   ): void;
 
   drawCircle(
@@ -38,7 +40,8 @@ export default interface IRenderer {
     radians: number,
     color: string,
     originX: number,
-    originY: number
+    originY: number,
+    alpha?: number
   ): void;
 
   drawText(
@@ -47,7 +50,8 @@ export default interface IRenderer {
     color: string,
     size: number,
     x: number,
-    y: number
+    y: number,
+    alpha?: number
   ): void;
 
   start?(offset: IVector2): void;

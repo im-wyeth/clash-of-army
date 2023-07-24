@@ -3,6 +3,7 @@ import { Shape } from "../Engine/ActorComponents/Shape";
 import IActor from "../Engine/Interfaces/IActor";
 import IShape from "../Engine/Interfaces/IShape";
 import IVector2 from "../Engine/Interfaces/IVector2";
+import { Circle } from "../Engine/Shapes/Circle";
 import { Rectangle } from "../Engine/Shapes/Rectangle";
 
 export default class ActorShapeComponentBuilder {
@@ -10,6 +11,12 @@ export default class ActorShapeComponentBuilder {
 
   createRectangle(size: IVector2): ActorShapeComponentBuilder {
     this._concreteShape = new Rectangle(size);
+
+    return this;
+  }
+
+  createCircle(radius: number): ActorShapeComponentBuilder {
+    this._concreteShape = new Circle(radius);
 
     return this;
   }

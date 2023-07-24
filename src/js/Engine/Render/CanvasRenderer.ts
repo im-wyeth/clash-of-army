@@ -86,7 +86,8 @@ export class CanvasRenderer implements IRenderer {
     sW: number,
     sH: number,
     originX: number,
-    originY: number
+    originY: number,
+    alpha: number = 1
   ) {
     if (!this._ctx) return;
 
@@ -103,6 +104,8 @@ export class CanvasRenderer implements IRenderer {
     );
 
     this._ctx.save();
+
+    this._ctx.globalAlpha = alpha;
     this._ctx.translate(pivotPoint.x, pivotPoint.y);
     this._ctx.rotate(r);
     this._ctx.translate(-pivotPoint.x, -pivotPoint.y);
@@ -117,6 +120,7 @@ export class CanvasRenderer implements IRenderer {
       w,
       h
     );
+
     this._ctx.restore();
   }
 
@@ -128,7 +132,8 @@ export class CanvasRenderer implements IRenderer {
     r: number,
     color: string,
     originX: number,
-    originY: number
+    originY: number,
+    alpha: number = 1
   ) {
     if (!this._ctx) return;
 
@@ -145,11 +150,14 @@ export class CanvasRenderer implements IRenderer {
     );
 
     this._ctx.save();
+    this._ctx.globalAlpha = alpha;
+
     this._ctx.fillStyle = color;
     this._ctx.translate(pivotPoint.x, pivotPoint.y);
     this._ctx.rotate(r);
     this._ctx.translate(-pivotPoint.x, -pivotPoint.y);
     this._ctx.fillRect(x - halfWidth, y - halfHeight, w, h);
+
     this._ctx.restore();
   }
 
@@ -160,7 +168,8 @@ export class CanvasRenderer implements IRenderer {
     radians: number,
     color: string,
     originX: number,
-    originY: number
+    originY: number,
+    alpha: number = 1
   ): void {
     if (!this._ctx) return;
 
@@ -178,6 +187,7 @@ export class CanvasRenderer implements IRenderer {
     this._ctx.save();
     this._ctx.beginPath();
 
+    this._ctx.globalAlpha = alpha;
     this._ctx.fillStyle = color;
     this._ctx.translate(pivotPoint.x, pivotPoint.y);
     this._ctx.rotate(radians);
@@ -195,7 +205,8 @@ export class CanvasRenderer implements IRenderer {
     color: string,
     size: number,
     x: number,
-    y: number
+    y: number,
+    alpha: number = 1
   ) {
     if (!this._ctx) return;
 

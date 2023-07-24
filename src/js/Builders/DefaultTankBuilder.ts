@@ -23,8 +23,18 @@ export default class DefaultTankBuilder {
       this._tankDetailBuilder.getCaterpillar(
         tankJsonData.details.caterpillar_right
       ),
+      this._tankDetailBuilder.getAmmunition(tankJsonData.details.ammunition),
+      this._tankDetailBuilder.getTurretMechanism(
+        tankJsonData.details.turret_mechanism
+      ),
+      this._tankDetailBuilder.getCistern(tankJsonData.details.cistern),
+      this._tankDetailBuilder.getTransmission(
+        tankJsonData.details.transmission
+      ),
       this._vector2Manager
     );
+
+    tankBody.setArmors(this._tankDetailBuilder.getArmors(tankJsonData.armors));
 
     tankBody.setRotationSpeed(tankJsonData.rotation_speed);
 

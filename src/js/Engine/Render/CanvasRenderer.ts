@@ -133,9 +133,14 @@ export class CanvasRenderer implements IRenderer {
     color: string,
     originX: number,
     originY: number,
+    lineColor: string,
+    lineWidth: number,
     alpha: number = 1
   ) {
     if (!this._ctx) return;
+
+    w = w - lineWidth;
+    h = h - lineWidth;
 
     const halfWidth = w / 2;
     const halfHeight = h / 2;
@@ -150,14 +155,23 @@ export class CanvasRenderer implements IRenderer {
     );
 
     this._ctx.save();
+    this._ctx.beginPath();
     this._ctx.globalAlpha = alpha;
 
     this._ctx.fillStyle = color;
     this._ctx.translate(pivotPoint.x, pivotPoint.y);
     this._ctx.rotate(r);
     this._ctx.translate(-pivotPoint.x, -pivotPoint.y);
-    this._ctx.fillRect(x - halfWidth, y - halfHeight, w, h);
+    this._ctx.rect(x - halfWidth, y - halfHeight, w, h);
+    this._ctx.fill();
 
+    if (lineWidth) {
+      this._ctx.lineWidth = lineWidth;
+      this._ctx.strokeStyle = lineColor;
+      this._ctx.stroke();
+    }
+
+    this._ctx.closePath();
     this._ctx.restore();
   }
 
@@ -169,9 +183,13 @@ export class CanvasRenderer implements IRenderer {
     color: string,
     originX: number,
     originY: number,
+    lineColor: string,
+    lineWidth: number,
     alpha: number = 1
   ): void {
     if (!this._ctx) return;
+
+    radius = radius - lineWidth / 2;
 
     const halfRadius = radius / 2;
 
@@ -194,6 +212,12 @@ export class CanvasRenderer implements IRenderer {
     this._ctx.translate(-pivotPoint.x, -pivotPoint.y);
     this._ctx.arc(x, y, radius, 0, Math.PI * 2);
     this._ctx.fill();
+
+    if (lineWidth) {
+      this._ctx.lineWidth = lineWidth;
+      this._ctx.strokeStyle = lineColor;
+      this._ctx.stroke();
+    }
 
     this._ctx.closePath();
     this._ctx.restore();

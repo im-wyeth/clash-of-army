@@ -6,6 +6,8 @@ export default interface IShape {
     renderer: IRenderer,
     actor: IActor,
     color: string,
+    lineColor: string,
+    lineWidth: number,
     alpha?: number
   ): void;
 }

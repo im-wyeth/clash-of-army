@@ -63,6 +63,8 @@ export class ActorsRenderer implements IActorRenderer {
           this._renderer,
           actor,
           shapeComponent.getColor(),
+          shapeComponent.getLineColor(),
+          shapeComponent.getLineWidth(),
           shapeComponent.getAlpha()
         );
     }

@@ -6,8 +6,10 @@ export class Shape extends BaseComponent {
   private readonly _concreteShape: IShape;
 
   private _renderable: boolean = true;
-  private _alpha: number = 0.5;
+  private _alpha: number = 1;
   private _color: string = "green";
+  private _lineColor: string = "black";
+  private _lineWidth: number = 1;
 
   constructor(actor: IActor, concreteShape: IShape) {
     super(actor);
@@ -27,6 +29,14 @@ export class Shape extends BaseComponent {
     return this._color;
   }
 
+  getLineColor(): string {
+    return this._lineColor;
+  }
+
+  getLineWidth(): number {
+    return this._lineWidth;
+  }
+
   isRenderable(): boolean {
     return this._renderable;
   }
@@ -41,5 +51,13 @@ export class Shape extends BaseComponent {
 
   setColor(color: string): void {
     this._color = color;
+  }
+
+  setLineColor(color: string): void {
+    this._color = color;
+  }
+
+  setLineWidth(width: number): void {
+    this._lineWidth = width;
   }
 }

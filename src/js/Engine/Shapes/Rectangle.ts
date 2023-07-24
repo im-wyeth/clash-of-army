@@ -12,6 +12,8 @@ export class Rectangle implements IShape {
     renderer: IRenderer,
     actor: IActor,
     color: string,
+    lineColor: string,
+    lineWidth: number,
     alpha?: number
   ): void {
     const position = actor.getPosition();
@@ -25,6 +27,8 @@ export class Rectangle implements IShape {
       color,
       this._size.x / 2,
       this._size.y / 2,
+      lineColor,
+      lineWidth,
       alpha
     );
   }

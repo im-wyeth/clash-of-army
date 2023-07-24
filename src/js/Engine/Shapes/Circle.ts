@@ -11,6 +11,8 @@ export class Circle implements IShape {
     renderer: IRenderer,
     actor: IActor,
     color: string,
+    lineColor: string,
+    lineWidth: number,
     alpha?: number
   ): void {
     const position = actor.getPosition();
@@ -23,6 +25,8 @@ export class Circle implements IShape {
       color,
       this._radius / 2,
       this._radius / 2,
+      lineColor,
+      lineWidth,
       alpha
     );
   }

@@ -30,6 +30,8 @@ export default interface IRenderer {
     color: string,
     originX: number,
     originY: number,
+    lineColor: string,
+    lineWidth: number,
     alpha?: number
   ): void;
 
@@ -41,6 +43,8 @@ export default interface IRenderer {
     color: string,
     originX: number,
     originY: number,
+    lineColor: string,
+    lineWidth: number,
     alpha?: number
   ): void;
 

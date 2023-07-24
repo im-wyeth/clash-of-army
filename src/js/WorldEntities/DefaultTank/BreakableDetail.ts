@@ -3,7 +3,7 @@ import IVector2 from "../../Engine/Interfaces/IVector2";
 import { Detail } from "./Detail";
 
 export class BreakableDetail extends Detail {
-  private readonly _isDestroyed: boolean = false;
+  private _isDestroyed: boolean = false;
 
   constructor(positionOnTank: IVector2) {
     super(positionOnTank);
@@ -11,6 +11,10 @@ export class BreakableDetail extends Detail {
 
   isDestroyed(): boolean {
     return this._isDestroyed;
+  }
+
+  destroy(): void {
+    this._isDestroyed = true;
   }
 
   updatePositionOnTank(

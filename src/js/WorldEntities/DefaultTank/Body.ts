@@ -1,5 +1,6 @@
 import BodyAbstraction from "../../Abstractions/DefaultTank/BodyAbstraction";
 import { ActorComponents } from "../../Engine";
+import { Shape } from "../../Engine/ActorComponents";
 import IVector2 from "../../Engine/Interfaces/IVector2";
 import IVector2Manager from "../../Engine/Interfaces/IVector2Manager";
 import { TANK_MOVING_STATE } from "../../Enums/TankMovingState.Enum";
